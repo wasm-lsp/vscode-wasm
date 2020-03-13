@@ -1,0 +1,56 @@
+{
+  "name": "vscode-webassembly",
+  "displayName": "vscode-webassembly",
+  "description": "Visual Studio Code client for the WebAssembly language server",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.43.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "scripts": {
+    "build": "tsc -p .",
+    "format": "prettier --write '**/*.{js,json,ts,tsx,yml,yaml}'",
+    "lint": "eslint 'src/**/*.{js,ts,tsx}'",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "prebuild": "npm run format --scripts-prepend-node-path && npm run lint --scripts-prepend-node-path",
+    "watch": "npm run prebuild --scripts-prepend-node-path && tsc -watch -p ."
+  },
+  "devDependencies": {
+    "@types/node": "^13.9.0",
+    "@types/vscode": "^1.43.0",
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint": "^6.8.0",
+    "prettier": "^1.19.1",
+    "typescript": "^3.8.3",
+    "vscode-test": "^1.3.0"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^6.1.1"
+  },
+  "main": "./out/extension",
+  "activationEvents": [
+    "onLanguage:webassembly",
+    "workspaceContains:**/*.wat",
+    "workspaceContains:**/*.wast"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "webassembly",
+        "aliases": [
+          "WebAssembly"
+        ],
+        "extensions": [
+          ".wat",
+          ".wast"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ]
+  }
+}
