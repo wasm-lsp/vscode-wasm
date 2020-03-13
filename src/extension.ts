@@ -1,9 +1,18 @@
+import * as client from "./client";
+import * as lspClient from "vscode-languageclient";
 import * as vscode from "vscode";
 
-export function activate(_: vscode.ExtensionContext): Promise<void> {
-  return Promise.resolve();
+let languageClient: lspClient.LanguageClient;
+
+export function activate(context: vscode.ExtensionContext): Promise<void> {
+  return client.launch(context).then(result => {
+    languageClient = result;
+  });
 }
 
 export function deactivate(): Promise<void> | undefined {
-  return Promise.resolve();
+  if (null == languageClient) {
+    return undefined;
+  }
+  return languageClient.stop();
 }
