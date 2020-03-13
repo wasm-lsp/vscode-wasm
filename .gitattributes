@@ -1,0 +1,12 @@
+* text=auto
+*.gif binary
+*.png binary
+*.json text eol=lf
+*.md text eol=lf
+*.ts text eol=lf
+.editorconfig text eol=lf
+.gitattributes text eol=lf
+.gitignore text eol=lf
+.vscodeignore text eol=lf
+LICENSE text eol=lf
+yarn.lock text eol=lf
