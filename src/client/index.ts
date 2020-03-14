@@ -9,7 +9,7 @@ export async function launch(context: vscode.ExtensionContext): Promise<lspClien
     command: "webassembly-language-server",
     options: {
       env: {
-        RUST_LOG: "warn",
+        RUST_LOG: "info",
         ...process.env,
       },
     },
