@@ -5,7 +5,15 @@ export async function launch(context: vscode.ExtensionContext): Promise<lspClien
   const run: lspClient.Executable = {
     command: "webassembly-language-server",
   };
-  const debug: lspClient.Executable = run;
+  const debug: lspClient.Executable = {
+    command: "webassembly-language-server",
+    options: {
+      env: {
+        RUST_LOG: "warn",
+        ...process.env,
+      },
+    },
+  };
   const serverOptions: lspClient.ServerOptions = { debug, run };
   const clientOptions: lspClient.LanguageClientOptions = {
     diagnosticCollectionName: "webassembly-language-server",
