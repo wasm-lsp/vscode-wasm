@@ -13,9 +13,7 @@
     "build": "tsc -p .",
     "format": "prettier --write '**/*.{js,json,ts,tsx,yml,yaml}'",
     "lint": "eslint 'src/**/*.{js,ts,tsx}'",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "prebuild": "npm run format --scripts-prepend-node-path && npm run lint --scripts-prepend-node-path",
-    "watch": "npm run prebuild --scripts-prepend-node-path && tsc -watch -p ."
+    "watch": "tsc -watch -p ."
   },
   "devDependencies": {
     "@types/node": "^13.9.0",
