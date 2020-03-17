@@ -3,6 +3,12 @@
   "displayName": "vscode-webassembly",
   "description": "Visual Studio Code client for the WebAssembly language server",
   "version": "0.0.1",
+  "author": {
+    "name": "Darin Morrison",
+    "email": "darinmorrison@users.noreply.github.com",
+    "url": "https://github.com/darinmorrison"
+  },
+  "license": "Apache-2.0 WITH LLVM-exception",
   "engines": {
     "vscode": "^1.43.0"
   },
