@@ -36,6 +36,7 @@
   "dependencies": {
     "vscode-languageclient": "^6.1.1"
   },
+  "enableProposedApi": true,
   "main": "./out/extension",
   "activationEvents": [
     "onLanguage:webassembly",
