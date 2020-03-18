@@ -1,4 +1,8 @@
 import * as lspClient from "vscode-languageclient";
+import {
+  SemanticTokensFeature,
+  DocumentSemanticsTokensSignature,
+} from "vscode-languageclient/lib/semanticTokens.proposed";
 import * as vscode from "vscode";
 
 export async function launch(context: vscode.ExtensionContext): Promise<lspClient.LanguageClient> {
@@ -27,8 +31,25 @@ export async function launch(context: vscode.ExtensionContext): Promise<lspClien
         vscode.workspace.createFileSystemWatcher("**/*.wast"),
       ],
     },
+    middleware: {
+      async provideDocumentSemanticTokens(
+        document: vscode.TextDocument,
+        token: vscode.CancellationToken,
+        next: DocumentSemanticsTokensSignature,
+      ) {
+        const signature = await next(document, token);
+        if (signature == null) throw new Error("busy");
+        return signature;
+      },
+    } as any,
   };
-  const languageClient = new lspClient.LanguageClient("WebAssembly", serverOptions, clientOptions);
+  const languageClient = new lspClient.LanguageClient(
+    "webassembly-language-server",
+    "WebAssembly Language Server",
+    serverOptions,
+    clientOptions,
+  );
+  languageClient.registerFeature(new SemanticTokensFeature(languageClient));
   const session = languageClient.start();
   context.subscriptions.push(session);
   await languageClient.onReady();
