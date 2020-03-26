@@ -1,6 +1,6 @@
 {
-  "name": "vscode-webassembly",
-  "displayName": "vscode-webassembly",
+  "name": "vscode-wasm",
+  "displayName": "vscode-wasm",
   "description": "Visual Studio Code client for the WebAssembly language server",
   "version": "0.0.1",
   "author": {

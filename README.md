@@ -1,8 +1,8 @@
 <div align="center">
-  <h1>vscode-webassembly</h1>
+  <h1>vscode-wasm</h1>
   <p style="margin-bottom: 0.5ex;">
-    <a href="https://github.com/darinmorrison/vscode-webassembly/actions"><img
-        src="https://github.com/darinmorrison/vscode-webassembly/workflows/main/badge.svg" /></a>
+    <a href="https://github.com/wasm-lsp/vscode-wasm/actions"><img
+        src="https://github.com/wasm-lsp/vscode-wasm/workflows/main/badge.svg" /></a>
     <img src="https://img.shields.io/npm/types/@types/vscode?logo=typescript" />
     <img src="https://img.shields.io/badge/eslint-checked-informational?logo=eslint" />
     <img src="https://img.shields.io/badge/prettier-formatted-informational?logo=prettier" />
