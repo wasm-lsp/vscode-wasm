@@ -7,10 +7,10 @@ import * as vscode from "vscode";
 
 export async function launch(context: vscode.ExtensionContext): Promise<lspClient.LanguageClient> {
   const run: lspClient.Executable = {
-    command: "webassembly-language-server",
+    command: "wasm-language-server",
   };
   const debug: lspClient.Executable = {
-    command: "webassembly-language-server",
+    command: "wasm-language-server",
     options: {
       env: {
         RUST_LOG: "info",
