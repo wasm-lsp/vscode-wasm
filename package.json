@@ -16,7 +16,7 @@
     "Programming Languages"
   ],
   "scripts": {
-    "build": "tsc -p .",
+    "build": "tsc -p . && node script/syntax.js",
     "format": "prettier --write '**/*.{js,json,ts,tsx,yml,yaml}'",
     "lint": "eslint 'src/**/*.{js,ts,tsx}'",
     "watch": "tsc -watch -p ."
@@ -39,22 +39,48 @@
   "enableProposedApi": true,
   "main": "./out/extension",
   "activationEvents": [
-    "onLanguage:webassembly",
+    "onLanguage:wasm.wat",
+    "onLanguage:wasm.wast",
+    "onLanguage:wasm.wit",
+    "onLanguage:wasm.witx",
     "workspaceContains:**/*.wat",
-    "workspaceContains:**/*.wast"
+    "workspaceContains:**/*.wast",
+    "workspaceContains:**/*.wit",
+    "workspaceContains:**/*.witx"
   ],
   "contributes": {
+    "grammars": [
+      {
+        "language": "wasm.wat",
+        "scopeName": "source.wasm.wat",
+        "path": "./contributes/grammars/wat.json"
+      },
+      {
+        "language": "wasm.wast",
+        "scopeName": "source.wasm.wast",
+        "path": "./contributes/grammars/wast.json"
+      }
+    ],
     "languages": [
       {
-        "id": "webassembly",
+        "id": "wasm.wat",
         "aliases": [
-          "WebAssembly"
+          "WebAssembly Module"
         ],
         "extensions": [
-          ".wat",
+          ".wat"
+        ],
+        "configuration": "./contributes/languages/wat.json"
+      },
+      {
+        "id": "wasm.wast",
+        "aliases": [
+          "WebAssembly Script"
+        ],
+        "extensions": [
           ".wast"
         ],
-        "configuration": "./language-configuration.json"
+        "configuration": "./contributes/languages/wast.json"
       }
     ]
   }
