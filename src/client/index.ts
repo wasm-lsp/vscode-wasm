@@ -20,10 +20,16 @@ export async function launch(context: vscode.ExtensionContext): Promise<lspClien
   };
   const serverOptions: lspClient.ServerOptions = { debug, run };
   const clientOptions: lspClient.LanguageClientOptions = {
-    diagnosticCollectionName: "webassembly-language-server",
+    diagnosticCollectionName: "wasm-language-server",
     documentSelector: [
-      { language: "webassembly", scheme: "file" },
-      { language: "webassembly", scheme: "untitled" },
+      { language: "wasm.wat", scheme: "file" },
+      { language: "wasm.wat", scheme: "untitled" },
+      { language: "wasm.wast", scheme: "file" },
+      { language: "wasm.wast", scheme: "untitled" },
+      { language: "wasm.wit", scheme: "file" },
+      { language: "wasm.wit", scheme: "untitled" },
+      { language: "wasm.witx", scheme: "file" },
+      { language: "wasm.witx", scheme: "untitled" },
     ],
     synchronize: {
       fileEvents: [
@@ -41,10 +47,10 @@ export async function launch(context: vscode.ExtensionContext): Promise<lspClien
         if (signature == null) throw new Error("busy");
         return signature;
       },
-    } as any,
+    } as lspClient.Middleware,
   };
   const languageClient = new lspClient.LanguageClient(
-    "webassembly-language-server",
+    "wasm-language-server",
     "WebAssembly Language Server",
     serverOptions,
     clientOptions,
