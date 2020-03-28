@@ -5,9 +5,7 @@
     { "open": "(", "close": ")", "notIn": ["comment", "string"] },
     { "open": "\"", "close": "\"", "notIn": ["string"] }
   ],
-  "brackets": [
-    ["(", ")"]
-  ],
+  "brackets": [["(", ")"]],
   "comments": {
     "lineComment": ";;",
     "blockComment": ["(;", ";)"]
