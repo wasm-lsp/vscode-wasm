@@ -1,9 +1,7 @@
 {
   "name": "WebAssembly Script",
   "scopeName": "source.wasm.wast",
-  "fileTypes": [
-    ".wast"
-  ],
+  "fileTypes": [".wast"],
   "patterns": [
     {
       "include": "source.wasm.wat"
