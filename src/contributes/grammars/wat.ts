@@ -721,7 +721,29 @@ export class Wat implements basis.Render {
 
   inlineExport(): schema.Rule {
     return {
-      patterns: [],
+      patterns: [
+        {
+          name: "meta.export.wasm",
+          begin: Token.EXPORT,
+          beginCaptures: {
+            0: { name: "keyword.control.export.wasm" },
+          },
+          end: lookBehind('"'),
+          patterns: [
+            include(this.comment),
+            {
+              name: "entity.name.type.module.wasm",
+              begin: '"',
+              end: '"',
+              patterns: [
+                {
+                  match: Token.escape,
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
   }
 
