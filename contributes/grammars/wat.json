@@ -1,9 +1,7 @@
 {
   "name": "WebAssembly Module",
   "scopeName": "source.wasm.wat",
-  "fileTypes": [
-    ".wat"
-  ],
+  "fileTypes": [".wat"],
   "patterns": [
     {
       "include": "#comment"
@@ -81,8 +79,69 @@
       "patterns": []
     },
     "func": {
-      "begin": "\\(",
-      "end": "\\)"
+      "begin": "\\bfunc\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.function.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "begin": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+          "beginCaptures": {
+            "0": {
+              "name": "entity.name.function.wasm"
+            }
+          },
+          "end": "(?=\\))",
+          "patterns": [
+            {
+              "begin": "\\(",
+              "beginCaptures": {
+                "0": {
+                  "name": "meta.brace.round.wasm"
+                }
+              },
+              "end": "\\)",
+              "endCaptures": {
+                "0": {
+                  "name": "meta.brace.round.wasm"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "#inlineExport"
+                },
+                {
+                  "name": "meta.import.wasm",
+                  "begin": "\\bimport\\b",
+                  "beginCaptures": {
+                    "0": {
+                      "name": "keyword.control.import.wasm"
+                    }
+                  },
+                  "end": "(?=\\))",
+                  "patterns": [
+                    {
+                      "include": "#comment"
+                    },
+                    {
+                      "include": "#inlineImport"
+                    }
+                  ]
+                },
+                {
+                  "include": "#typeuse"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     "funcidx": {
       "patterns": []
@@ -163,34 +222,7 @@
           "include": "#comment"
         },
         {
-          "begin": "(?:(?<=(?:[^\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+]import|^import))(?!\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+))",
-          "beginCaptures": {},
-          "end": "(?<=\")",
-          "patterns": [
-            {
-              "include": "#comment"
-            },
-            {
-              "name": "entity.name.type.module.wasm",
-              "begin": "\"",
-              "end": "\"",
-              "patterns": [
-                {
-                  "match": "\\\\[\\\\\"ntbr]"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "name": "variable.other.readwrite.alias.wasm",
-          "begin": "\"",
-          "end": "\"",
-          "patterns": [
-            {
-              "match": "\\\\[\\\\\"ntbr]"
-            }
-          ]
+          "include": "#inlineImport"
         },
         {
           "include": "#importdesc"
@@ -228,7 +260,23 @@
               "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
             },
             {
-              "include": "#typeuse"
+              "begin": "\\(",
+              "beginCaptures": {
+                "0": {
+                  "name": "meta.brace.round.wasm"
+                }
+              },
+              "end": "\\)",
+              "endCaptures": {
+                "0": {
+                  "name": "meta.brace.round.wasm"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "#typeuse"
+                }
+              ]
             }
           ]
         },
@@ -322,10 +370,67 @@
       ]
     },
     "inlineExport": {
-      "patterns": []
+      "patterns": [
+        {
+          "name": "meta.export.wasm",
+          "begin": "export",
+          "beginCaptures": {
+            "0": {
+              "name": "keyword.control.export.wasm"
+            }
+          },
+          "end": "(?<=\")",
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "name": "entity.name.type.module.wasm",
+              "begin": "\"",
+              "end": "\"",
+              "patterns": [
+                {
+                  "match": "\\\\[\\\\\"ntbr]"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     "inlineImport": {
-      "patterns": []
+      "patterns": [
+        {
+          "begin": "(?:(?<=(?:[^\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+]import|^import))(?!\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+))",
+          "beginCaptures": {},
+          "end": "(?<=\")",
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "name": "entity.name.type.module.wasm",
+              "begin": "\"",
+              "end": "\"",
+              "patterns": [
+                {
+                  "match": "\\\\[\\\\\"ntbr]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "variable.other.readwrite.alias.wasm",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "match": "\\\\[\\\\\"ntbr]"
+            }
+          ]
+        }
+      ]
     },
     "instr": {
       "patterns": []
@@ -571,22 +676,7 @@
       "patterns": []
     },
     "typeuse": {
-      "begin": "\\(",
-      "beginCaptures": {
-        "0": {
-          "name": "meta.brace.round.wasm"
-        }
-      },
-      "end": "\\)",
-      "endCaptures": {
-        "0": {
-          "name": "meta.brace.round.wasm"
-        }
-      },
       "patterns": [
-        {
-          "include": "#comment"
-        },
         {
           "begin": "\\btype\\b",
           "beginCaptures": {
