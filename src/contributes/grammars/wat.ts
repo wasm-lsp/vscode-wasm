@@ -673,8 +673,46 @@ export class Wat implements basis.Render {
 
   func(): schema.Rule {
     return {
-      begin: Token.LEFT_PARENTHESIS,
-      end: Token.RIGHT_PARENTHESIS,
+      begin: words(Token.FUNC),
+      beginCaptures: {
+        0: { name: "storage.type.function.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.comment),
+        {
+          begin: Token.id,
+          beginCaptures: {
+            0: { name: "entity.name.function.wasm" },
+          },
+          end: lookAhead(Token.RIGHT_PARENTHESIS),
+          patterns: [
+            {
+              begin: Token.LEFT_PARENTHESIS,
+              beginCaptures: {
+                0: { name: "meta.brace.round.wasm" },
+              },
+              end: Token.RIGHT_PARENTHESIS,
+              endCaptures: {
+                0: { name: "meta.brace.round.wasm" },
+              },
+              patterns: [
+                include(this.inlineExport),
+                {
+                  name: "meta.import.wasm",
+                  begin: words(Token.IMPORT),
+                  beginCaptures: {
+                    0: { name: "keyword.control.import.wasm" },
+                  },
+                  end: lookAhead(Token.RIGHT_PARENTHESIS),
+                  patterns: [include(this.comment), include(this.inlineImport)],
+                },
+                include(this.typeuse),
+              ],
+            },
+          ],
+        },
+      ],
     };
   }
 
