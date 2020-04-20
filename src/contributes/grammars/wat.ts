@@ -17,18 +17,6 @@ export class Wat implements basis.Render {
       fileTypes: [".wat"],
       patterns: [include(this.comment), include(this.module)],
       repository: {
-        _blockchar: this._blockchar(),
-        _digit: this._digit(),
-        // _format: this._format(),
-        _hexdigit: this._hexdigit(),
-        _hexnum: this._hexnum(),
-        _iN: this._iN(),
-        _linechar: this._linechar(),
-        _num: this._num(),
-        _sign: this._sign(),
-        _sN: this._sN(),
-        // _space: this._space(),
-        _uN: this._uN(),
         blockcomment: this.blockcomment(),
         comment: this.comment(),
         data: this.data(),
@@ -66,7 +54,6 @@ export class Wat implements basis.Render {
         type: this.type(),
         typeidx: this.typeidx(),
         typeuse: this.typeuse(),
-        uN: this.uN(),
         valtype: this.valtype(),
       },
     };
@@ -75,22 +62,6 @@ export class Wat implements basis.Render {
   // ====================================================== //
   // =================== Lexical Format =================== //
   // ====================================================== //
-
-  /**************
-   * Whitespace *
-   **************/
-
-  // _space(): schema.Rule {
-  //   return {
-  //     patterns: [],
-  //   };
-  // }
-
-  // _format(): schema.Rule {
-  //   return {
-  //     patterns: [],
-  //   };
-  // }
 
   /************
    * Comments *
@@ -115,12 +86,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  _linechar(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
   blockcomment(): schema.Rule {
     return {
       name: "comment.block.wasm",
@@ -135,12 +100,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  _blockchar(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
   // ====================================================== //
   // ======================= Values ======================= //
   // ====================================================== //
@@ -149,163 +108,13 @@ export class Wat implements basis.Render {
    * Integers *
    ************/
 
-  _sign(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _digit(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _hexdigit(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _num(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _hexnum(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _uN(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _sN(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _iN(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  uN(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
   /******************
    * Floating-Point *
    ******************/
 
-  _frac(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _hexfrac(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _float(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _hexfloat(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _fN(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _fNmag(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
   /**********
    * String *
    **********/
-
-  _string(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _stringelem(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _stringchar(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _char(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _ascii(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _asciiline(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _utf8cont(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _utf8enc(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _utf8(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  _utf8line(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
 
   /*********
    * Names *
