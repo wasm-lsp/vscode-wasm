@@ -189,6 +189,7 @@ export class Wat implements basis.Render {
 
   importdesc(): schema.Rule {
     return {
+      name: "meta.importdesc.wasm",
       begin: Token.LEFT_PARENTHESIS,
       beginCaptures: {
         0: { name: "meta.brace.round.wasm" },
