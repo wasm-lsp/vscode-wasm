@@ -24,23 +24,18 @@ export class Wat implements basis.Render {
         elemtype: this.elemtype(),
         export: this.export(),
         func: this.func(),
-        funcidx: this.funcidx(),
         functype: this.functype(),
         global: this.global(),
-        globalidx: this.globalidx(),
         globaltype: this.globaltype(),
         import: this.import(),
         importdesc: this.importdesc(),
         inlineExport: this.inlineExport(),
         inlineImport: this.inlineImport(),
         instr: this.instr(),
-        labelidx: this.labelidx(),
         limits: this.limits(),
         linecomment: this.linecomment(),
         local: this.local(),
-        localidx: this.localidx(),
         mem: this.mem(),
-        memidx: this.memidx(),
         memtype: this.memtype(),
         module: this.module(),
         modulefield: this.modulefield(),
@@ -49,10 +44,8 @@ export class Wat implements basis.Render {
         resulttype: this.resulttype(),
         start: this.start(),
         table: this.table(),
-        tableidx: this.tableidx(),
         tabletype: this.tabletype(),
         type: this.type(),
-        typeidx: this.typeidx(),
         typeuse: this.typeuse(),
         valtype: this.valtype(),
       },
@@ -148,12 +141,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  funcidx(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
   functype(): schema.Rule {
     return {
       begin: Token.LEFT_PARENTHESIS,
@@ -189,12 +176,6 @@ export class Wat implements basis.Render {
   }
 
   global(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  globalidx(): schema.Rule {
     return {
       patterns: [],
     };
@@ -375,12 +356,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  labelidx(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
   limits(): schema.Rule {
     return {
       patterns: [],
@@ -406,19 +381,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  localidx(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
   mem(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  memidx(): schema.Rule {
     return {
       patterns: [],
     };
@@ -544,12 +507,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  tableidx(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
   tabletype(): schema.Rule {
     return {
       patterns: [],
@@ -576,12 +533,6 @@ export class Wat implements basis.Render {
         },
         include(this.functype),
       ],
-    };
-  }
-
-  typeidx(): schema.Rule {
-    return {
-      patterns: [],
     };
   }
 
