@@ -319,6 +319,7 @@ export class Wat implements basis.Render {
     return {
       patterns: [
         {
+          name: "meta.import.inline.wasm",
           begin: lastWords(Token.IMPORT),
           end: lookBehind('"'),
           patterns: [
