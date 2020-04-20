@@ -19,6 +19,7 @@ export const Class = {
 
 const id = "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+";
 const uN = "[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*";
+const idx = `(?:${uN})|(?:${id})`;
 
 export const Token = {
   EXPORT: "export",
@@ -37,14 +38,8 @@ export const Token = {
   TABLE: "table",
   TYPE: "type",
   escape: '\\\\[\\\\"ntbr]',
-  funcidx: `(?:${uN})|(?:${id})`,
-  globalidx: `(?:${uN})|(?:${id})`,
   id,
-  labelidx: `(?:${uN})|(?:${id})`,
-  localidx: `(?:${uN})|(?:${id})`,
-  memidx: `(?:${uN})|(?:${id})`,
-  tableidx: `(?:${uN})|(?:${id})`,
-  typeidx: `(?:${uN})|(?:${id})`,
+  idx,
   uN,
 };
 

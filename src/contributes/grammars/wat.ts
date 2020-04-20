@@ -544,7 +544,7 @@ export class Wat implements basis.Render {
           beginCaptures: {
             0: { name: "storage.type.type.wasm" },
           },
-          end: Token.typeidx,
+          end: Token.idx,
           endCaptures: {
             0: { name: "entity.name.type.alias.wasm" },
           },
