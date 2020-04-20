@@ -11,36 +11,6 @@
     }
   ],
   "repository": {
-    "_blockchar": {
-      "patterns": []
-    },
-    "_digit": {
-      "patterns": []
-    },
-    "_hexdigit": {
-      "patterns": []
-    },
-    "_hexnum": {
-      "patterns": []
-    },
-    "_iN": {
-      "patterns": []
-    },
-    "_linechar": {
-      "patterns": []
-    },
-    "_num": {
-      "patterns": []
-    },
-    "_sign": {
-      "patterns": []
-    },
-    "_sN": {
-      "patterns": []
-    },
-    "_uN": {
-      "patterns": []
-    },
     "blockcomment": {
       "name": "comment.block.wasm",
       "begin": "(\\(;)",
@@ -76,7 +46,22 @@
       "patterns": []
     },
     "export": {
-      "patterns": []
+      "name": "meta.export.wasm",
+      "begin": "\\bexport\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.export.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#inlineExport"
+        }
+      ]
     },
     "func": {
       "begin": "\\bfunc\\b",
@@ -114,25 +99,10 @@
               },
               "patterns": [
                 {
-                  "include": "#inlineExport"
+                  "include": "#export"
                 },
                 {
-                  "name": "meta.import.wasm",
-                  "begin": "\\bimport\\b",
-                  "beginCaptures": {
-                    "0": {
-                      "name": "keyword.control.import.wasm"
-                    }
-                  },
-                  "end": "(?=\\))",
-                  "patterns": [
-                    {
-                      "include": "#comment"
-                    },
-                    {
-                      "include": "#inlineImport"
-                    }
-                  ]
+                  "include": "#import"
                 },
                 {
                   "include": "#typeuse"
@@ -142,9 +112,6 @@
           ]
         }
       ]
-    },
-    "funcidx": {
-      "patterns": []
     },
     "functype": {
       "begin": "\\(",
@@ -202,9 +169,6 @@
     "global": {
       "patterns": []
     },
-    "globalidx": {
-      "patterns": []
-    },
     "globaltype": {
       "patterns": []
     },
@@ -223,13 +187,11 @@
         },
         {
           "include": "#inlineImport"
-        },
-        {
-          "include": "#importdesc"
         }
       ]
     },
     "importdesc": {
+      "name": "meta.importdesc.wasm",
       "begin": "\\(",
       "beginCaptures": {
         "0": {
@@ -370,39 +332,45 @@
       ]
     },
     "inlineExport": {
+      "name": "meta.export.inline.wasm",
+      "begin": "(?:(?<=(?:[^\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+]export|^export))(?!\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+))",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.export.wasm"
+        }
+      },
+      "end": "(?<=\")",
       "patterns": [
         {
-          "name": "meta.export.wasm",
-          "begin": "export",
-          "beginCaptures": {
-            "0": {
-              "name": "keyword.control.export.wasm"
-            }
-          },
-          "end": "(?<=\")",
+          "include": "#comment"
+        },
+        {
+          "name": "entity.name.type.module.wasm",
+          "begin": "\"",
+          "end": "\"",
           "patterns": [
             {
-              "include": "#comment"
-            },
-            {
-              "name": "entity.name.type.module.wasm",
-              "begin": "\"",
-              "end": "\"",
-              "patterns": [
-                {
-                  "match": "\\\\[\\\\\"ntbr]"
-                }
-              ]
+              "match": "\\\\[\\\\\"ntbr]"
             }
           ]
         }
       ]
     },
     "inlineImport": {
+      "name": "meta.import.inline.wasm",
+      "begin": "(?:(?<=(?:[^\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+]import|^import))(?!\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+))",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.import.wasm"
+        }
+      },
+      "end": "(?=\\))",
       "patterns": [
         {
+          "include": "#comment"
+        },
+        {
           "begin": "(?:(?<=(?:[^\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+]import|^import))(?!\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+))",
-          "beginCaptures": {},
           "end": "(?<=\")",
           "patterns": [
             {
@@ -429,13 +397,13 @@
               "match": "\\\\[\\\\\"ntbr]"
             }
           ]
+        },
+        {
+          "include": "#importdesc"
         }
       ]
     },
     "instr": {
-      "patterns": []
-    },
-    "labelidx": {
       "patterns": []
     },
     "limits": {
@@ -460,13 +428,7 @@
     "local": {
       "patterns": []
     },
-    "localidx": {
-      "patterns": []
-    },
     "mem": {
-      "patterns": []
-    },
-    "memidx": {
       "patterns": []
     },
     "memtype": {
@@ -553,34 +515,34 @@
           "include": "#comment"
         },
         {
-          "include": "#type"
-        },
-        {
-          "include": "#import"
-        },
-        {
-          "include": "#func"
-        },
-        {
-          "include": "#table"
-        },
-        {
-          "include": "#mem"
-        },
-        {
-          "include": "#global"
-        },
-        {
-          "include": "#export"
-        },
-        {
-          "include": "#start"
+          "include": "#data"
         },
         {
           "include": "#elem"
         },
         {
-          "include": "#data"
+          "include": "#export"
+        },
+        {
+          "include": "#func"
+        },
+        {
+          "include": "#global"
+        },
+        {
+          "include": "#import"
+        },
+        {
+          "include": "#mem"
+        },
+        {
+          "include": "#start"
+        },
+        {
+          "include": "#table"
+        },
+        {
+          "include": "#type"
         }
       ]
     },
@@ -631,9 +593,6 @@
     "table": {
       "patterns": []
     },
-    "tableidx": {
-      "patterns": []
-    },
     "tabletype": {
       "patterns": []
     },
@@ -672,9 +631,6 @@
         }
       ]
     },
-    "typeidx": {
-      "patterns": []
-    },
     "typeuse": {
       "patterns": [
         {
@@ -698,9 +654,6 @@
           "include": "#result"
         }
       ]
-    },
-    "uN": {
-      "patterns": []
     },
     "valtype": {
       "patterns": [
