@@ -121,19 +121,7 @@ export class Wat implements basis.Render {
               endCaptures: {
                 0: { name: "meta.brace.round.wasm" },
               },
-              patterns: [
-                include(this.inlineExport),
-                {
-                  name: "meta.import.wasm",
-                  begin: words(Token.IMPORT),
-                  beginCaptures: {
-                    0: { name: "keyword.control.import.wasm" },
-                  },
-                  end: lookAhead(Token.RIGHT_PARENTHESIS),
-                  patterns: [include(this.comment), include(this.inlineImport)],
-                },
-                include(this.typeuse),
-              ],
+              patterns: [include(this.inlineExport), include(this.inlineImport), include(this.typeuse)],
             },
           ],
         },
@@ -195,7 +183,7 @@ export class Wat implements basis.Render {
         0: { name: "keyword.control.import.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.comment), include(this.inlineImport), include(this.importdesc)],
+      patterns: [include(this.comment), include(this.inlineImport)],
     };
   }
 
@@ -317,9 +305,15 @@ export class Wat implements basis.Render {
 
   inlineImport(): schema.Rule {
     return {
+      name: "meta.import.inline.wasm",
+      begin: lastWords(Token.IMPORT),
+      beginCaptures: {
+        0: { name: "keyword.control.import.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
       patterns: [
+        include(this.comment),
         {
-          name: "meta.import.inline.wasm",
           begin: lastWords(Token.IMPORT),
           end: lookBehind('"'),
           patterns: [
@@ -346,6 +340,7 @@ export class Wat implements basis.Render {
             },
           ],
         },
+        include(this.importdesc),
       ],
     };
   }
