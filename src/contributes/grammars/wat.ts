@@ -320,7 +320,6 @@ export class Wat implements basis.Render {
       patterns: [
         {
           begin: lastWords(Token.IMPORT),
-          beginCaptures: {},
           end: lookBehind('"'),
           patterns: [
             include(this.comment),
