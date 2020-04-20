@@ -127,7 +127,7 @@ export class Wat implements basis.Render {
               endCaptures: {
                 0: { name: "meta.brace.round.wasm" },
               },
-              patterns: [include(this.inlineExport), include(this.inlineImport), include(this.typeuse)],
+              patterns: [include(this.export), include(this.import), include(this.typeuse)],
             },
           ],
         },
