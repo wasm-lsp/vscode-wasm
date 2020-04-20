@@ -17,6 +17,7 @@ export class Wat implements basis.Render {
       fileTypes: [".wat"],
       patterns: [include(this.comment), include(this.module)],
       repository: {
+        annotation: this.annotation(),
         blockcomment: this.blockcomment(),
         comment: this.comment(),
         data: this.data(),
@@ -49,6 +50,12 @@ export class Wat implements basis.Render {
         typeuse: this.typeuse(),
         valtype: this.valtype(),
       },
+    };
+  }
+
+  annotation(): schema.Rule {
+    return {
+      patterns: [],
     };
   }
 
