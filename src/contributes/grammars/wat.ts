@@ -59,14 +59,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  // ====================================================== //
-  // =================== Lexical Format =================== //
-  // ====================================================== //
-
-  /************
-   * Comments *
-   ************/
-
   comment(): schema.Rule {
     return {
       patterns: [include(this.linecomment), include(this.blockcomment)],
@@ -100,34 +92,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  // ====================================================== //
-  // ======================= Values ======================= //
-  // ====================================================== //
-
-  /************
-   * Integers *
-   ************/
-
-  /******************
-   * Floating-Point *
-   ******************/
-
-  /**********
-   * String *
-   **********/
-
-  /*********
-   * Names *
-   *********/
-
-  /***************
-   * Identifiers *
-   ***************/
-
-  // ====================================================== //
-  // ======================== Types ======================= //
-  // ====================================================== //
-
   valtype(): schema.Rule {
     return {
       patterns: [
@@ -139,19 +103,11 @@ export class Wat implements basis.Render {
     };
   }
 
-  /****************
-   * Result Types *
-   ****************/
-
   resulttype(): schema.Rule {
     return {
       patterns: [],
     };
   }
-
-  /******************
-   * Function Types *
-   ******************/
 
   functype(): schema.Rule {
     return {
@@ -216,29 +172,17 @@ export class Wat implements basis.Render {
     };
   }
 
-  /**********
-   * Limits *
-   **********/
-
   limits(): schema.Rule {
     return {
       patterns: [],
     };
   }
 
-  /****************
-   * Memory Types *
-   ****************/
-
   memtype(): schema.Rule {
     return {
       patterns: [],
     };
   }
-
-  /***************
-   * Table Types *
-   ***************/
 
   tabletype(): schema.Rule {
     return {
@@ -252,33 +196,17 @@ export class Wat implements basis.Render {
     };
   }
 
-  /****************
-   * Global Types *
-   ****************/
-
   globaltype(): schema.Rule {
     return {
       patterns: [],
     };
   }
 
-  // ====================================================== //
-  // ==================== Instructions ==================== //
-  // ====================================================== //
-
   instr(): schema.Rule {
     return {
       patterns: [],
     };
   }
-
-  // ====================================================== //
-  // ======================= Modules ====================== //
-  // ====================================================== //
-
-  /***********
-   * Indices *
-   ***********/
 
   typeidx(): schema.Rule {
     return {
@@ -322,10 +250,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  /*********
-   * Types *
-   *********/
-
   type(): schema.Rule {
     return {
       name: "meta.type.declaration.wasm",
@@ -349,10 +273,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  /*************
-   * Type Uses *
-   *************/
-
   typeuse(): schema.Rule {
     return {
       patterns: [
@@ -371,10 +291,6 @@ export class Wat implements basis.Render {
       ],
     };
   }
-
-  /***********
-   * Imports *
-   ***********/
 
   import(): schema.Rule {
     return {
@@ -475,10 +391,6 @@ export class Wat implements basis.Render {
       ],
     };
   }
-
-  /*************
-   * Functions *
-   *************/
 
   func(): schema.Rule {
     return {
@@ -594,19 +506,11 @@ export class Wat implements basis.Render {
     };
   }
 
-  /**********
-   * Tables *
-   **********/
-
   table(): schema.Rule {
     return {
       patterns: [],
     };
   }
-
-  /************
-   * Memories *
-   ************/
 
   mem(): schema.Rule {
     return {
@@ -614,19 +518,11 @@ export class Wat implements basis.Render {
     };
   }
 
-  /***********
-   * Globals *
-   ***********/
-
   global(): schema.Rule {
     return {
       patterns: [],
     };
   }
-
-  /***********
-   * Exports *
-   ***********/
 
   export(): schema.Rule {
     return {
@@ -634,19 +530,11 @@ export class Wat implements basis.Render {
     };
   }
 
-  /******************
-   * Start Function *
-   ******************/
-
   start(): schema.Rule {
     return {
       patterns: [],
     };
   }
-
-  /********************
-   * Element Segments *
-   ********************/
 
   elem(): schema.Rule {
     return {
@@ -654,19 +542,11 @@ export class Wat implements basis.Render {
     };
   }
 
-  /*****************
-   * Data Segments *
-   *****************/
-
   data(): schema.Rule {
     return {
       patterns: [],
     };
   }
-
-  /***********
-   * Modules *
-   ***********/
 
   module(): schema.Rule {
     return {
