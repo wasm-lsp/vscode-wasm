@@ -62,7 +62,7 @@ export class Wat implements basis.Render {
 
   blockcomment(): schema.Rule {
     return {
-      name: "comment.block.wasm",
+      name: "meta.comment.block.wasm comment.block.wasm",
       begin: capture("\\(;"),
       beginCaptures: {
         1: { name: "punctuation.definition.comment.wasm" },
@@ -376,6 +376,7 @@ export class Wat implements basis.Render {
 
   linecomment(): schema.Rule {
     return {
+      name: "meta.comment.line.wasm",
       begin: seq(opt(capture(seq("^", manyOne(set(" ", "\\t"))))), capture(capture(";;"))),
       beginCaptures: {
         1: { name: "punctuation.whitespace.comment.leading.wasm" },
