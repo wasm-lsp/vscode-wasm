@@ -35,6 +35,7 @@ export const Token = {
   PARAM: "param",
   RESULT: "result",
   RIGHT_PARENTHESIS: "\\)",
+  START: "start",
   TABLE: "table",
   TYPE: "type",
   escape: '\\\\[\\\\"ntbr]',

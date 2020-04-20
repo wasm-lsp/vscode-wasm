@@ -510,7 +510,22 @@ export class Wat implements basis.Render {
 
   start(): schema.Rule {
     return {
-      patterns: [],
+      name: "meta.start.wasm",
+      begin: words(Token.START),
+      beginCaptures: {
+        0: { name: "keyword.control.start.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.extra),
+        {
+          begin: Token.id,
+          beginCaptures: {
+            0: { name: "entity.name.function.wasm" },
+          },
+          end: lookAhead(Token.RIGHT_PARENTHESIS),
+        },
+      ],
     };
   }
 
