@@ -59,25 +59,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  comment(): schema.Rule {
-    return {
-      patterns: [include(this.linecomment), include(this.blockcomment)],
-    };
-  }
-
-  linecomment(): schema.Rule {
-    return {
-      begin: seq(opt(capture(seq("^", manyOne(set(" ", "\\t"))))), capture(capture(";;"))),
-      beginCaptures: {
-        1: { name: "punctuation.whitespace.comment.leading.wasm" },
-        2: { name: "comment.line.double-semicolon.wasm" },
-        3: { name: "punctuation.definition.comment.wasm" },
-      },
-      end: lookAhead("$"),
-      contentName: "comment.line.double-semicolon.wasm",
-    };
-  }
-
   blockcomment(): schema.Rule {
     return {
       name: "comment.block.wasm",
@@ -92,18 +73,82 @@ export class Wat implements basis.Render {
     };
   }
 
-  valtype(): schema.Rule {
+  comment(): schema.Rule {
     return {
+      patterns: [include(this.linecomment), include(this.blockcomment)],
+    };
+  }
+
+  data(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  elem(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  elemtype(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  export(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  func(): schema.Rule {
+    return {
+      begin: words(Token.FUNC),
+      beginCaptures: {
+        0: { name: "storage.type.function.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
       patterns: [
+        include(this.comment),
         {
-          name: "entity.name.type.alias.wasm",
-          match: words(alt("i32", "i64", "f32", "f64")),
+          begin: Token.id,
+          beginCaptures: {
+            0: { name: "entity.name.function.wasm" },
+          },
+          end: lookAhead(Token.RIGHT_PARENTHESIS),
+          patterns: [
+            {
+              begin: Token.LEFT_PARENTHESIS,
+              beginCaptures: {
+                0: { name: "meta.brace.round.wasm" },
+              },
+              end: Token.RIGHT_PARENTHESIS,
+              endCaptures: {
+                0: { name: "meta.brace.round.wasm" },
+              },
+              patterns: [
+                include(this.inlineExport),
+                {
+                  name: "meta.import.wasm",
+                  begin: words(Token.IMPORT),
+                  beginCaptures: {
+                    0: { name: "keyword.control.import.wasm" },
+                  },
+                  end: lookAhead(Token.RIGHT_PARENTHESIS),
+                  patterns: [include(this.comment), include(this.inlineImport)],
+                },
+                include(this.typeuse),
+              ],
+            },
+          ],
         },
       ],
     };
   }
 
-  resulttype(): schema.Rule {
+  funcidx(): schema.Rule {
     return {
       patterns: [],
     };
@@ -143,90 +188,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  param(): schema.Rule {
-    return {
-      begin: words(Token.PARAM),
-      beginCaptures: {
-        0: { name: "keyword.control.param.wasm" },
-      },
-      end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [
-        include(this.comment),
-        {
-          name: "entity.name.type.alias.wasm",
-          match: Token.id,
-        },
-        include(this.valtype),
-      ],
-    };
-  }
-
-  result(): schema.Rule {
-    return {
-      begin: words(Token.RESULT),
-      beginCaptures: {
-        0: { name: "keyword.control.result.wasm" },
-      },
-      end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.comment), include(this.valtype)],
-    };
-  }
-
-  limits(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  memtype(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  tabletype(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  elemtype(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  globaltype(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  instr(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  typeidx(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  funcidx(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  tableidx(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  memidx(): schema.Rule {
+  global(): schema.Rule {
     return {
       patterns: [],
     };
@@ -238,57 +200,9 @@ export class Wat implements basis.Render {
     };
   }
 
-  localidx(): schema.Rule {
+  globaltype(): schema.Rule {
     return {
       patterns: [],
-    };
-  }
-
-  labelidx(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  type(): schema.Rule {
-    return {
-      name: "meta.type.declaration.wasm",
-      begin: words(Token.TYPE),
-      beginCaptures: {
-        0: { name: "storage.type.type.wasm" },
-      },
-      end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [
-        include(this.comment),
-        {
-          begin: Token.id,
-          beginCaptures: {
-            0: { name: "entity.name.type.alias.wasm" },
-          },
-          end: lookAhead(Token.RIGHT_PARENTHESIS),
-          patterns: [include(this.comment), include(this.functype)],
-        },
-        include(this.functype),
-      ],
-    };
-  }
-
-  typeuse(): schema.Rule {
-    return {
-      patterns: [
-        {
-          begin: words(Token.TYPE),
-          beginCaptures: {
-            0: { name: "storage.type.type.wasm" },
-          },
-          end: Token.typeidx,
-          endCaptures: {
-            0: { name: "entity.name.type.alias.wasm" },
-          },
-        },
-        include(this.param),
-        include(this.result),
-      ],
     };
   }
 
@@ -392,54 +306,31 @@ export class Wat implements basis.Render {
     };
   }
 
-  func(): schema.Rule {
+  inlineExport(): schema.Rule {
     return {
-      begin: words(Token.FUNC),
-      beginCaptures: {
-        0: { name: "storage.type.function.wasm" },
-      },
-      end: lookAhead(Token.RIGHT_PARENTHESIS),
       patterns: [
-        include(this.comment),
         {
-          begin: Token.id,
+          name: "meta.export.wasm",
+          begin: Token.EXPORT,
           beginCaptures: {
-            0: { name: "entity.name.function.wasm" },
+            0: { name: "keyword.control.export.wasm" },
           },
-          end: lookAhead(Token.RIGHT_PARENTHESIS),
+          end: lookBehind('"'),
           patterns: [
+            include(this.comment),
             {
-              begin: Token.LEFT_PARENTHESIS,
-              beginCaptures: {
-                0: { name: "meta.brace.round.wasm" },
-              },
-              end: Token.RIGHT_PARENTHESIS,
-              endCaptures: {
-                0: { name: "meta.brace.round.wasm" },
-              },
+              name: "entity.name.type.module.wasm",
+              begin: '"',
+              end: '"',
               patterns: [
-                include(this.inlineExport),
                 {
-                  name: "meta.import.wasm",
-                  begin: words(Token.IMPORT),
-                  beginCaptures: {
-                    0: { name: "keyword.control.import.wasm" },
-                  },
-                  end: lookAhead(Token.RIGHT_PARENTHESIS),
-                  patterns: [include(this.comment), include(this.inlineImport)],
+                  match: Token.escape,
                 },
-                include(this.typeuse),
               ],
             },
           ],
         },
       ],
-    };
-  }
-
-  local(): schema.Rule {
-    return {
-      patterns: [],
     };
   }
 
@@ -478,35 +369,44 @@ export class Wat implements basis.Render {
     };
   }
 
-  inlineExport(): schema.Rule {
+  instr(): schema.Rule {
     return {
-      patterns: [
-        {
-          name: "meta.export.wasm",
-          begin: Token.EXPORT,
-          beginCaptures: {
-            0: { name: "keyword.control.export.wasm" },
-          },
-          end: lookBehind('"'),
-          patterns: [
-            include(this.comment),
-            {
-              name: "entity.name.type.module.wasm",
-              begin: '"',
-              end: '"',
-              patterns: [
-                {
-                  match: Token.escape,
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      patterns: [],
     };
   }
 
-  table(): schema.Rule {
+  labelidx(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  limits(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  linecomment(): schema.Rule {
+    return {
+      begin: seq(opt(capture(seq("^", manyOne(set(" ", "\\t"))))), capture(capture(";;"))),
+      beginCaptures: {
+        1: { name: "punctuation.whitespace.comment.leading.wasm" },
+        2: { name: "comment.line.double-semicolon.wasm" },
+        3: { name: "punctuation.definition.comment.wasm" },
+      },
+      end: lookAhead("$"),
+      contentName: "comment.line.double-semicolon.wasm",
+    };
+  }
+
+  local(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  localidx(): schema.Rule {
     return {
       patterns: [],
     };
@@ -518,31 +418,13 @@ export class Wat implements basis.Render {
     };
   }
 
-  global(): schema.Rule {
+  memidx(): schema.Rule {
     return {
       patterns: [],
     };
   }
 
-  export(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  start(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  elem(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
-  data(): schema.Rule {
+  memtype(): schema.Rule {
     return {
       patterns: [],
     };
@@ -611,6 +493,124 @@ export class Wat implements basis.Render {
         include(this.start),
         include(this.elem),
         include(this.data),
+      ],
+    };
+  }
+
+  param(): schema.Rule {
+    return {
+      begin: words(Token.PARAM),
+      beginCaptures: {
+        0: { name: "keyword.control.param.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.comment),
+        {
+          name: "entity.name.type.alias.wasm",
+          match: Token.id,
+        },
+        include(this.valtype),
+      ],
+    };
+  }
+
+  result(): schema.Rule {
+    return {
+      begin: words(Token.RESULT),
+      beginCaptures: {
+        0: { name: "keyword.control.result.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.comment), include(this.valtype)],
+    };
+  }
+
+  resulttype(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  start(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  table(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  tableidx(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  tabletype(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  type(): schema.Rule {
+    return {
+      name: "meta.type.declaration.wasm",
+      begin: words(Token.TYPE),
+      beginCaptures: {
+        0: { name: "storage.type.type.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.comment),
+        {
+          begin: Token.id,
+          beginCaptures: {
+            0: { name: "entity.name.type.alias.wasm" },
+          },
+          end: lookAhead(Token.RIGHT_PARENTHESIS),
+          patterns: [include(this.comment), include(this.functype)],
+        },
+        include(this.functype),
+      ],
+    };
+  }
+
+  typeidx(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  typeuse(): schema.Rule {
+    return {
+      patterns: [
+        {
+          begin: words(Token.TYPE),
+          beginCaptures: {
+            0: { name: "storage.type.type.wasm" },
+          },
+          end: Token.typeidx,
+          endCaptures: {
+            0: { name: "entity.name.type.alias.wasm" },
+          },
+        },
+        include(this.param),
+        include(this.result),
+      ],
+    };
+  }
+
+  valtype(): schema.Rule {
+    return {
+      patterns: [
+        {
+          name: "entity.name.type.alias.wasm",
+          match: words(alt("i32", "i64", "f32", "f64")),
+        },
       ],
     };
   }
