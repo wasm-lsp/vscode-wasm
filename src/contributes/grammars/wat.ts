@@ -92,7 +92,13 @@ export class Wat implements basis.Render {
 
   export(): schema.Rule {
     return {
-      patterns: [],
+      name: "meta.export.wasm",
+      begin: words(Token.EXPORT),
+      beginCaptures: {
+        0: { name: "keyword.control.export.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.comment), include(this.inlineExport)],
     };
   }
 
@@ -278,25 +284,21 @@ export class Wat implements basis.Render {
 
   inlineExport(): schema.Rule {
     return {
+      name: "meta.export.inline.wasm",
+      begin: lastWords(Token.EXPORT),
+      beginCaptures: {
+        0: { name: "keyword.control.export.wasm" },
+      },
+      end: lookBehind('"'),
       patterns: [
+        include(this.comment),
         {
-          name: "meta.export.wasm",
-          begin: Token.EXPORT,
-          beginCaptures: {
-            0: { name: "keyword.control.export.wasm" },
-          },
-          end: lookBehind('"'),
+          name: "entity.name.type.module.wasm",
+          begin: '"',
+          end: '"',
           patterns: [
-            include(this.comment),
             {
-              name: "entity.name.type.module.wasm",
-              begin: '"',
-              end: '"',
-              patterns: [
-                {
-                  match: Token.escape,
-                },
-              ],
+              match: Token.escape,
             },
           ],
         },
