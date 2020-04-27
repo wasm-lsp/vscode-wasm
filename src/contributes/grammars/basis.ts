@@ -38,7 +38,7 @@ export const Token = {
   START: "start",
   TABLE: "table",
   TYPE: "type",
-  escape: '\\\\[\\\\"ntbr]',
+  escape: "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)",
   id,
   idx,
   uN,
