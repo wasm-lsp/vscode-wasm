@@ -45,6 +45,8 @@ export class Wat implements basis.Render {
         result: this.result(),
         resulttype: this.resulttype(),
         start: this.start(),
+        string: this.string(),
+        stringCharacterEscape: this.stringCharacterEscape(),
         table: this.table(),
         tabletype: this.tabletype(),
         type: this.type(),
@@ -526,6 +528,29 @@ export class Wat implements basis.Render {
           end: lookAhead(Token.RIGHT_PARENTHESIS),
         },
       ],
+    };
+  }
+
+  string(): schema.Rule {
+    return {
+      name: "string.quoted.double.wasm",
+      begin: '"',
+      beginCaptures: {
+        0: { name: "punctuation.definition.string.begin.wasm" },
+      },
+      end: '(")|((?:[^\\\\\\n])$)',
+      endCaptures: {
+        1: { name: "punctuation.definition.string.end.wasm" },
+        2: { name: "invalid.illegal.newline.wasm" },
+      },
+      patterns: [include(this.stringCharacterEscape)],
+    };
+  }
+
+  stringCharacterEscape(): schema.Rule {
+    return {
+      name: "constant.character.escape.wasm",
+      match: Token.escape,
     };
   }
 
