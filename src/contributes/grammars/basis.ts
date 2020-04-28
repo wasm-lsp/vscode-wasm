@@ -32,6 +32,7 @@ export const Token = {
   MEMORY: "memory",
   MODULE: "module",
   MUT: "mut",
+  OFFSET: "offset",
   PARAM: "param",
   RESULT: "result",
   RIGHT_PARENTHESIS: "\\)",
