@@ -25,6 +25,12 @@ export class Wat implements basis.Render {
         elemtype: this.elemtype(),
         export: this.export(),
         expr: this.expr(),
+        expr1: this.expr1(),
+        expr1Block: this.expr1Block(),
+        expr1Call: this.expr1Call(),
+        expr1If: this.expr1If(),
+        expr1Loop: this.expr1Loop(),
+        expr1Plain: this.expr1Plain(),
         extra: this.extra(),
         func: this.func(),
         functype: this.functype(),
@@ -135,6 +141,48 @@ export class Wat implements basis.Render {
   }
 
   expr(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  expr1(): schema.Rule {
+    return {
+      patterns: [
+        include(this.expr1Plain),
+        include(this.expr1Call),
+        include(this.expr1Block),
+        include(this.expr1Loop),
+        include(this.expr1If),
+      ],
+    };
+  }
+
+  expr1Block(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  expr1Call(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  expr1If(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  expr1Loop(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  expr1Plain(): schema.Rule {
     return {
       patterns: [],
     };
