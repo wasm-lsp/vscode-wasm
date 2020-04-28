@@ -22,6 +22,7 @@ const uN = "[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*";
 const idx = `(?:${uN})|(?:${id})`;
 
 export const Token = {
+  DATA: "data",
   EXPORT: "export",
   FUNC: "func",
   FUNCREF: "funcref",
