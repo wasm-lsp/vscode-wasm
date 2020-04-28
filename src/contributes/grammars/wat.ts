@@ -42,6 +42,8 @@ export class Wat implements basis.Render {
         memtype: this.memtype(),
         module: this.module(),
         modulefield: this.modulefield(),
+        offset: this.offset(),
+        offsetConstExpr: this.offsetConstExpr(),
         param: this.param(),
         result: this.result(),
         resulttype: this.resulttype(),
@@ -478,6 +480,36 @@ export class Wat implements basis.Render {
         include(this.start),
         include(this.table),
         include(this.type),
+      ],
+    };
+  }
+
+  offset(): schema.Rule {
+    return {
+      patterns: [include(this.offsetConstExpr), include(this.expr)],
+    };
+  }
+
+  offsetConstExpr(): schema.Rule {
+    return {
+      begin: Token.LEFT_PARENTHESIS,
+      beginCaptures: {
+        0: { name: "meta.brace.round.wasm" },
+      },
+      end: Token.RIGHT_PARENTHESIS,
+      endCaptures: {
+        0: { name: "meta.brace.round.wasm" },
+      },
+      patterns: [
+        include(this.extra),
+        {
+          begin: words(Token.OFFSET),
+          beginCaptures: {
+            0: { name: "storage.modifier.offset.wasm" },
+          },
+          end: lookAhead(Token.RIGHT_PARENTHESIS),
+          patterns: [include(this.extra), include(this.instr)],
+        },
       ],
     };
   }
