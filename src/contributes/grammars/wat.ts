@@ -24,6 +24,7 @@ export class Wat implements basis.Render {
         elem: this.elem(),
         elemtype: this.elemtype(),
         export: this.export(),
+        expr: this.expr(),
         extra: this.extra(),
         func: this.func(),
         functype: this.functype(),
@@ -109,6 +110,12 @@ export class Wat implements basis.Render {
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
       patterns: [include(this.extra), include(this.inlineExport)],
+    };
+  }
+
+  expr(): schema.Rule {
+    return {
+      patterns: [],
     };
   }
 
