@@ -20,10 +20,7 @@ export class Wat implements basis.Render {
         annotation: this.annotation(),
         blockComment: this.blockComment(),
         comment: this.comment(),
-        moduleFieldData: this.moduleFieldData(),
-        moduleFieldElem: this.moduleFieldElem(),
         elemType: this.elemType(),
-        moduleFieldExport: this.moduleFieldExport(),
         expr: this.expr(),
         expr1: this.expr1(),
         expr1Block: this.expr1Block(),
@@ -32,11 +29,8 @@ export class Wat implements basis.Render {
         expr1Loop: this.expr1Loop(),
         expr1Plain: this.expr1Plain(),
         extra: this.extra(),
-        moduleFieldFunc: this.moduleFieldFunc(),
         funcType: this.funcType(),
-        moduleFieldGlobal: this.moduleFieldGlobal(),
         globalType: this.globalType(),
-        moduleFieldImport: this.moduleFieldImport(),
         importDesc: this.importDesc(),
         inlineExport: this.inlineExport(),
         inlineImport: this.inlineImport(),
@@ -47,21 +41,27 @@ export class Wat implements basis.Render {
         limits: this.limits(),
         lineComment: this.lineComment(),
         local: this.local(),
-        moduleFieldMem: this.moduleFieldMem(),
         memType: this.memType(),
         module: this.module(),
         moduleField: this.moduleField(),
+        moduleFieldData: this.moduleFieldData(),
+        moduleFieldElem: this.moduleFieldElem(),
+        moduleFieldExport: this.moduleFieldExport(),
+        moduleFieldFunc: this.moduleFieldFunc(),
+        moduleFieldGlobal: this.moduleFieldGlobal(),
+        moduleFieldImport: this.moduleFieldImport(),
+        moduleFieldMem: this.moduleFieldMem(),
+        moduleFieldStart: this.moduleFieldStart(),
+        moduleFieldTable: this.moduleFieldTable(),
+        moduleFieldType: this.moduleFieldType(),
         offset: this.offset(),
         offsetConstExpr: this.offsetConstExpr(),
         param: this.param(),
         result: this.result(),
         resultType: this.resultType(),
-        moduleFieldStart: this.moduleFieldStart(),
         string: this.string(),
         stringCharacterEscape: this.stringCharacterEscape(),
-        moduleFieldTable: this.moduleFieldTable(),
         tableType: this.tableType(),
-        moduleFieldType: this.moduleFieldType(),
         typeUse: this.typeUse(),
         valType: this.valType(),
       },
@@ -94,49 +94,9 @@ export class Wat implements basis.Render {
     };
   }
 
-  moduleFieldData(): schema.Rule {
-    return {
-      name: "meta.data.wasm",
-      begin: words(Token.DATA),
-      beginCaptures: {
-        0: { name: "storage.type.data.wasm" },
-      },
-      end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [
-        include(this.extra),
-        {
-          begin: Token.idx,
-          beginCaptures: {
-            0: { name: "variable.other.constant entity.name.data.wasm" },
-          },
-          end: lookAhead(Token.RIGHT_PARENTHESIS),
-          patterns: [include(this.extra), include(this.offset), include(this.string)],
-        },
-      ],
-    };
-  }
-
-  moduleFieldElem(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
   elemType(): schema.Rule {
     return {
       patterns: [],
-    };
-  }
-
-  moduleFieldExport(): schema.Rule {
-    return {
-      name: "meta.export.wasm",
-      begin: words(Token.EXPORT),
-      beginCaptures: {
-        0: { name: "keyword.control.export.wasm" },
-      },
-      end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.extra), include(this.inlineExport)],
     };
   }
 
@@ -202,39 +162,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  moduleFieldFunc(): schema.Rule {
-    return {
-      begin: words(Token.FUNC),
-      beginCaptures: {
-        0: { name: "storage.type.function.wasm" },
-      },
-      end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [
-        include(this.extra),
-        {
-          begin: Token.id,
-          beginCaptures: {
-            0: { name: "entity.name.function.wasm" },
-          },
-          end: lookAhead(Token.RIGHT_PARENTHESIS),
-          patterns: [
-            {
-              begin: Token.LEFT_PARENTHESIS,
-              beginCaptures: {
-                0: { name: "meta.brace.round.wasm" },
-              },
-              end: Token.RIGHT_PARENTHESIS,
-              endCaptures: {
-                0: { name: "meta.brace.round.wasm" },
-              },
-              patterns: [include(this.moduleFieldExport), include(this.moduleFieldImport), include(this.typeUse)],
-            },
-          ],
-        },
-      ],
-    };
-  }
-
   funcType(): schema.Rule {
     return {
       begin: Token.LEFT_PARENTHESIS,
@@ -269,27 +196,9 @@ export class Wat implements basis.Render {
     };
   }
 
-  moduleFieldGlobal(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
   globalType(): schema.Rule {
     return {
       patterns: [],
-    };
-  }
-
-  moduleFieldImport(): schema.Rule {
-    return {
-      name: "meta.import.wasm",
-      begin: words(Token.IMPORT),
-      beginCaptures: {
-        0: { name: "keyword.control.import.wasm" },
-      },
-      end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.extra), include(this.inlineImport)],
     };
   }
 
@@ -498,12 +407,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  moduleFieldMem(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
   memType(): schema.Rule {
     return {
       patterns: [],
@@ -577,6 +480,153 @@ export class Wat implements basis.Render {
     };
   }
 
+  moduleFieldData(): schema.Rule {
+    return {
+      name: "meta.data.wasm",
+      begin: words(Token.DATA),
+      beginCaptures: {
+        0: { name: "storage.type.data.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.extra),
+        {
+          begin: Token.idx,
+          beginCaptures: {
+            0: { name: "variable.other.constant entity.name.data.wasm" },
+          },
+          end: lookAhead(Token.RIGHT_PARENTHESIS),
+          patterns: [include(this.extra), include(this.offset), include(this.string)],
+        },
+      ],
+    };
+  }
+
+  moduleFieldElem(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  moduleFieldExport(): schema.Rule {
+    return {
+      name: "meta.export.wasm",
+      begin: words(Token.EXPORT),
+      beginCaptures: {
+        0: { name: "keyword.control.export.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.extra), include(this.inlineExport)],
+    };
+  }
+
+  moduleFieldFunc(): schema.Rule {
+    return {
+      begin: words(Token.FUNC),
+      beginCaptures: {
+        0: { name: "storage.type.function.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.extra),
+        {
+          begin: Token.id,
+          beginCaptures: {
+            0: { name: "entity.name.function.wasm" },
+          },
+          end: lookAhead(Token.RIGHT_PARENTHESIS),
+          patterns: [
+            {
+              begin: Token.LEFT_PARENTHESIS,
+              beginCaptures: {
+                0: { name: "meta.brace.round.wasm" },
+              },
+              end: Token.RIGHT_PARENTHESIS,
+              endCaptures: {
+                0: { name: "meta.brace.round.wasm" },
+              },
+              patterns: [include(this.moduleFieldExport), include(this.moduleFieldImport), include(this.typeUse)],
+            },
+          ],
+        },
+      ],
+    };
+  }
+
+  moduleFieldGlobal(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  moduleFieldImport(): schema.Rule {
+    return {
+      name: "meta.import.wasm",
+      begin: words(Token.IMPORT),
+      beginCaptures: {
+        0: { name: "keyword.control.import.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.extra), include(this.inlineImport)],
+    };
+  }
+
+  moduleFieldMem(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  moduleFieldStart(): schema.Rule {
+    return {
+      name: "meta.start.wasm",
+      begin: words(Token.START),
+      beginCaptures: {
+        0: { name: "keyword.control.start.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.extra),
+        {
+          begin: Token.id,
+          beginCaptures: {
+            0: { name: "entity.name.function.wasm" },
+          },
+          end: lookAhead(Token.RIGHT_PARENTHESIS),
+        },
+      ],
+    };
+  }
+
+  moduleFieldTable(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  moduleFieldType(): schema.Rule {
+    return {
+      name: "meta.type.declaration.wasm",
+      begin: words(Token.TYPE),
+      beginCaptures: {
+        0: { name: "storage.type.type.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.extra),
+        {
+          begin: Token.id,
+          beginCaptures: {
+            0: { name: "entity.name.type.alias.wasm" },
+          },
+          end: lookAhead(Token.RIGHT_PARENTHESIS),
+          patterns: [include(this.extra), include(this.funcType)],
+        },
+        include(this.funcType),
+      ],
+    };
+  }
+
   offset(): schema.Rule {
     return {
       patterns: [include(this.offsetConstExpr), include(this.expr)],
@@ -642,27 +692,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  moduleFieldStart(): schema.Rule {
-    return {
-      name: "meta.start.wasm",
-      begin: words(Token.START),
-      beginCaptures: {
-        0: { name: "keyword.control.start.wasm" },
-      },
-      end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [
-        include(this.extra),
-        {
-          begin: Token.id,
-          beginCaptures: {
-            0: { name: "entity.name.function.wasm" },
-          },
-          end: lookAhead(Token.RIGHT_PARENTHESIS),
-        },
-      ],
-    };
-  }
-
   string(): schema.Rule {
     return {
       name: "string.quoted.double.wasm",
@@ -686,38 +715,9 @@ export class Wat implements basis.Render {
     };
   }
 
-  moduleFieldTable(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
   tableType(): schema.Rule {
     return {
       patterns: [],
-    };
-  }
-
-  moduleFieldType(): schema.Rule {
-    return {
-      name: "meta.type.declaration.wasm",
-      begin: words(Token.TYPE),
-      beginCaptures: {
-        0: { name: "storage.type.type.wasm" },
-      },
-      end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [
-        include(this.extra),
-        {
-          begin: Token.id,
-          beginCaptures: {
-            0: { name: "entity.name.type.alias.wasm" },
-          },
-          end: lookAhead(Token.RIGHT_PARENTHESIS),
-          patterns: [include(this.extra), include(this.funcType)],
-        },
-        include(this.funcType),
-      ],
     };
   }
 
