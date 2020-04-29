@@ -20,10 +20,10 @@ export class Wat implements basis.Render {
         annotation: this.annotation(),
         blockComment: this.blockComment(),
         comment: this.comment(),
-        data: this.data(),
-        elem: this.elem(),
+        moduleFieldData: this.moduleFieldData(),
+        moduleFieldElem: this.moduleFieldElem(),
         elemType: this.elemType(),
-        export: this.export(),
+        moduleFieldExport: this.moduleFieldExport(),
         expr: this.expr(),
         expr1: this.expr1(),
         expr1Block: this.expr1Block(),
@@ -32,11 +32,11 @@ export class Wat implements basis.Render {
         expr1Loop: this.expr1Loop(),
         expr1Plain: this.expr1Plain(),
         extra: this.extra(),
-        func: this.func(),
+        moduleFieldFunc: this.moduleFieldFunc(),
         funcType: this.funcType(),
-        global: this.global(),
+        moduleFieldGlobal: this.moduleFieldGlobal(),
         globalType: this.globalType(),
-        import: this.import(),
+        moduleFieldImport: this.moduleFieldImport(),
         importDesc: this.importDesc(),
         inlineExport: this.inlineExport(),
         inlineImport: this.inlineImport(),
@@ -47,7 +47,7 @@ export class Wat implements basis.Render {
         limits: this.limits(),
         lineComment: this.lineComment(),
         local: this.local(),
-        mem: this.mem(),
+        moduleFieldMem: this.moduleFieldMem(),
         memType: this.memType(),
         module: this.module(),
         moduleField: this.moduleField(),
@@ -56,12 +56,12 @@ export class Wat implements basis.Render {
         param: this.param(),
         result: this.result(),
         resultType: this.resultType(),
-        start: this.start(),
+        moduleFieldStart: this.moduleFieldStart(),
         string: this.string(),
         stringCharacterEscape: this.stringCharacterEscape(),
-        table: this.table(),
+        moduleFieldTable: this.moduleFieldTable(),
         tableType: this.tableType(),
-        type: this.type(),
+        moduleFieldType: this.moduleFieldType(),
         typeUse: this.typeUse(),
         valType: this.valType(),
       },
@@ -94,7 +94,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  data(): schema.Rule {
+  moduleFieldData(): schema.Rule {
     return {
       name: "meta.data.wasm",
       begin: words(Token.DATA),
@@ -116,7 +116,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  elem(): schema.Rule {
+  moduleFieldElem(): schema.Rule {
     return {
       patterns: [],
     };
@@ -128,7 +128,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  export(): schema.Rule {
+  moduleFieldExport(): schema.Rule {
     return {
       name: "meta.export.wasm",
       begin: words(Token.EXPORT),
@@ -202,7 +202,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  func(): schema.Rule {
+  moduleFieldFunc(): schema.Rule {
     return {
       begin: words(Token.FUNC),
       beginCaptures: {
@@ -227,7 +227,7 @@ export class Wat implements basis.Render {
               endCaptures: {
                 0: { name: "meta.brace.round.wasm" },
               },
-              patterns: [include(this.export), include(this.import), include(this.typeUse)],
+              patterns: [include(this.moduleFieldExport), include(this.moduleFieldImport), include(this.typeUse)],
             },
           ],
         },
@@ -269,7 +269,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  global(): schema.Rule {
+  moduleFieldGlobal(): schema.Rule {
     return {
       patterns: [],
     };
@@ -281,7 +281,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  import(): schema.Rule {
+  moduleFieldImport(): schema.Rule {
     return {
       name: "meta.import.wasm",
       begin: words(Token.IMPORT),
@@ -498,7 +498,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  mem(): schema.Rule {
+  moduleFieldMem(): schema.Rule {
     return {
       patterns: [],
     };
@@ -563,16 +563,16 @@ export class Wat implements basis.Render {
       },
       patterns: [
         include(this.extra),
-        include(this.data),
-        include(this.elem),
-        include(this.export),
-        include(this.func),
-        include(this.global),
-        include(this.import),
-        include(this.mem),
-        include(this.start),
-        include(this.table),
-        include(this.type),
+        include(this.moduleFieldData),
+        include(this.moduleFieldElem),
+        include(this.moduleFieldExport),
+        include(this.moduleFieldFunc),
+        include(this.moduleFieldGlobal),
+        include(this.moduleFieldImport),
+        include(this.moduleFieldMem),
+        include(this.moduleFieldStart),
+        include(this.moduleFieldTable),
+        include(this.moduleFieldType),
       ],
     };
   }
@@ -642,7 +642,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  start(): schema.Rule {
+  moduleFieldStart(): schema.Rule {
     return {
       name: "meta.start.wasm",
       begin: words(Token.START),
@@ -686,7 +686,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  table(): schema.Rule {
+  moduleFieldTable(): schema.Rule {
     return {
       patterns: [],
     };
@@ -698,7 +698,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  type(): schema.Rule {
+  moduleFieldType(): schema.Rule {
     return {
       name: "meta.type.declaration.wasm",
       begin: words(Token.TYPE),
