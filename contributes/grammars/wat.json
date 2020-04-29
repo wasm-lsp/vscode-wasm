@@ -14,7 +14,7 @@
     "annotation": {
       "patterns": []
     },
-    "blockcomment": {
+    "blockComment": {
       "name": "meta.comment.block.wasm comment.block.wasm",
       "begin": "(\\(;)",
       "beginCaptures": {
@@ -32,73 +32,67 @@
     "comment": {
       "patterns": [
         {
-          "include": "#linecomment"
+          "include": "#lineComment"
         },
         {
-          "include": "#blockcomment"
+          "include": "#blockComment"
         }
       ]
     },
-    "data": {
-      "name": "meta.data.wasm",
-      "begin": "\\bdata\\b",
-      "beginCaptures": {
-        "0": {
-          "name": "storage.type.data.wasm"
-        }
-      },
-      "end": "(?=\\))",
-      "patterns": [
-        {
-          "include": "#extra"
-        },
-        {
-          "begin": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)",
-          "beginCaptures": {
-            "0": {
-              "name": "variable.other.constant entity.name.data.wasm"
-            }
-          },
-          "end": "(?=\\))",
-          "patterns": [
-            {
-              "include": "#extra"
-            },
-            {
-              "include": "#offset"
-            },
-            {
-              "include": "#string"
-            }
-          ]
-        }
-      ]
-    },
-    "elem": {
+    "elemType": {
       "patterns": []
-    },
-    "elemtype": {
-      "patterns": []
-    },
-    "export": {
-      "name": "meta.export.wasm",
-      "begin": "\\bexport\\b",
-      "beginCaptures": {
-        "0": {
-          "name": "keyword.control.export.wasm"
-        }
-      },
-      "end": "(?=\\))",
-      "patterns": [
-        {
-          "include": "#extra"
-        },
-        {
-          "include": "#inlineExport"
-        }
-      ]
     },
     "expr": {
+      "begin": "\\(",
+      "beginCaptures": {
+        "0": {
+          "name": "meta.brace.round.wasm"
+        }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": {
+          "name": "meta.brace.round.wasm"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#expr1"
+        }
+      ]
+    },
+    "expr1": {
+      "patterns": [
+        {
+          "include": "#expr1Plain"
+        },
+        {
+          "include": "#expr1Call"
+        },
+        {
+          "include": "#expr1Block"
+        },
+        {
+          "include": "#expr1Loop"
+        },
+        {
+          "include": "#expr1If"
+        }
+      ]
+    },
+    "expr1Block": {
+      "patterns": []
+    },
+    "expr1Call": {
+      "patterns": []
+    },
+    "expr1If": {
+      "patterns": []
+    },
+    "expr1Loop": {
+      "patterns": []
+    },
+    "expr1Plain": {
       "patterns": []
     },
     "extra": {
@@ -111,57 +105,7 @@
         }
       ]
     },
-    "func": {
-      "begin": "\\bfunc\\b",
-      "beginCaptures": {
-        "0": {
-          "name": "storage.type.function.wasm"
-        }
-      },
-      "end": "(?=\\))",
-      "patterns": [
-        {
-          "include": "#extra"
-        },
-        {
-          "begin": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
-          "beginCaptures": {
-            "0": {
-              "name": "entity.name.function.wasm"
-            }
-          },
-          "end": "(?=\\))",
-          "patterns": [
-            {
-              "begin": "\\(",
-              "beginCaptures": {
-                "0": {
-                  "name": "meta.brace.round.wasm"
-                }
-              },
-              "end": "\\)",
-              "endCaptures": {
-                "0": {
-                  "name": "meta.brace.round.wasm"
-                }
-              },
-              "patterns": [
-                {
-                  "include": "#export"
-                },
-                {
-                  "include": "#import"
-                },
-                {
-                  "include": "#typeuse"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "functype": {
+    "funcType": {
       "begin": "\\(",
       "beginCaptures": {
         "0": {
@@ -214,31 +158,10 @@
         }
       ]
     },
-    "global": {
+    "globalType": {
       "patterns": []
     },
-    "globaltype": {
-      "patterns": []
-    },
-    "import": {
-      "name": "meta.import.wasm",
-      "begin": "\\bimport\\b",
-      "beginCaptures": {
-        "0": {
-          "name": "keyword.control.import.wasm"
-        }
-      },
-      "end": "(?=\\))",
-      "patterns": [
-        {
-          "include": "#extra"
-        },
-        {
-          "include": "#inlineImport"
-        }
-      ]
-    },
-    "importdesc": {
+    "importDesc": {
       "name": "meta.importdesc.wasm",
       "begin": "\\(",
       "beginCaptures": {
@@ -284,7 +207,7 @@
               },
               "patterns": [
                 {
-                  "include": "#typeuse"
+                  "include": "#typeUse"
                 }
               ]
             }
@@ -310,12 +233,12 @@
                   "include": "#extra"
                 },
                 {
-                  "include": "#tabletype"
+                  "include": "#tableType"
                 }
               ]
             },
             {
-              "include": "#tabletype"
+              "include": "#tableType"
             }
           ]
         },
@@ -339,12 +262,12 @@
                   "include": "#extra"
                 },
                 {
-                  "include": "#tabletype"
+                  "include": "#tableType"
                 }
               ]
             },
             {
-              "include": "#memtype"
+              "include": "#memType"
             }
           ]
         },
@@ -368,12 +291,12 @@
                   "include": "#extra"
                 },
                 {
-                  "include": "#tabletype"
+                  "include": "#tableType"
                 }
               ]
             },
             {
-              "include": "#globaltype"
+              "include": "#globalType"
             }
           ]
         }
@@ -447,17 +370,39 @@
           ]
         },
         {
-          "include": "#importdesc"
+          "include": "#importDesc"
         }
       ]
     },
     "instr": {
+      "patterns": [
+        {
+          "include": "#instrPlain"
+        },
+        {
+          "include": "#instrCall"
+        },
+        {
+          "include": "#instrBlock"
+        },
+        {
+          "include": "#expr"
+        }
+      ]
+    },
+    "instrBlock": {
+      "patterns": []
+    },
+    "instrCall": {
+      "patterns": []
+    },
+    "instrPlain": {
       "patterns": []
     },
     "limits": {
       "patterns": []
     },
-    "linecomment": {
+    "lineComment": {
       "name": "meta.comment.line.wasm",
       "begin": "(^[ \\t]+)?((;;))",
       "beginCaptures": {
@@ -477,10 +422,7 @@
     "local": {
       "patterns": []
     },
-    "mem": {
-      "patterns": []
-    },
-    "memtype": {
+    "memType": {
       "patterns": []
     },
     "module": {
@@ -535,18 +477,18 @@
                   "include": "#extra"
                 },
                 {
-                  "include": "#modulefield"
+                  "include": "#moduleField"
                 }
               ]
             },
             {
-              "include": "#modulefield"
+              "include": "#moduleField"
             }
           ]
         }
       ]
     },
-    "modulefield": {
+    "moduleField": {
       "begin": "\\(",
       "beginCaptures": {
         "0": {
@@ -564,34 +506,226 @@
           "include": "#extra"
         },
         {
-          "include": "#data"
+          "include": "#moduleFieldData"
         },
         {
-          "include": "#elem"
+          "include": "#moduleFieldElem"
         },
         {
-          "include": "#export"
+          "include": "#moduleFieldExport"
         },
         {
-          "include": "#func"
+          "include": "#moduleFieldFunc"
         },
         {
-          "include": "#global"
+          "include": "#moduleFieldGlobal"
         },
         {
-          "include": "#import"
+          "include": "#moduleFieldImport"
         },
         {
-          "include": "#mem"
+          "include": "#moduleFieldMem"
         },
         {
-          "include": "#start"
+          "include": "#moduleFieldStart"
         },
         {
-          "include": "#table"
+          "include": "#moduleFieldTable"
         },
         {
-          "include": "#type"
+          "include": "#moduleFieldType"
+        }
+      ]
+    },
+    "moduleFieldData": {
+      "name": "meta.data.wasm",
+      "begin": "\\bdata\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.data.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "begin": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)",
+          "beginCaptures": {
+            "0": {
+              "name": "variable.other.constant entity.name.data.wasm"
+            }
+          },
+          "end": "(?=\\))",
+          "patterns": [
+            {
+              "include": "#extra"
+            },
+            {
+              "include": "#offset"
+            },
+            {
+              "include": "#string"
+            }
+          ]
+        }
+      ]
+    },
+    "moduleFieldElem": {
+      "patterns": []
+    },
+    "moduleFieldExport": {
+      "name": "meta.export.wasm",
+      "begin": "\\bexport\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.export.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "include": "#inlineExport"
+        }
+      ]
+    },
+    "moduleFieldFunc": {
+      "begin": "\\bfunc\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.function.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "begin": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+          "beginCaptures": {
+            "0": {
+              "name": "entity.name.function.wasm"
+            }
+          },
+          "end": "(?=\\))",
+          "patterns": [
+            {
+              "begin": "\\(",
+              "beginCaptures": {
+                "0": {
+                  "name": "meta.brace.round.wasm"
+                }
+              },
+              "end": "\\)",
+              "endCaptures": {
+                "0": {
+                  "name": "meta.brace.round.wasm"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "#moduleFieldExport"
+                },
+                {
+                  "include": "#moduleFieldImport"
+                },
+                {
+                  "include": "#typeUse"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "moduleFieldGlobal": {
+      "patterns": []
+    },
+    "moduleFieldImport": {
+      "name": "meta.import.wasm",
+      "begin": "\\bimport\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.import.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "include": "#inlineImport"
+        }
+      ]
+    },
+    "moduleFieldMem": {
+      "patterns": []
+    },
+    "moduleFieldStart": {
+      "name": "meta.start.wasm",
+      "begin": "\\bstart\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.start.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "begin": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+          "beginCaptures": {
+            "0": {
+              "name": "entity.name.function.wasm"
+            }
+          },
+          "end": "(?=\\))"
+        }
+      ]
+    },
+    "moduleFieldTable": {
+      "patterns": []
+    },
+    "moduleFieldType": {
+      "name": "meta.type.declaration.wasm",
+      "begin": "\\btype\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.type.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "begin": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+          "beginCaptures": {
+            "0": {
+              "name": "entity.name.type.alias.wasm"
+            }
+          },
+          "end": "(?=\\))",
+          "patterns": [
+            {
+              "include": "#extra"
+            },
+            {
+              "include": "#funcType"
+            }
+          ]
+        },
+        {
+          "include": "#funcType"
         }
       ]
     },
@@ -658,7 +792,7 @@
           "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
-          "include": "#valtype"
+          "include": "#valType"
         }
       ]
     },
@@ -675,36 +809,12 @@
           "include": "#extra"
         },
         {
-          "include": "#valtype"
+          "include": "#valType"
         }
       ]
     },
-    "resulttype": {
+    "resultType": {
       "patterns": []
-    },
-    "start": {
-      "name": "meta.start.wasm",
-      "begin": "\\bstart\\b",
-      "beginCaptures": {
-        "0": {
-          "name": "keyword.control.start.wasm"
-        }
-      },
-      "end": "(?=\\))",
-      "patterns": [
-        {
-          "include": "#extra"
-        },
-        {
-          "begin": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
-          "beginCaptures": {
-            "0": {
-              "name": "entity.name.function.wasm"
-            }
-          },
-          "end": "(?=\\))"
-        }
-      ]
     },
     "string": {
       "name": "string.quoted.double.wasm",
@@ -733,48 +843,10 @@
       "name": "constant.character.escape.wasm",
       "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
     },
-    "table": {
+    "tableType": {
       "patterns": []
     },
-    "tabletype": {
-      "patterns": []
-    },
-    "type": {
-      "name": "meta.type.declaration.wasm",
-      "begin": "\\btype\\b",
-      "beginCaptures": {
-        "0": {
-          "name": "storage.type.type.wasm"
-        }
-      },
-      "end": "(?=\\))",
-      "patterns": [
-        {
-          "include": "#extra"
-        },
-        {
-          "begin": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
-          "beginCaptures": {
-            "0": {
-              "name": "entity.name.type.alias.wasm"
-            }
-          },
-          "end": "(?=\\))",
-          "patterns": [
-            {
-              "include": "#extra"
-            },
-            {
-              "include": "#functype"
-            }
-          ]
-        },
-        {
-          "include": "#functype"
-        }
-      ]
-    },
-    "typeuse": {
+    "typeUse": {
       "patterns": [
         {
           "begin": "\\btype\\b",
@@ -798,7 +870,7 @@
         }
       ]
     },
-    "valtype": {
+    "valType": {
       "patterns": [
         {
           "name": "entity.name.type.alias.wasm",
