@@ -18,11 +18,11 @@ export class Wat implements basis.Render {
       patterns: [include(this.extra), include(this.module)],
       repository: {
         annotation: this.annotation(),
-        blockcomment: this.blockcomment(),
+        blockComment: this.blockComment(),
         comment: this.comment(),
         data: this.data(),
         elem: this.elem(),
-        elemtype: this.elemtype(),
+        elemType: this.elemType(),
         export: this.export(),
         expr: this.expr(),
         expr1: this.expr1(),
@@ -33,11 +33,11 @@ export class Wat implements basis.Render {
         expr1Plain: this.expr1Plain(),
         extra: this.extra(),
         func: this.func(),
-        functype: this.functype(),
+        funcType: this.funcType(),
         global: this.global(),
-        globaltype: this.globaltype(),
+        globalType: this.globalType(),
         import: this.import(),
-        importdesc: this.importdesc(),
+        importDesc: this.importDesc(),
         inlineExport: this.inlineExport(),
         inlineImport: this.inlineImport(),
         instr: this.instr(),
@@ -45,25 +45,25 @@ export class Wat implements basis.Render {
         instrCall: this.instrCall(),
         instrPlain: this.instrPlain(),
         limits: this.limits(),
-        linecomment: this.linecomment(),
+        lineComment: this.lineComment(),
         local: this.local(),
         mem: this.mem(),
-        memtype: this.memtype(),
+        memType: this.memType(),
         module: this.module(),
-        modulefield: this.modulefield(),
+        moduleField: this.moduleField(),
         offset: this.offset(),
         offsetConstExpr: this.offsetConstExpr(),
         param: this.param(),
         result: this.result(),
-        resulttype: this.resulttype(),
+        resultType: this.resultType(),
         start: this.start(),
         string: this.string(),
         stringCharacterEscape: this.stringCharacterEscape(),
         table: this.table(),
-        tabletype: this.tabletype(),
+        tableType: this.tableType(),
         type: this.type(),
-        typeuse: this.typeuse(),
-        valtype: this.valtype(),
+        typeUse: this.typeUse(),
+        valType: this.valType(),
       },
     };
   }
@@ -74,7 +74,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  blockcomment(): schema.Rule {
+  blockComment(): schema.Rule {
     return {
       name: "meta.comment.block.wasm comment.block.wasm",
       begin: capture("\\(;"),
@@ -90,7 +90,7 @@ export class Wat implements basis.Render {
 
   comment(): schema.Rule {
     return {
-      patterns: [include(this.linecomment), include(this.blockcomment)],
+      patterns: [include(this.lineComment), include(this.blockComment)],
     };
   }
 
@@ -122,7 +122,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  elemtype(): schema.Rule {
+  elemType(): schema.Rule {
     return {
       patterns: [],
     };
@@ -227,7 +227,7 @@ export class Wat implements basis.Render {
               endCaptures: {
                 0: { name: "meta.brace.round.wasm" },
               },
-              patterns: [include(this.export), include(this.import), include(this.typeuse)],
+              patterns: [include(this.export), include(this.import), include(this.typeUse)],
             },
           ],
         },
@@ -235,7 +235,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  functype(): schema.Rule {
+  funcType(): schema.Rule {
     return {
       begin: Token.LEFT_PARENTHESIS,
       beginCaptures: {
@@ -275,7 +275,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  globaltype(): schema.Rule {
+  globalType(): schema.Rule {
     return {
       patterns: [],
     };
@@ -293,7 +293,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  importdesc(): schema.Rule {
+  importDesc(): schema.Rule {
     return {
       name: "meta.importdesc.wasm",
       begin: Token.LEFT_PARENTHESIS,
@@ -326,7 +326,7 @@ export class Wat implements basis.Render {
               endCaptures: {
                 0: { name: "meta.brace.round.wasm" },
               },
-              patterns: [include(this.typeuse)],
+              patterns: [include(this.typeUse)],
             },
           ],
         },
@@ -341,9 +341,9 @@ export class Wat implements basis.Render {
             {
               begin: Token.id,
               end: lookAhead(Token.RIGHT_PARENTHESIS),
-              patterns: [include(this.extra), include(this.tabletype)],
+              patterns: [include(this.extra), include(this.tableType)],
             },
-            include(this.tabletype),
+            include(this.tableType),
           ],
         },
         {
@@ -357,9 +357,9 @@ export class Wat implements basis.Render {
             {
               begin: Token.id,
               end: lookAhead(Token.RIGHT_PARENTHESIS),
-              patterns: [include(this.extra), include(this.tabletype)],
+              patterns: [include(this.extra), include(this.tableType)],
             },
-            include(this.memtype),
+            include(this.memType),
           ],
         },
         {
@@ -373,9 +373,9 @@ export class Wat implements basis.Render {
             {
               begin: Token.id,
               end: lookAhead(Token.RIGHT_PARENTHESIS),
-              patterns: [include(this.extra), include(this.tabletype)],
+              patterns: [include(this.extra), include(this.tableType)],
             },
-            include(this.globaltype),
+            include(this.globalType),
           ],
         },
       ],
@@ -443,7 +443,7 @@ export class Wat implements basis.Render {
             },
           ],
         },
-        include(this.importdesc),
+        include(this.importDesc),
       ],
     };
   }
@@ -478,7 +478,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  linecomment(): schema.Rule {
+  lineComment(): schema.Rule {
     return {
       name: "meta.comment.line.wasm",
       begin: seq(opt(capture(seq("^", manyOne(set(" ", "\\t"))))), capture(capture(";;"))),
@@ -504,7 +504,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  memtype(): schema.Rule {
+  memType(): schema.Rule {
     return {
       patterns: [],
     };
@@ -542,16 +542,16 @@ export class Wat implements basis.Render {
                 0: { name: "entity.name.type.module.wasm" },
               },
               end: lookAhead(Token.RIGHT_PARENTHESIS),
-              patterns: [include(this.extra), include(this.modulefield)],
+              patterns: [include(this.extra), include(this.moduleField)],
             },
-            include(this.modulefield),
+            include(this.moduleField),
           ],
         },
       ],
     };
   }
 
-  modulefield(): schema.Rule {
+  moduleField(): schema.Rule {
     return {
       begin: Token.LEFT_PARENTHESIS,
       beginCaptures: {
@@ -620,7 +620,7 @@ export class Wat implements basis.Render {
           name: "entity.name.type.alias.wasm",
           match: Token.id,
         },
-        include(this.valtype),
+        include(this.valType),
       ],
     };
   }
@@ -632,11 +632,11 @@ export class Wat implements basis.Render {
         0: { name: "keyword.control.result.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.extra), include(this.valtype)],
+      patterns: [include(this.extra), include(this.valType)],
     };
   }
 
-  resulttype(): schema.Rule {
+  resultType(): schema.Rule {
     return {
       patterns: [],
     };
@@ -692,7 +692,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  tabletype(): schema.Rule {
+  tableType(): schema.Rule {
     return {
       patterns: [],
     };
@@ -714,14 +714,14 @@ export class Wat implements basis.Render {
             0: { name: "entity.name.type.alias.wasm" },
           },
           end: lookAhead(Token.RIGHT_PARENTHESIS),
-          patterns: [include(this.extra), include(this.functype)],
+          patterns: [include(this.extra), include(this.funcType)],
         },
-        include(this.functype),
+        include(this.funcType),
       ],
     };
   }
 
-  typeuse(): schema.Rule {
+  typeUse(): schema.Rule {
     return {
       patterns: [
         {
@@ -740,7 +740,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  valtype(): schema.Rule {
+  valType(): schema.Rule {
     return {
       patterns: [
         {
