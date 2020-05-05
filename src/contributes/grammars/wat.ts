@@ -21,6 +21,7 @@ export class Wat implements basis.Render {
         blockComment: this.blockComment(),
         comment: this.comment(),
         extra: this.extra(),
+        identifier: this.identifier(),
         lineComment: this.lineComment(),
         module: this.module(),
         moduleField: this.moduleField(),
@@ -67,6 +68,13 @@ export class Wat implements basis.Render {
   extra(): schema.Rule {
     return {
       patterns: [include(this.comment), include(this.annotation)],
+    };
+  }
+
+  identifier(): schema.Rule {
+    return {
+      match: Token.id,
+      name: "entity.name.type.alias.wasm",
     };
   }
 
