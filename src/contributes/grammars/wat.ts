@@ -22,6 +22,9 @@ export class Wat implements basis.Render {
         comment: this.comment(),
         extra: this.extra(),
         identifier: this.identifier(),
+        funcType: this.funcType(),
+        funcTypeParams: this.funcTypeParams(),
+        funcTypeResults: this.funcTypeResults(),
         lineComment: this.lineComment(),
         module: this.module(),
         moduleField: this.moduleField(),
@@ -35,6 +38,7 @@ export class Wat implements basis.Render {
         moduleFieldStart: this.moduleFieldStart(),
         moduleFieldTable: this.moduleFieldTable(),
         moduleFieldType: this.moduleFieldType(),
+        typeField: this.typeField(),
         valueType: this.valueType(),
       },
     };
@@ -69,6 +73,41 @@ export class Wat implements basis.Render {
   extra(): schema.Rule {
     return {
       patterns: [include(this.comment), include(this.annotation)],
+    };
+  }
+
+  funcType(): schema.Rule {
+    return {
+      patterns: [include(this.funcTypeParams), include(this.funcTypeResults)],
+    };
+  }
+
+  funcTypeParams(): schema.Rule {
+    return {
+      begin: words(Token.PARAM),
+      beginCaptures: {
+        0: { name: "keyword.control.param.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.extra),
+        {
+          name: "entity.name.type.alias.wasm",
+          match: Token.id,
+        },
+        include(this.valueType),
+      ],
+    };
+  }
+
+  funcTypeResults(): schema.Rule {
+    return {
+      begin: words(Token.RESULT),
+      beginCaptures: {
+        0: { name: "keyword.control.param.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.extra), include(this.valueType)],
     };
   }
 
@@ -295,14 +334,44 @@ export class Wat implements basis.Render {
       patterns: [
         include(this.extra),
         {
-          begin: Token.id,
-          beginCaptures: {
-            0: { name: "entity.name.type.alias.wasm" },
-          },
-          end: lookAhead(Token.RIGHT_PARENTHESIS),
-          patterns: [include(this.extra) /*, include(this.funcType) */],
+          name: "entity.name.type.alias.wasm",
+          patterns: [include(this.identifier)],
         },
-        //        include(this.funcType),
+        include(this.typeField),
+      ],
+    };
+  }
+
+  typeField(): schema.Rule {
+    return {
+      begin: Token.LEFT_PARENTHESIS,
+      beginCaptures: {
+        0: { name: "meta.brace.round.wasm" },
+      },
+      end: Token.RIGHT_PARENTHESIS,
+      endCaptures: {
+        0: { name: "meta.brace.round.wasm" },
+      },
+      patterns: [
+        include(this.extra),
+        {
+          begin: lookBehind(Token.LEFT_PARENTHESIS),
+          end: words(Token.FUNC),
+          endCaptures: {
+            0: { name: "storage.type.function.wasm" },
+          },
+        },
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.extra), include(this.funcType)],
+        },
       ],
     };
   }
