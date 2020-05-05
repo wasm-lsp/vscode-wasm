@@ -35,6 +35,7 @@ export class Wat implements basis.Render {
         moduleFieldStart: this.moduleFieldStart(),
         moduleFieldTable: this.moduleFieldTable(),
         moduleFieldType: this.moduleFieldType(),
+        valueType: this.valueType(),
       },
     };
   }
@@ -303,6 +304,13 @@ export class Wat implements basis.Render {
         },
         //        include(this.funcType),
       ],
+    };
+  }
+
+  valueType(): schema.Rule {
+    return {
+      name: "entity.name.type.alias.wasm",
+      match: Token.valueType,
     };
   }
 }
