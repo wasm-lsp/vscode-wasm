@@ -49,6 +49,58 @@
         }
       ]
     },
+    "identifier": {
+      "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+      "name": "entity.name.type.alias.wasm"
+    },
+    "funcType": {
+      "patterns": [
+        {
+          "include": "#funcTypeParams"
+        },
+        {
+          "include": "#funcTypeResults"
+        }
+      ]
+    },
+    "funcTypeParams": {
+      "begin": "\\bparam\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.param.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "name": "entity.name.type.alias.wasm",
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
+        },
+        {
+          "include": "#valueType"
+        }
+      ]
+    },
+    "funcTypeResults": {
+      "begin": "\\bresult\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.param.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "include": "#valueType"
+        }
+      ]
+    },
     "lineComment": {
       "name": "meta.comment.line.wasm",
       "begin": "(^[ \\t]+)?((;;))",
@@ -334,20 +386,71 @@
           "include": "#extra"
         },
         {
-          "begin": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+          "name": "entity.name.type.alias.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "include": "#typeField"
+        }
+      ]
+    },
+    "typeField": {
+      "begin": "\\(",
+      "beginCaptures": {
+        "0": {
+          "name": "meta.brace.round.wasm"
+        }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": {
+          "name": "meta.brace.round.wasm"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "begin": "(?<=\\()",
+          "end": "\\bfunc\\b",
+          "endCaptures": {
+            "0": {
+              "name": "storage.type.function.wasm"
+            }
+          }
+        },
+        {
+          "begin": "\\(",
           "beginCaptures": {
             "0": {
-              "name": "entity.name.type.alias.wasm"
+              "name": "meta.brace.round.wasm"
             }
           },
-          "end": "(?=\\))",
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
           "patterns": [
             {
               "include": "#extra"
+            },
+            {
+              "include": "#funcType"
             }
           ]
         }
       ]
+    },
+    "valueType": {
+      "name": "entity.name.type.alias.wasm",
+      "match": "[fi](?:32|64)"
     }
   }
 }
