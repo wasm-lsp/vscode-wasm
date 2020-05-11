@@ -20,11 +20,15 @@ export class Wat implements basis.Render {
         annotation: this.annotation(),
         blockComment: this.blockComment(),
         comment: this.comment(),
+        export: this.export(),
+        expr: this.expr(),
         extra: this.extra(),
         identifier: this.identifier(),
         funcType: this.funcType(),
         funcTypeParams: this.funcTypeParams(),
         funcTypeResults: this.funcTypeResults(),
+        globalType: this.globalType(),
+        import: this.import(),
         lineComment: this.lineComment(),
         module: this.module(),
         moduleField: this.moduleField(),
@@ -70,6 +74,18 @@ export class Wat implements basis.Render {
     };
   }
 
+  export(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  expr(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
   extra(): schema.Rule {
     return {
       patterns: [include(this.comment), include(this.annotation)],
@@ -111,10 +127,22 @@ export class Wat implements basis.Render {
     };
   }
 
+  globalType(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
   identifier(): schema.Rule {
     return {
       match: Token.id,
       name: "entity.name.type.alias.wasm",
+    };
+  }
+
+  import(): schema.Rule {
+    return {
+      patterns: [],
     };
   }
 
@@ -274,7 +302,21 @@ export class Wat implements basis.Render {
 
   moduleFieldGlobal(): schema.Rule {
     return {
-      patterns: [],
+      name: "meta.global.declaration.wasm",
+      begin: words(Token.GLOBAL),
+      beginCaptures: {},
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.extra),
+        {
+          // FIXME: name
+          patterns: [include(this.identifier)],
+        },
+        include(this.export),
+        include(this.import),
+        include(this.globalType),
+        include(this.expr),
+      ],
     };
   }
 
