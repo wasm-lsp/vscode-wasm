@@ -24,6 +24,7 @@ const valueType = "[fi](?:32|64)";
 
 export const Token = {
   DATA: "data",
+  ELEM: "elem",
   EXPORT: "export",
   FUNC: "func",
   FUNCREF: "funcref",
