@@ -326,7 +326,11 @@ export class Wat implements basis.Render {
 
   moduleFieldMemory(): schema.Rule {
     return {
-      patterns: [],
+      name: "meta.memory.declaration.wasm",
+      begin: words(Token.MEMORY),
+      beginCaptures: {},
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.extra)],
     };
   }
 
