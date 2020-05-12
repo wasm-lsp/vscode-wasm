@@ -357,7 +357,11 @@ export class Wat implements basis.Render {
 
   moduleFieldTable(): schema.Rule {
     return {
-      patterns: [],
+      name: "meta.table.declaration.wasm",
+      begin: words(Token.TABLE),
+      beginCaptures: {},
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.extra)],
     };
   }
 
