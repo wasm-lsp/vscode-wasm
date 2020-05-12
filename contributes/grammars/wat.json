@@ -39,6 +39,12 @@
         }
       ]
     },
+    "export": {
+      "patterns": []
+    },
+    "expr": {
+      "patterns": []
+    },
     "extra": {
       "patterns": [
         {
@@ -100,6 +106,12 @@
           "include": "#valueType"
         }
       ]
+    },
+    "globalType": {
+      "patterns": []
+    },
+    "import": {
+      "patterns": []
     },
     "lineComment": {
       "name": "meta.comment.line.wasm",
@@ -217,7 +229,7 @@
           "include": "#moduleFieldImport"
         },
         {
-          "include": "#moduleFieldMem"
+          "include": "#moduleFieldMemory"
         },
         {
           "include": "#moduleFieldStart"
@@ -260,16 +272,20 @@
       ]
     },
     "moduleFieldElem": {
-      "patterns": []
+      "name": "meta.elem.declaration.wasm",
+      "begin": "\\belem\\b",
+      "beginCaptures": {},
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        }
+      ]
     },
     "moduleFieldExport": {
-      "name": "meta.export.wasm",
+      "name": "meta.export.declaration.wasm",
       "begin": "\\bexport\\b",
-      "beginCaptures": {
-        "0": {
-          "name": "keyword.control.export.wasm"
-        }
-      },
+      "beginCaptures": {},
       "end": "(?=\\))",
       "patterns": [
         {
@@ -325,7 +341,15 @@
       ]
     },
     "moduleFieldGlobal": {
-      "patterns": []
+      "name": "meta.global.declaration.wasm",
+      "begin": "\\bglobal\\b",
+      "beginCaptures": {},
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        }
+      ]
     },
     "moduleFieldImport": {
       "name": "meta.import.wasm",
@@ -342,8 +366,16 @@
         }
       ]
     },
-    "moduleFieldMem": {
-      "patterns": []
+    "moduleFieldMemory": {
+      "name": "meta.memory.declaration.wasm",
+      "begin": "\\bmemory\\b",
+      "beginCaptures": {},
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        }
+      ]
     },
     "moduleFieldStart": {
       "name": "meta.start.wasm",
@@ -370,7 +402,15 @@
       ]
     },
     "moduleFieldTable": {
-      "patterns": []
+      "name": "meta.table.declaration.wasm",
+      "begin": "\\btable\\b",
+      "beginCaptures": {},
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        }
+      ]
     },
     "moduleFieldType": {
       "name": "meta.type.declaration.wasm",
