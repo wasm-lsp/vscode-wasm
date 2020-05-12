@@ -38,7 +38,7 @@ export class Wat implements basis.Render {
         moduleFieldFunc: this.moduleFieldFunc(),
         moduleFieldGlobal: this.moduleFieldGlobal(),
         moduleFieldImport: this.moduleFieldImport(),
-        moduleFieldMem: this.moduleFieldMem(),
+        moduleFieldMemory: this.moduleFieldMemory(),
         moduleFieldStart: this.moduleFieldStart(),
         moduleFieldTable: this.moduleFieldTable(),
         moduleFieldType: this.moduleFieldType(),
@@ -219,7 +219,7 @@ export class Wat implements basis.Render {
         include(this.moduleFieldFunc),
         include(this.moduleFieldGlobal),
         include(this.moduleFieldImport),
-        include(this.moduleFieldMem),
+        include(this.moduleFieldMemory),
         include(this.moduleFieldStart),
         include(this.moduleFieldTable),
         include(this.moduleFieldType),
@@ -332,7 +332,7 @@ export class Wat implements basis.Render {
     };
   }
 
-  moduleFieldMem(): schema.Rule {
+  moduleFieldMemory(): schema.Rule {
     return {
       patterns: [],
     };
