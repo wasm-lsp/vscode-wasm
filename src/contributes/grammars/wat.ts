@@ -308,17 +308,7 @@ export class Wat implements basis.Render {
       begin: words(Token.GLOBAL),
       beginCaptures: {},
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [
-        include(this.extra),
-        {
-          // FIXME: name
-          patterns: [include(this.identifier)],
-        },
-        include(this.export),
-        include(this.import),
-        include(this.globalType),
-        include(this.expr),
-      ],
+      patterns: [include(this.extra)],
     };
   }
 
