@@ -352,6 +352,10 @@ export class Wat implements basis.Render {
           name: "variable.other.global.wasm",
           patterns: [include(this.identifier)],
         },
+        include(this.export),
+        include(this.import),
+        include(this.globalType),
+        include(this.expr),
       ],
     };
   }
