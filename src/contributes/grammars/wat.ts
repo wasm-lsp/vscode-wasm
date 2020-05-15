@@ -20,6 +20,7 @@ export class Wat implements basis.Render {
         annotation: this.annotation(),
         blockComment: this.blockComment(),
         comment: this.comment(),
+        elemType: this.elemType(),
         export: this.export(),
         expr: this.expr(),
         extra: this.extra(),
@@ -73,6 +74,13 @@ export class Wat implements basis.Render {
   comment(): schema.Rule {
     return {
       patterns: [include(this.lineComment), include(this.blockComment)],
+    };
+  }
+
+  elemType(): schema.Rule {
+    return {
+      name: "storage.type.wasm",
+      match: words(Token.FUNCREF),
     };
   }
 
