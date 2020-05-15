@@ -50,6 +50,7 @@ export class Wat implements basis.Render {
         string: this.string(),
         stringCharacterEscape: this.stringCharacterEscape(),
         tableFieldsElem: this.tableFieldsElem(),
+        tableFieldsType: this.tableFieldsType(),
         tableType: this.tableType(),
         typeField: this.typeField(),
         valueType: this.valueType(),
@@ -487,6 +488,12 @@ export class Wat implements basis.Render {
   tableFieldsElem(): schema.Rule {
     return {
       patterns: [],
+    };
+  }
+
+  tableFieldsType(): schema.Rule {
+    return {
+      patterns: [include(this.inlineImport), include(this.tableType)],
     };
   }
 
