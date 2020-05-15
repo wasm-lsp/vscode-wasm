@@ -39,6 +39,10 @@
         }
       ]
     },
+    "elemType": {
+      "name": "storage.type.wasm",
+      "match": "\\bfuncref\\b"
+    },
     "export": {
       "patterns": []
     },
@@ -54,10 +58,6 @@
           "include": "#annotation"
         }
       ]
-    },
-    "identifier": {
-      "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
-      "name": "entity.name.type.alias.wasm"
     },
     "funcType": {
       "patterns": [
@@ -108,10 +108,119 @@
       ]
     },
     "globalType": {
-      "patterns": []
+      "patterns": [
+        {
+          "include": "#globalTypeImm"
+        },
+        {
+          "include": "#globalTypeMut"
+        }
+      ]
+    },
+    "globalTypeImm": {
+      "patterns": [
+        {
+          "include": "#valueType"
+        }
+      ]
+    },
+    "globalTypeMut": {
+      "patterns": [
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#extra"
+            },
+            {
+              "begin": "(?<=\\()",
+              "end": "\\bmut\\b",
+              "endCaptures": {
+                "0": {
+                  "name": "storage.modifier.wasm"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "#extra"
+                },
+                {
+                  "include": "#valueType"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "identifier": {
+      "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+      "name": "entity.name.type.alias.wasm"
     },
     "import": {
       "patterns": []
+    },
+    "inlineImport": {
+      "patterns": [
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#extra"
+            },
+            {
+              "begin": "(?<=\\()",
+              "end": "\\bimport\\b",
+              "endCaptures": {
+                "0": {
+                  "name": "keyword.control.import.wasm"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "#extra"
+                },
+                {
+                  "include": "#name"
+                },
+                {
+                  "include": "#name"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "limits": {
+      "patterns": [
+        {
+          "name": "constant.numeric.integer",
+          "match": "[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*"
+        }
+      ]
     },
     "lineComment": {
       "name": "meta.comment.line.wasm",
@@ -343,11 +452,35 @@
     "moduleFieldGlobal": {
       "name": "meta.global.declaration.wasm",
       "begin": "\\bglobal\\b",
-      "beginCaptures": {},
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.global.wasm"
+        }
+      },
       "end": "(?=\\))",
       "patterns": [
         {
           "include": "#extra"
+        },
+        {
+          "name": "variable.other.global.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "include": "#export"
+        },
+        {
+          "include": "#import"
+        },
+        {
+          "include": "#globalType"
+        },
+        {
+          "include": "#expr"
         }
       ]
     },
@@ -409,6 +542,27 @@
       "patterns": [
         {
           "include": "#extra"
+        },
+        {
+          "name": "variable.other.global.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "include": "#export"
+        },
+        {
+          "patterns": [
+            {
+              "include": "#tableFieldsElem"
+            },
+            {
+              "include": "#tableFieldsType"
+            }
+          ]
         }
       ]
     },
@@ -435,6 +589,79 @@
         },
         {
           "include": "#typeField"
+        }
+      ]
+    },
+    "name": {
+      "name": "string.quoted.double.wasm",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.wasm"
+        }
+      },
+      "end": "(\")|((?:[^\\\\\\n])$)",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.string.end.wasm"
+        },
+        "2": {
+          "name": "invalid.illegal.newline.wasm"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#stringCharacterEscape"
+        }
+      ]
+    },
+    "string": {
+      "name": "string.quoted.double.wasm",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.wasm"
+        }
+      },
+      "end": "(\")|((?:[^\\\\\\n])$)",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.string.end.wasm"
+        },
+        "2": {
+          "name": "invalid.illegal.newline.wasm"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#stringCharacterEscape"
+        }
+      ]
+    },
+    "stringCharacterEscape": {
+      "name": "constant.character.escape.wasm",
+      "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
+    },
+    "tableFieldsElem": {
+      "patterns": []
+    },
+    "tableFieldsType": {
+      "patterns": [
+        {
+          "include": "#inlineImport"
+        },
+        {
+          "include": "#tableType"
+        }
+      ]
+    },
+    "tableType": {
+      "patterns": [
+        {
+          "include": "#limits"
+        },
+        {
+          "include": "#elemType"
         }
       ]
     },
