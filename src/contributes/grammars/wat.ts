@@ -32,6 +32,7 @@ export class Wat implements basis.Render {
         globalTypeMut: this.globalTypeMut(),
         identifier: this.identifier(),
         import: this.import(),
+        inlineImport: this.inlineImport(),
         limits: this.limits(),
         lineComment: this.lineComment(),
         module: this.module(),
@@ -194,6 +195,34 @@ export class Wat implements basis.Render {
   import(): schema.Rule {
     return {
       patterns: [],
+    };
+  }
+
+  inlineImport(): schema.Rule {
+    return {
+      patterns: [
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [
+            include(this.extra),
+            {
+              begin: lookBehind(Token.LEFT_PARENTHESIS),
+              end: words(Token.IMPORT),
+              endCaptures: {
+                0: { name: "keyword.control.import.wasm" },
+              },
+              patterns: [include(this.extra), include(this.name), include(this.name)],
+            },
+          ],
+        },
+      ],
     };
   }
 
