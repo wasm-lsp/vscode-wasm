@@ -131,7 +131,7 @@ export class Wat implements basis.Render {
 
   globalType(): schema.Rule {
     return {
-      patterns: [],
+      patterns: [include(this.globalTypeImm), include(this.globalTypeMut)],
     };
   }
 
