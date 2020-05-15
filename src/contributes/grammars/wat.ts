@@ -464,7 +464,17 @@ export class Wat implements basis.Render {
       begin: words(Token.TABLE),
       beginCaptures: {},
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.extra)],
+      patterns: [
+        include(this.extra),
+        {
+          name: "variable.other.global.wasm",
+          patterns: [include(this.identifier)],
+        },
+        include(this.export),
+        {
+          patterns: [include(this.tableFieldsElem), include(this.tableFieldsType)],
+        },
+      ],
     };
   }
 
