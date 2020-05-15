@@ -28,6 +28,7 @@ export class Wat implements basis.Render {
         funcTypeParams: this.funcTypeParams(),
         funcTypeResults: this.funcTypeResults(),
         globalType: this.globalType(),
+        globalTypeImm: this.globalTypeImm(),
         import: this.import(),
         lineComment: this.lineComment(),
         module: this.module(),
@@ -130,6 +131,12 @@ export class Wat implements basis.Render {
   globalType(): schema.Rule {
     return {
       patterns: [],
+    };
+  }
+
+  globalTypeImm(): schema.Rule {
+    return {
+      patterns: [include(this.valueType)],
     };
   }
 
