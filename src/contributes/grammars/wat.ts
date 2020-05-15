@@ -49,6 +49,7 @@ export class Wat implements basis.Render {
         name: this.name(),
         string: this.string(),
         stringCharacterEscape: this.stringCharacterEscape(),
+        tableFieldsElem: this.tableFieldsElem(),
         tableType: this.tableType(),
         typeField: this.typeField(),
         valueType: this.valueType(),
@@ -480,6 +481,12 @@ export class Wat implements basis.Render {
     return {
       name: "constant.character.escape.wasm",
       match: Token.escape,
+    };
+  }
+
+  tableFieldsElem(): schema.Rule {
+    return {
+      patterns: [],
     };
   }
 
