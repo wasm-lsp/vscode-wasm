@@ -32,6 +32,7 @@ export class Wat implements basis.Render {
         globalTypeMut: this.globalTypeMut(),
         identifier: this.identifier(),
         import: this.import(),
+        limits: this.limits(),
         lineComment: this.lineComment(),
         module: this.module(),
         moduleField: this.moduleField(),
@@ -187,6 +188,17 @@ export class Wat implements basis.Render {
   import(): schema.Rule {
     return {
       patterns: [],
+    };
+  }
+
+  limits(): schema.Rule {
+    return {
+      patterns: [
+        {
+          name: "constant.numeric.integer",
+          match: Token.uN,
+        },
+      ],
     };
   }
 
