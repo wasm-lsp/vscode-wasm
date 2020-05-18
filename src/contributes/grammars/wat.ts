@@ -213,12 +213,41 @@ export class Wat implements basis.Render {
           patterns: [
             include(this.extra),
             {
-              begin: lookBehind(Token.LEFT_PARENTHESIS),
-              end: words(Token.IMPORT),
-              endCaptures: {
+              begin: words(Token.IMPORT),
+              beginCaptures: {
                 0: { name: "keyword.control.import.wasm" },
               },
-              patterns: [include(this.extra), include(this.name), include(this.name)],
+              end: lookAhead(Token.RIGHT_PARENTHESIS),
+              patterns: [
+                include(this.extra),
+                {
+                  begin: lastWords(Token.IMPORT),
+                  end: lookBehind('"'),
+                  patterns: [
+                    include(this.extra),
+                    {
+                      name: "entity.name.type.module.wasm",
+                      begin: '"',
+                      end: '"',
+                      patterns: [
+                        {
+                          match: Token.escape,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  name: "variable.other.readwrite.alias.wasm",
+                  begin: '"',
+                  end: '"',
+                  patterns: [
+                    {
+                      match: Token.escape,
+                    },
+                  ],
+                },
+              ],
             },
           ],
         },
