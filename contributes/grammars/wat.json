@@ -1,16 +1,40 @@
 {
   "name": "WebAssembly Module",
   "scopeName": "source.wasm.wat",
-  "fileTypes": [".wat"],
+  "fileTypes": [
+    ".wat"
+  ],
   "patterns": [
     {
-      "include": "#extra"
-    },
-    {
-      "include": "#module"
+      "include": "#PARSE"
     }
   ],
   "repository": {
+    "PARSE": {
+      "begin": "\\(",
+      "beginCaptures": {
+        "0": {
+          "name": "meta.brace.round.wasm"
+        }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": {
+          "name": "meta.brace.round.wasm"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "include": "#module"
+        },
+        {
+          "include": "#moduleField"
+        }
+      ]
+    },
     "annotation": {
       "patterns": []
     },
@@ -191,22 +215,45 @@
               "include": "#extra"
             },
             {
-              "begin": "(?<=\\()",
-              "end": "\\bimport\\b",
-              "endCaptures": {
+              "begin": "\\bimport\\b",
+              "beginCaptures": {
                 "0": {
                   "name": "keyword.control.import.wasm"
                 }
               },
+              "end": "(?=\\))",
               "patterns": [
                 {
                   "include": "#extra"
                 },
                 {
-                  "include": "#name"
+                  "begin": "(?:(?<=(?:[^\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+]import|^import))(?!\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+))",
+                  "end": "(?<=\")",
+                  "patterns": [
+                    {
+                      "include": "#extra"
+                    },
+                    {
+                      "name": "entity.name.type.module.wasm",
+                      "begin": "\"",
+                      "end": "\"",
+                      "patterns": [
+                        {
+                          "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
+                        }
+                      ]
+                    }
+                  ]
                 },
                 {
-                  "include": "#name"
+                  "name": "variable.other.readwrite.alias.wasm",
+                  "begin": "\"",
+                  "end": "\"",
+                  "patterns": [
+                    {
+                      "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
+                    }
+                  ]
                 }
               ]
             }
@@ -240,30 +287,15 @@
       "contentName": "comment.line.double-semicolon.wasm"
     },
     "module": {
-      "begin": "\\(",
-      "beginCaptures": {
-        "0": {
-          "name": "meta.brace.round.wasm"
-        }
-      },
-      "end": "\\)",
-      "endCaptures": {
-        "0": {
-          "name": "meta.brace.round.wasm"
-        }
-      },
       "patterns": [
         {
-          "include": "#extra"
-        },
-        {
-          "begin": "(?<=\\()",
-          "end": "\\bmodule\\b",
-          "endCaptures": {
+          "begin": "\\bmodule\\b",
+          "beginCaptures": {
             "0": {
               "name": "meta.module.declaration.wasm storage.type.module.wasm"
             }
           },
+          "end": "(?=\\))",
           "patterns": [
             {
               "include": "#extra"
@@ -303,18 +335,6 @@
       ]
     },
     "moduleField": {
-      "begin": "\\(",
-      "beginCaptures": {
-        "0": {
-          "name": "meta.brace.round.wasm"
-        }
-      },
-      "end": "\\)",
-      "endCaptures": {
-        "0": {
-          "name": "meta.brace.round.wasm"
-        }
-      },
       "patterns": [
         {
           "include": "#extra"
@@ -381,9 +401,13 @@
       ]
     },
     "moduleFieldElem": {
-      "name": "meta.elem.declaration.wasm",
+      "name": "meta.elem.wasm",
       "begin": "\\belem\\b",
-      "beginCaptures": {},
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.elem.wasm"
+        }
+      },
       "end": "(?=\\))",
       "patterns": [
         {
@@ -392,9 +416,13 @@
       ]
     },
     "moduleFieldExport": {
-      "name": "meta.export.declaration.wasm",
+      "name": "meta.export.wasm",
       "begin": "\\bexport\\b",
-      "beginCaptures": {},
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.export.wasm"
+        }
+      },
       "end": "(?=\\))",
       "patterns": [
         {
@@ -450,7 +478,7 @@
       ]
     },
     "moduleFieldGlobal": {
-      "name": "meta.global.declaration.wasm",
+      "name": "meta.global.wasm",
       "begin": "\\bglobal\\b",
       "beginCaptures": {
         "0": {
@@ -500,9 +528,13 @@
       ]
     },
     "moduleFieldMemory": {
-      "name": "meta.memory.declaration.wasm",
+      "name": "meta.memory.wasm",
       "begin": "\\bmemory\\b",
-      "beginCaptures": {},
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.memory.wasm"
+        }
+      },
       "end": "(?=\\))",
       "patterns": [
         {
@@ -535,9 +567,13 @@
       ]
     },
     "moduleFieldTable": {
-      "name": "meta.table.declaration.wasm",
+      "name": "meta.table.wasm",
       "begin": "\\btable\\b",
-      "beginCaptures": {},
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.table.wasm"
+        }
+      },
       "end": "(?=\\))",
       "patterns": [
         {
@@ -567,7 +603,7 @@
       ]
     },
     "moduleFieldType": {
-      "name": "meta.type.declaration.wasm",
+      "name": "meta.type.wasm",
       "begin": "\\btype\\b",
       "beginCaptures": {
         "0": {
