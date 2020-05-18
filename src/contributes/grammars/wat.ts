@@ -15,8 +15,9 @@ export class Wat implements basis.Render {
       name: "WebAssembly Module",
       scopeName: "source.wasm.wat",
       fileTypes: [".wat"],
-      patterns: [include(this.extra), include(this.module)],
+      patterns: [include(this.PARSE)],
       repository: {
+        PARSE: this.PARSE(),
         annotation: this.annotation(),
         blockComment: this.blockComment(),
         comment: this.comment(),
@@ -56,6 +57,20 @@ export class Wat implements basis.Render {
         typeField: this.typeField(),
         valueType: this.valueType(),
       },
+    };
+  }
+
+  PARSE(): schema.Rule {
+    return {
+      begin: Token.LEFT_PARENTHESIS,
+      beginCaptures: {
+        0: { name: "meta.brace.round.wasm" },
+      },
+      end: Token.RIGHT_PARENTHESIS,
+      endCaptures: {
+        0: { name: "meta.brace.round.wasm" },
+      },
+      patterns: [include(this.extra), include(this.module), include(this.moduleField)],
     };
   }
 
@@ -282,22 +297,13 @@ export class Wat implements basis.Render {
 
   module(): schema.Rule {
     return {
-      begin: Token.LEFT_PARENTHESIS,
-      beginCaptures: {
-        0: { name: "meta.brace.round.wasm" },
-      },
-      end: Token.RIGHT_PARENTHESIS,
-      endCaptures: {
-        0: { name: "meta.brace.round.wasm" },
-      },
       patterns: [
-        include(this.extra),
         {
-          begin: lookBehind(Token.LEFT_PARENTHESIS),
-          end: words(Token.MODULE),
-          endCaptures: {
+          begin: words(Token.MODULE),
+          beginCaptures: {
             0: { name: "meta.module.declaration.wasm storage.type.module.wasm" },
           },
+          end: lookAhead(Token.RIGHT_PARENTHESIS),
           patterns: [include(this.extra)],
         },
         {
@@ -323,14 +329,6 @@ export class Wat implements basis.Render {
 
   moduleField(): schema.Rule {
     return {
-      begin: Token.LEFT_PARENTHESIS,
-      beginCaptures: {
-        0: { name: "meta.brace.round.wasm" },
-      },
-      end: Token.RIGHT_PARENTHESIS,
-      endCaptures: {
-        0: { name: "meta.brace.round.wasm" },
-      },
       patterns: [
         include(this.extra),
         include(this.moduleFieldData),
