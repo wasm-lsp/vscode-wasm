@@ -373,7 +373,9 @@ export class Wat implements basis.Render {
     return {
       name: "meta.elem.wasm",
       begin: words(Token.ELEM),
-      beginCaptures: {},
+      beginCaptures: {
+        0: { name: "storage.type.elem.wasm" },
+      },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
       patterns: [include(this.extra)],
     };
