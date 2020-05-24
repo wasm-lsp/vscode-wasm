@@ -13,9 +13,757 @@
     "PARSE": {
       "patterns": [
         {
-          "include": "source.wasm.wat"
+          "include": "#extra"
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#extra"
+            },
+            {
+              "include": "#command"
+            },
+            {
+              "include": "#module"
+            },
+            {
+              "include": "#moduleField"
+            }
+          ]
         }
       ]
+    },
+    "annotation": {
+      "patterns": []
+    },
+    "blockComment": {
+      "name": "meta.comment.block.wasm comment.block.wasm",
+      "begin": "(\\(;)",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.comment.wasm"
+        }
+      },
+      "end": "(;\\))",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.comment.wasm"
+        }
+      }
+    },
+    "comment": {
+      "patterns": [
+        {
+          "include": "#lineComment"
+        },
+        {
+          "include": "#blockComment"
+        }
+      ]
+    },
+    "elemType": {
+      "name": "storage.type.wasm",
+      "match": "\\bfuncref\\b"
+    },
+    "export": {
+      "patterns": []
+    },
+    "expr": {
+      "patterns": []
+    },
+    "extra": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#annotation"
+        }
+      ]
+    },
+    "funcType": {
+      "patterns": [
+        {
+          "include": "#funcTypeParams"
+        },
+        {
+          "include": "#funcTypeResults"
+        }
+      ]
+    },
+    "funcTypeParams": {
+      "begin": "\\bparam\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.param.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "name": "entity.name.type.alias.wasm",
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
+        },
+        {
+          "include": "#valueType"
+        }
+      ]
+    },
+    "funcTypeResults": {
+      "begin": "\\bresult\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.param.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "include": "#valueType"
+        }
+      ]
+    },
+    "globalType": {
+      "patterns": [
+        {
+          "include": "#globalTypeImm"
+        },
+        {
+          "include": "#globalTypeMut"
+        }
+      ]
+    },
+    "globalTypeImm": {
+      "patterns": [
+        {
+          "include": "#valueType"
+        }
+      ]
+    },
+    "globalTypeMut": {
+      "patterns": [
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#extra"
+            },
+            {
+              "begin": "(?<=\\()",
+              "end": "\\bmut\\b",
+              "endCaptures": {
+                "0": {
+                  "name": "storage.modifier.wasm"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "#extra"
+                },
+                {
+                  "include": "#valueType"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "identifier": {
+      "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+      "name": "entity.name.type.alias.wasm"
+    },
+    "import": {
+      "patterns": []
+    },
+    "inlineImport": {
+      "patterns": [
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#extra"
+            },
+            {
+              "begin": "\\bimport\\b",
+              "beginCaptures": {
+                "0": {
+                  "name": "keyword.control.import.wasm"
+                }
+              },
+              "end": "(?=\\))",
+              "patterns": [
+                {
+                  "include": "#extra"
+                },
+                {
+                  "begin": "(?:(?<=(?:[^\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+]import|^import))(?!\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+))",
+                  "end": "(?<=\")",
+                  "patterns": [
+                    {
+                      "include": "#extra"
+                    },
+                    {
+                      "name": "entity.name.type.module.wasm",
+                      "begin": "\"",
+                      "end": "\"",
+                      "patterns": [
+                        {
+                          "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "variable.other.readwrite.alias.wasm",
+                  "begin": "\"",
+                  "end": "\"",
+                  "patterns": [
+                    {
+                      "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "limits": {
+      "patterns": [
+        {
+          "name": "constant.numeric.integer",
+          "match": "[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*"
+        }
+      ]
+    },
+    "lineComment": {
+      "name": "meta.comment.line.wasm",
+      "begin": "(^[ \\t]+)?((;;))",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.whitespace.comment.leading.wasm"
+        },
+        "2": {
+          "name": "comment.line.double-semicolon.wasm"
+        },
+        "3": {
+          "name": "punctuation.definition.comment.wasm"
+        }
+      },
+      "end": "(?=$)",
+      "contentName": "comment.line.double-semicolon.wasm"
+    },
+    "module": {
+      "patterns": [
+        {
+          "begin": "\\bmodule\\b",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.module.declaration.wasm storage.type.module.wasm"
+            }
+          },
+          "end": "(?=\\))",
+          "patterns": [
+            {
+              "include": "#extra"
+            }
+          ]
+        },
+        {
+          "name": "meta.module.declaration.wasm",
+          "begin": "(?:(?<=(?:[^\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+]module|^module))(?!\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+))",
+          "end": "(?=\\))",
+          "patterns": [
+            {
+              "include": "#extra"
+            },
+            {
+              "begin": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+              "beginCaptures": {
+                "0": {
+                  "name": "entity.name.type.module.wasm"
+                }
+              },
+              "end": "(?=\\))",
+              "patterns": [
+                {
+                  "include": "#extra"
+                },
+                {
+                  "include": "#moduleField"
+                }
+              ]
+            },
+            {
+              "include": "#moduleField"
+            }
+          ]
+        }
+      ]
+    },
+    "moduleField": {
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "include": "#moduleFieldData"
+        },
+        {
+          "include": "#moduleFieldElem"
+        },
+        {
+          "include": "#moduleFieldExport"
+        },
+        {
+          "include": "#moduleFieldFunc"
+        },
+        {
+          "include": "#moduleFieldGlobal"
+        },
+        {
+          "include": "#moduleFieldImport"
+        },
+        {
+          "include": "#moduleFieldMemory"
+        },
+        {
+          "include": "#moduleFieldStart"
+        },
+        {
+          "include": "#moduleFieldTable"
+        },
+        {
+          "include": "#moduleFieldType"
+        }
+      ]
+    },
+    "moduleFieldData": {
+      "name": "meta.data.wasm",
+      "begin": "\\bdata\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.data.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "begin": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)",
+          "beginCaptures": {
+            "0": {
+              "name": "variable.other.constant entity.name.data.wasm"
+            }
+          },
+          "end": "(?=\\))",
+          "patterns": [
+            {
+              "include": "#extra"
+            }
+          ]
+        }
+      ]
+    },
+    "moduleFieldElem": {
+      "name": "meta.elem.wasm",
+      "begin": "\\belem\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.elem.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        }
+      ]
+    },
+    "moduleFieldExport": {
+      "name": "meta.export.wasm",
+      "begin": "\\bexport\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.export.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        }
+      ]
+    },
+    "moduleFieldFunc": {
+      "begin": "\\bfunc\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.function.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "begin": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+          "beginCaptures": {
+            "0": {
+              "name": "entity.name.function.wasm"
+            }
+          },
+          "end": "(?=\\))",
+          "patterns": [
+            {
+              "begin": "\\(",
+              "beginCaptures": {
+                "0": {
+                  "name": "meta.brace.round.wasm"
+                }
+              },
+              "end": "\\)",
+              "endCaptures": {
+                "0": {
+                  "name": "meta.brace.round.wasm"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "#moduleFieldExport"
+                },
+                {
+                  "include": "#moduleFieldImport"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "moduleFieldGlobal": {
+      "name": "meta.global.wasm",
+      "begin": "\\bglobal\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.global.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "name": "variable.other.global.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "include": "#export"
+        },
+        {
+          "include": "#import"
+        },
+        {
+          "include": "#globalType"
+        },
+        {
+          "include": "#expr"
+        }
+      ]
+    },
+    "moduleFieldImport": {
+      "name": "meta.import.wasm",
+      "begin": "\\bimport\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.import.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        }
+      ]
+    },
+    "moduleFieldMemory": {
+      "name": "meta.memory.wasm",
+      "begin": "\\bmemory\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.memory.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        }
+      ]
+    },
+    "moduleFieldStart": {
+      "name": "meta.start.wasm",
+      "begin": "\\bstart\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.start.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "begin": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+          "beginCaptures": {
+            "0": {
+              "name": "entity.name.function.wasm"
+            }
+          },
+          "end": "(?=\\))"
+        }
+      ]
+    },
+    "moduleFieldTable": {
+      "name": "meta.table.wasm",
+      "begin": "\\btable\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.table.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "name": "variable.other.global.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "include": "#export"
+        },
+        {
+          "patterns": [
+            {
+              "include": "#tableFieldsElem"
+            },
+            {
+              "include": "#tableFieldsType"
+            }
+          ]
+        }
+      ]
+    },
+    "moduleFieldType": {
+      "name": "meta.type.wasm",
+      "begin": "\\btype\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.type.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "name": "entity.name.type.alias.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "include": "#typeField"
+        }
+      ]
+    },
+    "name": {
+      "name": "string.quoted.double.wasm",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.wasm"
+        }
+      },
+      "end": "(\")|((?:[^\\\\\\n])$)",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.string.end.wasm"
+        },
+        "2": {
+          "name": "invalid.illegal.newline.wasm"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#stringCharacterEscape"
+        }
+      ]
+    },
+    "string": {
+      "name": "string.quoted.double.wasm",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.wasm"
+        }
+      },
+      "end": "(\")|((?:[^\\\\\\n])$)",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.string.end.wasm"
+        },
+        "2": {
+          "name": "invalid.illegal.newline.wasm"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#stringCharacterEscape"
+        }
+      ]
+    },
+    "stringCharacterEscape": {
+      "name": "constant.character.escape.wasm",
+      "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
+    },
+    "tableFieldsElem": {
+      "patterns": []
+    },
+    "tableFieldsType": {
+      "patterns": [
+        {
+          "include": "#inlineImport"
+        },
+        {
+          "include": "#tableType"
+        }
+      ]
+    },
+    "tableType": {
+      "patterns": [
+        {
+          "include": "#limits"
+        },
+        {
+          "include": "#elemType"
+        }
+      ]
+    },
+    "typeField": {
+      "begin": "\\(",
+      "beginCaptures": {
+        "0": {
+          "name": "meta.brace.round.wasm"
+        }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": {
+          "name": "meta.brace.round.wasm"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "begin": "(?<=\\()",
+          "end": "\\bfunc\\b",
+          "endCaptures": {
+            "0": {
+              "name": "storage.type.function.wasm"
+            }
+          }
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#extra"
+            },
+            {
+              "include": "#funcType"
+            }
+          ]
+        }
+      ]
+    },
+    "valueType": {
+      "name": "entity.name.type.alias.wasm",
+      "match": "[fi](?:32|64)"
     }
   }
 }

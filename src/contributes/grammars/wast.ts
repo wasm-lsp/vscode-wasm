@@ -2,11 +2,13 @@
 
 import * as basis from "./basis";
 import * as schema from "./schema";
+import { Wat } from "./wat";
 
-const { include } = basis;
+const { Token, include } = basis;
 
-export class Wast implements basis.Render {
+export class Wast extends Wat {
   constructor() {
+    super();
     return this;
   }
 
@@ -17,6 +19,7 @@ export class Wast implements basis.Render {
       fileTypes: [".wast"],
       patterns: [include(this.PARSE)],
       repository: {
+        ...super.render().repository,
         PARSE: this.PARSE(),
       },
     };
@@ -24,7 +27,26 @@ export class Wast implements basis.Render {
 
   PARSE(): schema.Rule {
     return {
-      patterns: [{ include: "source.wasm.wat" }],
+      patterns: [
+        include(this.extra),
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.extra), include(this.command), include(this.module), include(this.moduleField)],
+        },
+      ],
+    };
+  }
+
+  command(): schema.Rule {
+    return {
+      patterns: [],
     };
   }
 }
