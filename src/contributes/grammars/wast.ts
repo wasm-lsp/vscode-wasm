@@ -3,6 +3,8 @@
 import * as basis from "./basis";
 import * as schema from "./schema";
 
+const { include } = basis;
+
 export class Wast implements basis.Render {
   constructor() {
     return this;
@@ -13,8 +15,16 @@ export class Wast implements basis.Render {
       name: "WebAssembly Script",
       scopeName: "source.wasm.wast",
       fileTypes: [".wast"],
+      patterns: [include(this.PARSE)],
+      repository: {
+        PARSE: this.PARSE(),
+      },
+    };
+  }
+
+  PARSE(): schema.Rule {
+    return {
       patterns: [{ include: "source.wasm.wat" }],
-      repository: {},
     };
   }
 }
