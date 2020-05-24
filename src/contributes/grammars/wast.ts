@@ -4,7 +4,7 @@ import * as basis from "./basis";
 import * as schema from "./schema";
 import { Wat } from "./wat";
 
-const { Token, include } = basis;
+const { Token, include, lookAhead, words } = basis;
 
 export class Wast extends Wat {
   constructor() {
@@ -21,6 +21,10 @@ export class Wast extends Wat {
       repository: {
         ...super.render().repository,
         PARSE: this.PARSE(),
+        action: this.action(),
+        actionGet: this.actionGet(),
+        actionInvoke: this.actionInvoke(),
+        command: this.command(),
       },
     };
   }
@@ -44,9 +48,70 @@ export class Wast extends Wat {
     };
   }
 
+  action(): schema.Rule {
+    return {
+      patterns: [include(this.actionInvoke), include(this.actionGet)],
+    };
+  }
+
+  actionGet(): schema.Rule {
+    return {
+      name: "meta.action.get.wasm",
+      begin: words(Token.GET),
+      beginCaptures: {
+        0: { name: "keyword.control.get.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        {
+          name: "variable.other.action.get.wasm",
+          patterns: [include(this.identifier)],
+        },
+        {
+          name: "variable.other.readwrite.alias.wasm",
+          begin: '"',
+          end: '"',
+          patterns: [
+            {
+              match: Token.escape,
+            },
+          ],
+        },
+      ],
+    };
+  }
+
+  actionInvoke(): schema.Rule {
+    return {
+      name: "meta.action.invoke.wasm",
+      begin: words(Token.INVOKE),
+      beginCaptures: {
+        0: { name: "keyword.control.invoke.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        {
+          name: "variable.other.action.get.wasm",
+          patterns: [include(this.identifier)],
+        },
+        {
+          name: "variable.other.readwrite.alias.wasm",
+          begin: '"',
+          end: '"',
+          patterns: [
+            {
+              match: Token.escape,
+            },
+          ],
+        },
+        // include(this.exprPlainConst)
+      ],
+    };
+  }
+
   command(): schema.Rule {
     return {
-      patterns: [],
+      patterns: [include(this.action)],
     };
   }
 }
