@@ -28,6 +28,7 @@ export const Token = {
   EXPORT: "export",
   FUNC: "func",
   FUNCREF: "funcref",
+  GET: "get",
   GLOBAL: "global",
   IMPORT: "import",
   LEFT_PARENTHESIS: "\\(",
