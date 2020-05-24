@@ -31,6 +31,7 @@ export const Token = {
   GET: "get",
   GLOBAL: "global",
   IMPORT: "import",
+  INVOKE: "invoke",
   LEFT_PARENTHESIS: "\\(",
   LOCAL: "local",
   MEMORY: "memory",
