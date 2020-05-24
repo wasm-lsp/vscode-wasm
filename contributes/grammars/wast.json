@@ -6,8 +6,16 @@
   ],
   "patterns": [
     {
-      "include": "source.wasm.wat"
+      "include": "#PARSE"
     }
   ],
-  "repository": {}
+  "repository": {
+    "PARSE": {
+      "patterns": [
+        {
+          "include": "source.wasm.wat"
+        }
+      ]
+    }
+  }
 }

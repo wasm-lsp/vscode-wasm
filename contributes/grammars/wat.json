@@ -11,27 +11,34 @@
   ],
   "repository": {
     "PARSE": {
-      "begin": "\\(",
-      "beginCaptures": {
-        "0": {
-          "name": "meta.brace.round.wasm"
-        }
-      },
-      "end": "\\)",
-      "endCaptures": {
-        "0": {
-          "name": "meta.brace.round.wasm"
-        }
-      },
       "patterns": [
         {
           "include": "#extra"
         },
         {
-          "include": "#module"
-        },
-        {
-          "include": "#moduleField"
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#extra"
+            },
+            {
+              "include": "#module"
+            },
+            {
+              "include": "#moduleField"
+            }
+          ]
         }
       ]
     },
