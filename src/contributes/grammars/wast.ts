@@ -25,6 +25,7 @@ export class Wast extends Wat {
         actionGet: this.actionGet(),
         actionInvoke: this.actionInvoke(),
         command: this.command(),
+        scriptModule: this.scriptModule(),
       },
     };
   }
@@ -42,7 +43,7 @@ export class Wast extends Wat {
           endCaptures: {
             0: { name: "meta.brace.round.wasm" },
           },
-          patterns: [include(this.extra), include(this.command), include(this.module), include(this.moduleField)],
+          patterns: [include(this.extra), include(this.command), include(this.moduleField)],
         },
       ],
     };
@@ -111,7 +112,49 @@ export class Wast extends Wat {
 
   command(): schema.Rule {
     return {
-      patterns: [include(this.action)],
+      patterns: [include(this.action), include(this.assertion), include(this.scriptModule)],
+    };
+  }
+
+  scriptModule(): schema.Rule {
+    return {
+      patterns: [
+        {
+          begin: words(Token.MODULE),
+          beginCaptures: {
+            0: { name: "meta.module.declaration.wasm storage.type.module.wasm" },
+          },
+          end: lookAhead(Token.RIGHT_PARENTHESIS),
+          patterns: [
+            include(this.extra),
+            {
+              begin: Token.id,
+              beginCaptures: {
+                0: { name: "entity.name.type.module.wasm" },
+              },
+              end: lookAhead(Token.RIGHT_PARENTHESIS),
+              patterns: [include(this.extra), include(this.moduleField)],
+            },
+            {
+              begin: words(Token.BINARY),
+              beginCaptures: {
+                0: { name: "storage.modifier.module.binary.wasm" },
+              },
+              end: lookAhead(Token.RIGHT_PARENTHESIS),
+              patterns: [include(this.extra), include(this.string)],
+            },
+            {
+              begin: words(Token.QUOTE),
+              beginCaptures: {
+                0: { name: "storage.modifier.module.quote.wasm" },
+              },
+              end: lookAhead(Token.RIGHT_PARENTHESIS),
+              patterns: [include(this.extra), include(this.string)],
+            },
+            include(this.moduleField),
+          ],
+        },
+      ],
     };
   }
 }
