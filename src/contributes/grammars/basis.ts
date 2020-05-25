@@ -23,6 +23,7 @@ const idx = `(?:${uN})|(?:${id})`;
 const valueType = "[fi](?:32|64)";
 
 export const Token = {
+  BINARY: "binary",
   DATA: "data",
   ELEM: "elem",
   EXPORT: "export",
@@ -39,6 +40,7 @@ export const Token = {
   MUT: "mut",
   OFFSET: "offset",
   PARAM: "param",
+  QUOTE: "quote",
   RESULT: "result",
   RIGHT_PARENTHESIS: "\\)",
   START: "start",
