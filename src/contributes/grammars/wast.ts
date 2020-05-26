@@ -25,6 +25,7 @@ export class Wast extends Wat {
         actionGet: this.actionGet(),
         actionInvoke: this.actionInvoke(),
         command: this.command(),
+        result: this.result(),
         scriptModule: this.scriptModule(),
       },
     };
@@ -113,6 +114,12 @@ export class Wast extends Wat {
   command(): schema.Rule {
     return {
       patterns: [include(this.action), include(this.assertion), include(this.scriptModule)],
+    };
+  }
+
+  result(): schema.Rule {
+    return {
+      patterns: [],
     };
   }
 
