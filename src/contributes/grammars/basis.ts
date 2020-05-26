@@ -23,6 +23,12 @@ const idx = `(?:${uN})|(?:${id})`;
 const valueType = "[fi](?:32|64)";
 
 export const Token = {
+  ASSERT_EXHAUSTION: "assert_exhaustion",
+  ASSERT_INVALID: "assert_invalid",
+  ASSERT_MALFORMED: "assert_malformed",
+  ASSERT_RETURN: "assert_return",
+  ASSERT_TRAP: "assert_trap",
+  ASSERT_UNLINKABLE: "assert_unlinkable",
   BINARY: "binary",
   DATA: "data",
   ELEM: "elem",
