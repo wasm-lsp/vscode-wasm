@@ -24,6 +24,13 @@ export class Wast extends Wat {
         action: this.action(),
         actionGet: this.actionGet(),
         actionInvoke: this.actionInvoke(),
+        assertExhaustion: this.assertExhaustion(),
+        assertInvalid: this.assertInvalid(),
+        assertion: this.assertion(),
+        assertMalformed: this.assertMalformed(),
+        assertReturn: this.assertReturn(),
+        assertTrap: this.assertTrap(),
+        assertUnlinkable: this.assertUnlinkable(),
         command: this.command(),
         result: this.result(),
         scriptModule: this.scriptModule(),
@@ -107,6 +114,174 @@ export class Wast extends Wat {
           ],
         },
         // include(this.exprPlainConst)
+      ],
+    };
+  }
+
+  assertion(): schema.Rule {
+    return {
+      patterns: [
+        include(this.assertExhaustion),
+        include(this.assertInvalid),
+        include(this.assertMalformed),
+        include(this.assertReturn),
+        include(this.assertTrap),
+        include(this.assertUnlinkable),
+      ],
+    };
+  }
+
+  assertExhaustion(): schema.Rule {
+    return {
+      name: "meta.assert.exhaustion.wasm",
+      begin: words(Token.ASSERT_EXHAUSTION),
+      beginCaptures: {
+        0: { name: "keyword.control.assert.exhaustion.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.extra),
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.action)],
+        },
+        include(this.string),
+      ],
+    };
+  }
+
+  assertInvalid(): schema.Rule {
+    return {
+      name: "meta.assert.invalid.wasm",
+      begin: words(Token.ASSERT_INVALID),
+      beginCaptures: {
+        0: { name: "keyword.control.assert.invalid.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.extra),
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.scriptModule)],
+        },
+        include(this.string),
+      ],
+    };
+  }
+
+  assertMalformed(): schema.Rule {
+    return {
+      name: "meta.assert.malformed.wasm",
+      begin: words(Token.ASSERT_MALFORMED),
+      beginCaptures: {
+        0: { name: "keyword.control.assert.malformed.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.extra),
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.scriptModule)],
+        },
+        include(this.string),
+      ],
+    };
+  }
+
+  assertReturn(): schema.Rule {
+    return {
+      name: "meta.assert.return.wasm",
+      begin: words(Token.ASSERT_RETURN),
+      beginCaptures: {
+        0: { name: "keyword.control.assert.return.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.extra),
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.action), include(this.result)],
+        },
+      ],
+    };
+  }
+
+  assertTrap(): schema.Rule {
+    return {
+      name: "meta.assert.trap.wasm",
+      begin: words(Token.ASSERT_TRAP),
+      beginCaptures: {
+        0: { name: "keyword.control.assert.trap.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.extra),
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.action), include(this.scriptModule)],
+        },
+        include(this.string),
+      ],
+    };
+  }
+
+  assertUnlinkable(): schema.Rule {
+    return {
+      name: "meta.assert.unlinkable.wasm",
+      begin: words(Token.ASSERT_UNLINKABLE),
+      beginCaptures: {
+        0: { name: "keyword.control.assert.unlinkable.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        include(this.extra),
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.scriptModule)],
+        },
+        include(this.string),
       ],
     };
   }
