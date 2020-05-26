@@ -36,9 +36,6 @@
               "include": "#command"
             },
             {
-              "include": "#module"
-            },
-            {
               "include": "#moduleField"
             }
           ]
@@ -764,6 +761,411 @@
     "valueType": {
       "name": "entity.name.type.alias.wasm",
       "match": "[fi](?:32|64)"
+    },
+    "action": {
+      "patterns": [
+        {
+          "include": "#actionInvoke"
+        },
+        {
+          "include": "#actionGet"
+        }
+      ]
+    },
+    "actionGet": {
+      "name": "meta.action.get.wasm",
+      "begin": "\\bget\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.get.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "name": "variable.other.action.get.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "name": "variable.other.readwrite.alias.wasm",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
+            }
+          ]
+        }
+      ]
+    },
+    "actionInvoke": {
+      "name": "meta.action.invoke.wasm",
+      "begin": "\\binvoke\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.invoke.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "name": "variable.other.action.get.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "name": "variable.other.readwrite.alias.wasm",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
+            }
+          ]
+        }
+      ]
+    },
+    "assertExhaustion": {
+      "name": "meta.assert.exhaustion.wasm",
+      "begin": "\\bassert_exhaustion\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.assert.exhaustion.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#action"
+            }
+          ]
+        },
+        {
+          "include": "#string"
+        }
+      ]
+    },
+    "assertInvalid": {
+      "name": "meta.assert.invalid.wasm",
+      "begin": "\\bassert_invalid\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.assert.invalid.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#scriptModule"
+            }
+          ]
+        },
+        {
+          "include": "#string"
+        }
+      ]
+    },
+    "assertion": {
+      "patterns": [
+        {
+          "include": "#assertExhaustion"
+        },
+        {
+          "include": "#assertInvalid"
+        },
+        {
+          "include": "#assertMalformed"
+        },
+        {
+          "include": "#assertReturn"
+        },
+        {
+          "include": "#assertTrap"
+        },
+        {
+          "include": "#assertUnlinkable"
+        }
+      ]
+    },
+    "assertMalformed": {
+      "name": "meta.assert.malformed.wasm",
+      "begin": "\\bassert_malformed\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.assert.malformed.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#scriptModule"
+            }
+          ]
+        },
+        {
+          "include": "#string"
+        }
+      ]
+    },
+    "assertReturn": {
+      "name": "meta.assert.return.wasm",
+      "begin": "\\bassert_return\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.assert.return.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#action"
+            },
+            {
+              "include": "#result"
+            }
+          ]
+        }
+      ]
+    },
+    "assertTrap": {
+      "name": "meta.assert.trap.wasm",
+      "begin": "\\bassert_trap\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.assert.trap.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#action"
+            },
+            {
+              "include": "#scriptModule"
+            }
+          ]
+        },
+        {
+          "include": "#string"
+        }
+      ]
+    },
+    "assertUnlinkable": {
+      "name": "meta.assert.unlinkable.wasm",
+      "begin": "\\bassert_unlinkable\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.assert.unlinkable.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#scriptModule"
+            }
+          ]
+        },
+        {
+          "include": "#string"
+        }
+      ]
+    },
+    "command": {
+      "patterns": [
+        {
+          "include": "#action"
+        },
+        {
+          "include": "#assertion"
+        },
+        {
+          "include": "#scriptModule"
+        }
+      ]
+    },
+    "result": {
+      "patterns": []
+    },
+    "scriptModule": {
+      "patterns": [
+        {
+          "begin": "\\bmodule\\b",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.module.declaration.wasm storage.type.module.wasm"
+            }
+          },
+          "end": "(?=\\))",
+          "patterns": [
+            {
+              "include": "#extra"
+            },
+            {
+              "begin": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+              "beginCaptures": {
+                "0": {
+                  "name": "entity.name.type.module.wasm"
+                }
+              },
+              "end": "(?=\\))",
+              "patterns": [
+                {
+                  "include": "#extra"
+                },
+                {
+                  "include": "#moduleField"
+                }
+              ]
+            },
+            {
+              "begin": "\\bbinary\\b",
+              "beginCaptures": {
+                "0": {
+                  "name": "storage.modifier.module.binary.wasm"
+                }
+              },
+              "end": "(?=\\))",
+              "patterns": [
+                {
+                  "include": "#extra"
+                },
+                {
+                  "include": "#string"
+                }
+              ]
+            },
+            {
+              "begin": "\\bquote\\b",
+              "beginCaptures": {
+                "0": {
+                  "name": "storage.modifier.module.quote.wasm"
+                }
+              },
+              "end": "(?=\\))",
+              "patterns": [
+                {
+                  "include": "#extra"
+                },
+                {
+                  "include": "#string"
+                }
+              ]
+            },
+            {
+              "include": "#moduleField"
+            }
+          ]
+        }
+      ]
     }
   }
 }
