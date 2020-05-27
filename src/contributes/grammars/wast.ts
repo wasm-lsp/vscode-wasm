@@ -73,7 +73,7 @@ export class Wast extends Wat {
       end: lookAhead(Token.RIGHT_PARENTHESIS),
       patterns: [
         {
-          name: "variable.other.action.get.wasm",
+          name: "variable.other.wasm",
           patterns: [include(this.identifier)],
         },
         {
@@ -100,7 +100,7 @@ export class Wast extends Wat {
       end: lookAhead(Token.RIGHT_PARENTHESIS),
       patterns: [
         {
-          name: "variable.other.action.get.wasm",
+          name: "variable.other.wasm",
           patterns: [include(this.identifier)],
         },
         {
