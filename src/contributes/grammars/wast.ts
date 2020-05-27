@@ -36,6 +36,7 @@ export class Wast extends Wat {
         metaInput: this.metaInput(),
         metaOutput: this.metaOutput(),
         metaScript: this.metaScript(),
+        register: this.register(),
         result: this.result(),
         scriptModule: this.scriptModule(),
       },
@@ -292,7 +293,13 @@ export class Wast extends Wat {
 
   command(): schema.Rule {
     return {
-      patterns: [include(this.action), include(this.assertion), include(this.meta), include(this.scriptModule)],
+      patterns: [
+        include(this.action),
+        include(this.assertion),
+        include(this.meta),
+        include(this.register),
+        include(this.scriptModule),
+      ],
     };
   }
 
@@ -353,6 +360,18 @@ export class Wast extends Wat {
         },
         include(this.string),
       ],
+    };
+  }
+
+  register(): schema.Rule {
+    return {
+      name: "meta.register.wasm",
+      begin: words(Token.REGISTER),
+      beginCaptures: {
+        0: { name: "keyword.control.meta.output.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.name), include(this.identifier)],
     };
   }
 
