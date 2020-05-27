@@ -32,6 +32,10 @@ export class Wast extends Wat {
         assertTrap: this.assertTrap(),
         assertUnlinkable: this.assertUnlinkable(),
         command: this.command(),
+        meta: this.meta(),
+        metaInput: this.metaInput(),
+        metaOutput: this.metaOutput(),
+        metaScript: this.metaScript(),
         result: this.result(),
         scriptModule: this.scriptModule(),
       },
@@ -288,7 +292,67 @@ export class Wast extends Wat {
 
   command(): schema.Rule {
     return {
-      patterns: [include(this.action), include(this.assertion), include(this.scriptModule)],
+      patterns: [include(this.action), include(this.assertion), include(this.meta), include(this.scriptModule)],
+    };
+  }
+
+  meta(): schema.Rule {
+    return {
+      patterns: [include(this.metaScript), include(this.metaInput), include(this.metaOutput)],
+    };
+  }
+
+  metaScript(): schema.Rule {
+    return {
+      name: "meta.meta.script.wasm",
+      begin: words(Token.SCRIPT),
+      beginCaptures: {
+        0: { name: "control.keyword.meta.script.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        {
+          name: "variable.other.wasm",
+          patterns: [include(this.identifier)],
+        },
+        include(this.command),
+      ],
+    };
+  }
+
+  metaInput(): schema.Rule {
+    return {
+      name: "meta.meta.input.wasm",
+      begin: words(Token.INPUT),
+      beginCaptures: {
+        0: { name: "control.keyword.meta.input.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        {
+          name: "variable.other.wasm",
+          patterns: [include(this.identifier)],
+        },
+        include(this.string),
+      ],
+    };
+  }
+
+  metaOutput(): schema.Rule {
+    return {
+      name: "meta.meta.output.wasm",
+      begin: words(Token.OUTPUT),
+      beginCaptures: {
+        0: { name: "control.keyword.meta.output.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        {
+          name: "variable.other.wasm",
+          patterns: [include(this.identifier)],
+        },
+        include(this.string),
+      ],
     };
   }
 
