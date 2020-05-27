@@ -307,7 +307,7 @@ export class Wast extends Wat {
       name: "meta.meta.script.wasm",
       begin: words(Token.SCRIPT),
       beginCaptures: {
-        0: { name: "control.keyword.meta.script.wasm" },
+        0: { name: "keyword.control.meta.script.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
       patterns: [
@@ -325,7 +325,7 @@ export class Wast extends Wat {
       name: "meta.meta.input.wasm",
       begin: words(Token.INPUT),
       beginCaptures: {
-        0: { name: "control.keyword.meta.input.wasm" },
+        0: { name: "keyword.control.meta.input.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
       patterns: [
@@ -343,7 +343,7 @@ export class Wast extends Wat {
       name: "meta.meta.output.wasm",
       begin: words(Token.OUTPUT),
       beginCaptures: {
-        0: { name: "control.keyword.meta.output.wasm" },
+        0: { name: "keyword.control.meta.output.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
       patterns: [
