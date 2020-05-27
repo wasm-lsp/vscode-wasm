@@ -49,6 +49,7 @@ export const Token = {
   OUTPUT: "output",
   PARAM: "param",
   QUOTE: "quote",
+  REGISTER: "register",
   RESULT: "result",
   RIGHT_PARENTHESIS: "\\)",
   SCRIPT: "script",
