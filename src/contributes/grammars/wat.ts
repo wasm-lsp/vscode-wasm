@@ -302,11 +302,12 @@ export class Wat implements basis.Render {
 
   module(): schema.Rule {
     return {
+      name: "meta.module.wasm",
       patterns: [
         {
           begin: words(Token.MODULE),
           beginCaptures: {
-            0: { name: "meta.module.declaration.wasm storage.type.module.wasm" },
+            0: { name: "storage.type.module.wasm" },
           },
           end: lookAhead(Token.RIGHT_PARENTHESIS),
           patterns: [include(this.extra)],
