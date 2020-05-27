@@ -196,8 +196,8 @@
       ]
     },
     "identifier": {
-      "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
-      "name": "entity.name.type.alias.wasm"
+      "name": "entity.name.type.alias.wasm",
+      "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
     },
     "import": {
       "patterns": []

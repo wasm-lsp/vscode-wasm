@@ -196,8 +196,8 @@
       ]
     },
     "identifier": {
-      "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
-      "name": "entity.name.type.alias.wasm"
+      "name": "entity.name.type.alias.wasm",
+      "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
     },
     "import": {
       "patterns": []
@@ -1082,6 +1082,9 @@
           "include": "#meta"
         },
         {
+          "include": "#register"
+        },
+        {
           "include": "#scriptModule"
         }
       ]
@@ -1104,7 +1107,7 @@
       "begin": "\\binput\\b",
       "beginCaptures": {
         "0": {
-          "name": "control.keyword.meta.input.wasm"
+          "name": "keyword.control.meta.input.wasm"
         }
       },
       "end": "(?=\\))",
@@ -1127,7 +1130,7 @@
       "begin": "\\boutput\\b",
       "beginCaptures": {
         "0": {
-          "name": "control.keyword.meta.output.wasm"
+          "name": "keyword.control.meta.output.wasm"
         }
       },
       "end": "(?=\\))",
@@ -1150,7 +1153,7 @@
       "begin": "\\bscript\\b",
       "beginCaptures": {
         "0": {
-          "name": "control.keyword.meta.script.wasm"
+          "name": "keyword.control.meta.script.wasm"
         }
       },
       "end": "(?=\\))",
@@ -1165,6 +1168,24 @@
         },
         {
           "include": "#command"
+        }
+      ]
+    },
+    "register": {
+      "name": "meta.register.wasm",
+      "begin": "\\bregister\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.meta.output.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#name"
+        },
+        {
+          "include": "#identifier"
         }
       ]
     },
