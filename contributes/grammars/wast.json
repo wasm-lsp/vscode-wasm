@@ -294,24 +294,15 @@
       "contentName": "comment.line.double-semicolon.wasm"
     },
     "module": {
+      "name": "meta.module.wasm",
       "patterns": [
         {
           "begin": "\\bmodule\\b",
           "beginCaptures": {
             "0": {
-              "name": "meta.module.declaration.wasm storage.type.module.wasm"
+              "name": "storage.type.module.wasm"
             }
           },
-          "end": "(?=\\))",
-          "patterns": [
-            {
-              "include": "#extra"
-            }
-          ]
-        },
-        {
-          "name": "meta.module.declaration.wasm",
-          "begin": "(?:(?<=(?:[^\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+]module|^module))(?!\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+))",
           "end": "(?=\\))",
           "patterns": [
             {
@@ -783,7 +774,7 @@
       "end": "(?=\\))",
       "patterns": [
         {
-          "name": "variable.other.action.get.wasm",
+          "name": "variable.other.wasm",
           "patterns": [
             {
               "include": "#identifier"
@@ -813,7 +804,7 @@
       "end": "(?=\\))",
       "patterns": [
         {
-          "name": "variable.other.action.get.wasm",
+          "name": "variable.other.wasm",
           "patterns": [
             {
               "include": "#identifier"
@@ -1088,7 +1079,92 @@
           "include": "#assertion"
         },
         {
+          "include": "#meta"
+        },
+        {
           "include": "#scriptModule"
+        }
+      ]
+    },
+    "meta": {
+      "patterns": [
+        {
+          "include": "#metaScript"
+        },
+        {
+          "include": "#metaInput"
+        },
+        {
+          "include": "#metaOutput"
+        }
+      ]
+    },
+    "metaInput": {
+      "name": "meta.meta.input.wasm",
+      "begin": "\\binput\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "control.keyword.meta.input.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "name": "variable.other.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "include": "#string"
+        }
+      ]
+    },
+    "metaOutput": {
+      "name": "meta.meta.output.wasm",
+      "begin": "\\boutput\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "control.keyword.meta.output.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "name": "variable.other.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "include": "#string"
+        }
+      ]
+    },
+    "metaScript": {
+      "name": "meta.meta.script.wasm",
+      "begin": "\\bscript\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "control.keyword.meta.script.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "name": "variable.other.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "include": "#command"
         }
       ]
     },
@@ -1096,12 +1172,13 @@
       "patterns": []
     },
     "scriptModule": {
+      "name": "meta.module.wasm",
       "patterns": [
         {
           "begin": "\\bmodule\\b",
           "beginCaptures": {
             "0": {
-              "name": "meta.module.declaration.wasm storage.type.module.wasm"
+              "name": "storage.type.module.wasm"
             }
           },
           "end": "(?=\\))",

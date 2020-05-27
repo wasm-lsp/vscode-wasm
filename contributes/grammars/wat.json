@@ -294,24 +294,15 @@
       "contentName": "comment.line.double-semicolon.wasm"
     },
     "module": {
+      "name": "meta.module.wasm",
       "patterns": [
         {
           "begin": "\\bmodule\\b",
           "beginCaptures": {
             "0": {
-              "name": "meta.module.declaration.wasm storage.type.module.wasm"
+              "name": "storage.type.module.wasm"
             }
           },
-          "end": "(?=\\))",
-          "patterns": [
-            {
-              "include": "#extra"
-            }
-          ]
-        },
-        {
-          "name": "meta.module.declaration.wasm",
-          "begin": "(?:(?<=(?:[^\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+]module|^module))(?!\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+))",
           "end": "(?=\\))",
           "patterns": [
             {
