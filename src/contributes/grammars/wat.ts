@@ -310,12 +310,6 @@ export class Wat implements basis.Render {
             0: { name: "storage.type.module.wasm" },
           },
           end: lookAhead(Token.RIGHT_PARENTHESIS),
-          patterns: [include(this.extra)],
-        },
-        {
-          name: "meta.module.declaration.wasm",
-          begin: lastWords(Token.MODULE),
-          end: lookAhead(Token.RIGHT_PARENTHESIS),
           patterns: [
             include(this.extra),
             {
