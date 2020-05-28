@@ -30,6 +30,7 @@ export const Token = {
   ASSERT_TRAP: "assert_trap",
   ASSERT_UNLINKABLE: "assert_unlinkable",
   BINARY: "binary",
+  CONST: "const",
   DATA: "data",
   ELEM: "elem",
   EXPORT: "export",
