@@ -268,6 +268,42 @@
         }
       ]
     },
+    "instrPlainConst": {
+      "patterns": [
+        {
+          "include": "#instrType"
+        },
+        {
+          "name": "punctuation.accessor.wasm",
+          "match": "\\."
+        },
+        {
+          "name": "keyword.control.const.wasm",
+          "match": "\\bconst\\b"
+        },
+        {
+          "include": "#literal"
+        }
+      ]
+    },
+    "instrType": {
+      "patterns": [
+        {
+          "include": "#instrTypeInt"
+        },
+        {
+          "include": "#instrTypeFloat"
+        }
+      ]
+    },
+    "instrTypeInt": {
+      "name": "storage.type.int.wasm",
+      "match": "i(?:32|64)"
+    },
+    "instrTypeFloat": {
+      "name": "storage.type.float.wasm",
+      "match": "f(?:32|64)"
+    },
     "limits": {
       "patterns": [
         {
@@ -292,6 +328,12 @@
       },
       "end": "(?=$)",
       "contentName": "comment.line.double-semicolon.wasm"
+    },
+    "literal": {
+      "patterns": []
+    },
+    "literalNAN": {
+      "patterns": []
     },
     "module": {
       "name": "meta.module.wasm",
