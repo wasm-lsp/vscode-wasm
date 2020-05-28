@@ -3,7 +3,7 @@
 import * as basis from "./basis";
 import * as schema from "./schema";
 
-const { Token /*, alt*/, capture, include, lastWords, lookAhead, lookBehind, manyOne, opt, seq, set, words } = basis;
+const { Token, alt, capture, group, include, lastWords, lookAhead, lookBehind, manyOne, opt, seq, set, words } = basis;
 
 export class Wat implements basis.Render {
   constructor() {
@@ -36,6 +36,8 @@ export class Wat implements basis.Render {
         inlineImport: this.inlineImport(),
         instrPlainConst: this.instrPlainConst(),
         instrType: this.instrType(),
+        instrTypeInt: this.instrTypeInt(),
+        instrTypeFloat: this.instrTypeFloat(),
         limits: this.limits(),
         lineComment: this.lineComment(),
         literalNAN: this.literalNAN(),
@@ -286,7 +288,21 @@ export class Wat implements basis.Render {
 
   instrType(): schema.Rule {
     return {
-      patterns: [],
+      patterns: [include(this.instrTypeInt), include(this.instrTypeFloat)],
+    };
+  }
+
+  instrTypeInt(): schema.Rule {
+    return {
+      name: "storage.type.int.wasm",
+      match: seq("i", group(alt("32", "64"))),
+    };
+  }
+
+  instrTypeFloat(): schema.Rule {
+    return {
+      name: "storage.type.float.wasm",
+      match: seq("f", group(alt("32", "64"))),
     };
   }
 
