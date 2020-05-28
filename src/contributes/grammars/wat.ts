@@ -283,7 +283,18 @@ export class Wat implements basis.Render {
 
   instrPlainConst(): schema.Rule {
     return {
-      patterns: [],
+      patterns: [
+        include(this.instrType),
+        {
+          name: "punctuation.accessor.wasm",
+          match: "\\.",
+        },
+        {
+          name: "keyword.control.const.wasm",
+          match: words(Token.CONST),
+        },
+        include(this.literal),
+      ],
     };
   }
 
