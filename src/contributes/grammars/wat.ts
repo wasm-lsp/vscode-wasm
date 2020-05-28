@@ -38,6 +38,7 @@ export class Wat implements basis.Render {
         instrType: this.instrType(),
         limits: this.limits(),
         lineComment: this.lineComment(),
+        literalNAN: this.literalNAN(),
         module: this.module(),
         moduleField: this.moduleField(),
         moduleFieldData: this.moduleFieldData(),
@@ -311,6 +312,12 @@ export class Wat implements basis.Render {
       },
       end: lookAhead("$"),
       contentName: "comment.line.double-semicolon.wasm",
+    };
+  }
+
+  literalNAN(): schema.Rule {
+    return {
+      patterns: [],
     };
   }
 
