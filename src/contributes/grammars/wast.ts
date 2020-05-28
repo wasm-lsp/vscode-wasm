@@ -32,6 +32,7 @@ export class Wast extends Wat {
         assertTrap: this.assertTrap(),
         assertUnlinkable: this.assertUnlinkable(),
         command: this.command(),
+        exprPlainConst: this.exprPlainConst(),
         meta: this.meta(),
         metaInput: this.metaInput(),
         metaOutput: this.metaOutput(),
@@ -300,6 +301,12 @@ export class Wast extends Wat {
         include(this.register),
         include(this.scriptModule),
       ],
+    };
+  }
+
+  exprPlainConst(): schema.Rule {
+    return {
+      patterns: [include(this.instrPlainConst)],
     };
   }
 
