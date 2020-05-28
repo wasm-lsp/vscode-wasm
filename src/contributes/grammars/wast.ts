@@ -394,7 +394,7 @@ export class Wast extends Wat {
 
   result(): schema.Rule {
     return {
-      patterns: [],
+      patterns: [include(this.exprPlainConst)],
     };
   }
 
