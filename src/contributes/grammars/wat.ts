@@ -34,6 +34,7 @@ export class Wat implements basis.Render {
         identifier: this.identifier(),
         import: this.import(),
         inlineImport: this.inlineImport(),
+        instrPlainConst: this.instrPlainConst(),
         limits: this.limits(),
         lineComment: this.lineComment(),
         module: this.module(),
@@ -272,6 +273,12 @@ export class Wat implements basis.Render {
           ],
         },
       ],
+    };
+  }
+
+  instrPlainConst(): schema.Rule {
+    return {
+      patterns: [],
     };
   }
 
