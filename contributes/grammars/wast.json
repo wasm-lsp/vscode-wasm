@@ -43,7 +43,83 @@
       ]
     },
     "annotation": {
-      "patterns": []
+      "name": "meta.annotation.wasm",
+      "begin": "\\((?=@)",
+      "beginCaptures": {
+        "0": {
+          "name": "meta.brace.round.annotation.wasm punctuation.definition.tag"
+        }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": {
+          "name": "meta.brace.round.annotation.wasm punctuation.definition.tag"
+        }
+      },
+      "patterns": [
+        {
+          "begin": "@",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.annotation.name.wasm punctuation.definition.tag"
+            }
+          },
+          "end": "(?=\\))",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.annotation.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "begin": "[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+              "beginCaptures": {
+                "0": {
+                  "name": "meta.annotation.wasm constant.regexp"
+                }
+              },
+              "end": "(?=\\))",
+              "contentName": "comment.wasm",
+              "patterns": [
+                {
+                  "include": "#annotationPart"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "annotationParens": {
+      "begin": "\\(",
+      "end": "\\)",
+      "patterns": [
+        {
+          "include": "#annotationPart"
+        }
+      ]
+    },
+    "annotationPart": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#annotationParens"
+        },
+        {
+          "match": "[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
+        },
+        {
+          "begin": "\"",
+          "end": "(\")|((?:[^\\\\\\n])$)",
+          "patterns": [
+            {
+              "name": "constant.character.escape.wasm"
+            }
+          ]
+        }
+      ]
     },
     "blockComment": {
       "name": "meta.comment.block.wasm comment.block.wasm",
@@ -114,7 +190,7 @@
         },
         {
           "name": "entity.name.type.alias.wasm",
-          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
+          "match": "[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "include": "#valueType"
@@ -234,7 +310,7 @@
                   "include": "#extra"
                 },
                 {
-                  "begin": "(?:(?<=(?:[^\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+]import|^import))(?!\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+))",
+                  "begin": "(?:(?<=(?:[^[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+]import|^import))(?![0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+))",
                   "end": "(?<=\")",
                   "patterns": [
                     {
@@ -351,7 +427,7 @@
               "include": "#extra"
             },
             {
-              "begin": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+              "begin": "[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
               "beginCaptures": {
                 "0": {
                   "name": "entity.name.type.module.wasm"
@@ -425,7 +501,7 @@
           "include": "#extra"
         },
         {
-          "begin": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)",
+          "begin": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)",
           "beginCaptures": {
             "0": {
               "name": "variable.other.constant entity.name.data.wasm"
@@ -483,7 +559,7 @@
           "include": "#extra"
         },
         {
-          "begin": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+          "begin": "[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
           "beginCaptures": {
             "0": {
               "name": "entity.name.function.wasm"
@@ -491,6 +567,9 @@
           },
           "end": "(?=\\))",
           "patterns": [
+            {
+              "include": "#extra"
+            },
             {
               "begin": "\\(",
               "beginCaptures": {
@@ -596,7 +675,7 @@
           "include": "#extra"
         },
         {
-          "begin": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
+          "begin": "[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
           "beginCaptures": {
             "0": {
               "name": "entity.name.function.wasm"
@@ -1253,7 +1332,12 @@
           "include": "#name"
         },
         {
-          "include": "#identifier"
+          "name": "variable.other.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
         }
       ]
     },
