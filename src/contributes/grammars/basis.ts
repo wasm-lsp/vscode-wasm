@@ -17,7 +17,7 @@ export const Class = {
   xdigit: "[:xdigit:]",
 };
 
-const id = "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+";
+const id = "[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+";
 const uN = "[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*";
 const idx = `(?:${uN})|(?:${id})`;
 const valueType = "[fi](?:32|64)";

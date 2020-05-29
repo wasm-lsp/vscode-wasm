@@ -388,7 +388,13 @@ export class Wast extends Wat {
         0: { name: "keyword.control.meta.output.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.name), include(this.identifier)],
+      patterns: [
+        include(this.name),
+        {
+          name: "variable.other.wasm",
+          patterns: [include(this.identifier)],
+        },
+      ],
     };
   }
 
@@ -411,7 +417,7 @@ export class Wast extends Wat {
           patterns: [
             include(this.extra),
             {
-              begin: Token.id,
+              begin: `\\$${Token.id}`,
               beginCaptures: {
                 0: { name: "entity.name.type.module.wasm" },
               },
