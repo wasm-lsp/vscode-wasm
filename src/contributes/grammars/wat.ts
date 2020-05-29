@@ -462,6 +462,7 @@ export class Wat implements basis.Render {
           },
           end: lookAhead(Token.RIGHT_PARENTHESIS),
           patterns: [
+            include(this.extra),
             {
               begin: Token.LEFT_PARENTHESIS,
               beginCaptures: {
