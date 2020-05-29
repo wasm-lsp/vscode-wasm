@@ -150,9 +150,6 @@
       "name": "storage.type.wasm",
       "match": "\\bfuncref\\b"
     },
-    "export": {
-      "patterns": []
-    },
     "expr": {
       "patterns": []
     },
@@ -275,70 +272,54 @@
       "name": "entity.name.type.alias.wasm",
       "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
     },
-    "import": {
+    "importDesc": {
       "patterns": []
     },
     "inlineImport": {
+      "begin": "\\bimport\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.import.wasm"
+        }
+      },
+      "end": "(?=\\))",
       "patterns": [
         {
-          "begin": "\\(",
-          "beginCaptures": {
-            "0": {
-              "name": "meta.brace.round.wasm"
-            }
-          },
-          "end": "\\)",
-          "endCaptures": {
-            "0": {
-              "name": "meta.brace.round.wasm"
-            }
-          },
+          "include": "#extra"
+        },
+        {
+          "include": "#inlineImportNames"
+        }
+      ]
+    },
+    "inlineImportNames": {
+      "patterns": [
+        {
+          "begin": "(?:(?<=(?:[^[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+]import|^import))(?![0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+))",
+          "end": "(?<=\")",
           "patterns": [
             {
               "include": "#extra"
             },
             {
-              "begin": "\\bimport\\b",
-              "beginCaptures": {
-                "0": {
-                  "name": "keyword.control.import.wasm"
-                }
-              },
-              "end": "(?=\\))",
+              "name": "entity.name.type.module.wasm",
+              "begin": "\"",
+              "end": "\"",
               "patterns": [
                 {
-                  "include": "#extra"
-                },
-                {
-                  "begin": "(?:(?<=(?:[^[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+]import|^import))(?![0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+))",
-                  "end": "(?<=\")",
-                  "patterns": [
-                    {
-                      "include": "#extra"
-                    },
-                    {
-                      "name": "entity.name.type.module.wasm",
-                      "begin": "\"",
-                      "end": "\"",
-                      "patterns": [
-                        {
-                          "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "name": "variable.other.readwrite.alias.wasm",
-                  "begin": "\"",
-                  "end": "\"",
-                  "patterns": [
-                    {
-                      "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
-                    }
-                  ]
+                  "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
                 }
               ]
+            }
+          ]
+        },
+        {
+          "name": "variable.other.readwrite.alias.wasm",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
             }
           ]
         }
@@ -559,38 +540,32 @@
           "include": "#extra"
         },
         {
-          "begin": "[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
-          "beginCaptures": {
-            "0": {
-              "name": "entity.name.function.wasm"
-            }
-          },
-          "end": "(?=\\))",
+          "name": "entity.name.function.wasm",
           "patterns": [
             {
-              "include": "#extra"
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#moduleFieldExport"
             },
             {
-              "begin": "\\(",
-              "beginCaptures": {
-                "0": {
-                  "name": "meta.brace.round.wasm"
-                }
-              },
-              "end": "\\)",
-              "endCaptures": {
-                "0": {
-                  "name": "meta.brace.round.wasm"
-                }
-              },
-              "patterns": [
-                {
-                  "include": "#moduleFieldExport"
-                },
-                {
-                  "include": "#moduleFieldImport"
-                }
-              ]
+              "include": "#moduleFieldImport"
             }
           ]
         }
@@ -618,10 +593,29 @@
           ]
         },
         {
-          "include": "#export"
-        },
-        {
-          "include": "#import"
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#extra"
+            },
+            {
+              "include": "#inlineExport"
+            },
+            {
+              "include": "#inlineImport"
+            }
+          ]
         },
         {
           "include": "#globalType"
@@ -643,6 +637,12 @@
       "patterns": [
         {
           "include": "#extra"
+        },
+        {
+          "include": "#inlineImportNames"
+        },
+        {
+          "include": "#importDesc"
         }
       ]
     },
@@ -707,7 +707,23 @@
           ]
         },
         {
-          "include": "#export"
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#inlineExport"
+            }
+          ]
         },
         {
           "patterns": [
@@ -803,7 +819,26 @@
     "tableFieldsType": {
       "patterns": [
         {
-          "include": "#inlineImport"
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#extra"
+            },
+            {
+              "include": "#inlineImport"
+            }
+          ]
         },
         {
           "include": "#tableType"
