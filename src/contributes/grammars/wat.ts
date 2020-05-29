@@ -214,7 +214,7 @@ export class Wat implements basis.Render {
   identifier(): schema.Rule {
     return {
       name: "entity.name.type.alias.wasm",
-      match: Token.id,
+      match: `\\$${Token.id}`,
     };
   }
 
