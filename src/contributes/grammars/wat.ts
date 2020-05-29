@@ -24,7 +24,6 @@ export class Wat implements basis.Render {
         blockComment: this.blockComment(),
         comment: this.comment(),
         elemType: this.elemType(),
-        export: this.export(),
         expr: this.expr(),
         extra: this.extra(),
         funcType: this.funcType(),
@@ -34,8 +33,9 @@ export class Wat implements basis.Render {
         globalTypeImm: this.globalTypeImm(),
         globalTypeMut: this.globalTypeMut(),
         identifier: this.identifier(),
-        import: this.import(),
+        importDesc: this.importDesc(),
         inlineImport: this.inlineImport(),
+        inlineImportNames: this.inlineImportNames(),
         instrPlainConst: this.instrPlainConst(),
         instrType: this.instrType(),
         instrTypeInt: this.instrTypeInt(),
@@ -183,12 +183,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  export(): schema.Rule {
-    return {
-      patterns: [],
-    };
-  }
-
   expr(): schema.Rule {
     return {
       patterns: [],
@@ -283,7 +277,13 @@ export class Wat implements basis.Render {
     };
   }
 
-  import(): schema.Rule {
+  importDesc(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  inlineExport(): schema.Rule {
     return {
       patterns: [],
     };
@@ -291,54 +291,42 @@ export class Wat implements basis.Render {
 
   inlineImport(): schema.Rule {
     return {
+      begin: words(Token.IMPORT),
+      beginCaptures: {
+        0: { name: "keyword.control.import.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.extra), include(this.inlineImportNames)],
+    };
+  }
+
+  inlineImportNames(): schema.Rule {
+    return {
       patterns: [
         {
-          begin: Token.LEFT_PARENTHESIS,
-          beginCaptures: {
-            0: { name: "meta.brace.round.wasm" },
-          },
-          end: Token.RIGHT_PARENTHESIS,
-          endCaptures: {
-            0: { name: "meta.brace.round.wasm" },
-          },
+          begin: lastWords(Token.IMPORT),
+          end: lookBehind('"'),
           patterns: [
             include(this.extra),
             {
-              begin: words(Token.IMPORT),
-              beginCaptures: {
-                0: { name: "keyword.control.import.wasm" },
-              },
-              end: lookAhead(Token.RIGHT_PARENTHESIS),
+              name: "entity.name.type.module.wasm",
+              begin: '"',
+              end: '"',
               patterns: [
-                include(this.extra),
                 {
-                  begin: lastWords(Token.IMPORT),
-                  end: lookBehind('"'),
-                  patterns: [
-                    include(this.extra),
-                    {
-                      name: "entity.name.type.module.wasm",
-                      begin: '"',
-                      end: '"',
-                      patterns: [
-                        {
-                          match: Token.escape,
-                        },
-                      ],
-                    },
-                  ],
-                },
-                {
-                  name: "variable.other.readwrite.alias.wasm",
-                  begin: '"',
-                  end: '"',
-                  patterns: [
-                    {
-                      match: Token.escape,
-                    },
-                  ],
+                  match: Token.escape,
                 },
               ],
+            },
+          ],
+        },
+        {
+          name: "variable.other.readwrite.alias.wasm",
+          begin: '"',
+          end: '"',
+          patterns: [
+            {
+              match: Token.escape,
             },
           ],
         },
@@ -521,25 +509,19 @@ export class Wat implements basis.Render {
       patterns: [
         include(this.extra),
         {
-          begin: Token.id,
+          name: "entity.name.function.wasm",
+          patterns: [include(this.identifier)],
+        },
+        {
+          begin: Token.LEFT_PARENTHESIS,
           beginCaptures: {
-            0: { name: "entity.name.function.wasm" },
+            0: { name: "meta.brace.round.wasm" },
           },
-          end: lookAhead(Token.RIGHT_PARENTHESIS),
-          patterns: [
-            include(this.extra),
-            {
-              begin: Token.LEFT_PARENTHESIS,
-              beginCaptures: {
-                0: { name: "meta.brace.round.wasm" },
-              },
-              end: Token.RIGHT_PARENTHESIS,
-              endCaptures: {
-                0: { name: "meta.brace.round.wasm" },
-              },
-              patterns: [include(this.moduleFieldExport), include(this.moduleFieldImport) /*, include(this.typeUse)*/],
-            },
-          ],
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.moduleFieldExport), include(this.moduleFieldImport) /*, include(this.typeUse)*/],
         },
       ],
     };
@@ -559,8 +541,17 @@ export class Wat implements basis.Render {
           name: "variable.other.global.wasm",
           patterns: [include(this.identifier)],
         },
-        include(this.export),
-        include(this.import),
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.extra), include(this.inlineExport), include(this.inlineImport)],
+        },
         include(this.globalType),
         include(this.expr),
       ],
@@ -575,7 +566,7 @@ export class Wat implements basis.Render {
         0: { name: "keyword.control.import.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.extra) /*, include(this.inlineImport)*/],
+      patterns: [include(this.extra), include(this.inlineImportNames), include(this.importDesc)],
     };
   }
 
@@ -626,7 +617,17 @@ export class Wat implements basis.Render {
           name: "variable.other.global.wasm",
           patterns: [include(this.identifier)],
         },
-        include(this.export),
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.inlineExport)],
+        },
         {
           patterns: [include(this.tableFieldsElem), include(this.tableFieldsType)],
         },
@@ -688,7 +689,20 @@ export class Wat implements basis.Render {
 
   tableFieldsType(): schema.Rule {
     return {
-      patterns: [include(this.inlineImport), include(this.tableType)],
+      patterns: [
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.extra), include(this.inlineImport)],
+        },
+        include(this.tableType),
+      ],
     };
   }
 
