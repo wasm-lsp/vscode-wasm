@@ -19,6 +19,8 @@ export class Wat implements basis.Render {
       repository: {
         PARSE: this.PARSE(),
         annotation: this.annotation(),
+        annotationParens: this.annotationParens(),
+        annotationPart: this.annotationPart(),
         blockComment: this.blockComment(),
         comment: this.comment(),
         elemType: this.elemType(),
@@ -87,7 +89,70 @@ export class Wat implements basis.Render {
 
   annotation(): schema.Rule {
     return {
-      patterns: [],
+      name: "meta.annotation.wasm",
+      begin: seq(Token.LEFT_PARENTHESIS, lookAhead("@")),
+      beginCaptures: {
+        0: { name: "meta.brace.round.annotation.wasm punctuation.definition.tag" },
+      },
+      end: Token.RIGHT_PARENTHESIS,
+      endCaptures: {
+        0: { name: "meta.brace.round.annotation.wasm punctuation.definition.tag" },
+      },
+      patterns: [
+        {
+          begin: "@",
+          beginCaptures: {
+            0: { name: "meta.annotation.name.wasm punctuation.definition.tag" },
+          },
+          end: lookAhead(Token.RIGHT_PARENTHESIS),
+          endCaptures: {
+            0: { name: "meta.brace.round.annotation.wasm" },
+          },
+          patterns: [
+            {
+              begin: Token.id,
+              beginCaptures: {
+                0: { name: "meta.annotation.wasm constant.regexp" },
+              },
+              end: lookAhead(Token.RIGHT_PARENTHESIS),
+              contentName: "comment.wasm",
+              patterns: [include(this.annotationPart)],
+            },
+          ],
+        },
+      ],
+    };
+  }
+
+  annotationParens(): schema.Rule {
+    return {
+      begin: Token.LEFT_PARENTHESIS,
+      end: Token.RIGHT_PARENTHESIS,
+      patterns: [include(this.annotationPart)],
+    };
+  }
+
+  annotationPart(): schema.Rule {
+    return {
+      patterns: [
+        include(this.comment),
+        include(this.annotationParens),
+        // include(this.uN),
+        // include(this.sN),
+        // include(this.fN),
+        {
+          match: Token.id,
+        },
+        {
+          begin: '"',
+          end: '(")|((?:[^\\\\\\n])$)',
+          patterns: [
+            {
+              name: "constant.character.escape.wasm",
+            },
+          ],
+        },
+      ],
     };
   }
 
