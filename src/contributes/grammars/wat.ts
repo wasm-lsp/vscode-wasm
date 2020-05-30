@@ -567,8 +567,16 @@ export class Wat implements basis.Render {
           endCaptures: {
             0: { name: "meta.brace.round.wasm" },
           },
-          patterns: [include(this.moduleFieldExport), include(this.moduleFieldImport) /*, include(this.typeUse)*/],
+          patterns: [
+            include(this.inlineExport),
+            include(this.inlineImport),
+            include(this.typeUse),
+            include(this.funcTypeParams),
+            include(this.funcTypeResults),
+            include(this.funcLocals),
+          ],
         },
+        include(this.instrList),
       ],
     };
   }
