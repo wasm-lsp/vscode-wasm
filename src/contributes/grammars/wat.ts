@@ -201,7 +201,18 @@ export class Wat implements basis.Render {
 
   funcLocals(): schema.Rule {
     return {
-      patterns: [],
+      begin: words(Token.LOCAL),
+      beginCaptures: {
+        0: { name: "keyword.control.local.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        {
+          name: "variable.parameter.local.wasm",
+          patterns: [include(this.identifier)],
+        },
+        include(this.valueType),
+      ],
     };
   }
 
