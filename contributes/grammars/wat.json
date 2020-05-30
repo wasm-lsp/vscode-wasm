@@ -163,6 +163,28 @@
         }
       ]
     },
+    "funcLocals": {
+      "begin": "\\blocal\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.local.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "name": "variable.parameter.local.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "include": "#valueType"
+        }
+      ]
+    },
     "funcType": {
       "patterns": [
         {
@@ -186,11 +208,11 @@
           "include": "#extra"
         },
         {
-          "name": "entity.name.type.alias.wasm",
-          "match": "[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
+          "include": "#valueType"
         },
         {
-          "include": "#valueType"
+          "name": "entity.name.type.alias.wasm",
+          "match": "[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         }
       ]
     },
@@ -275,6 +297,31 @@
     "importDesc": {
       "patterns": []
     },
+    "inlineExport": {
+      "name": "meta.export.wasm",
+      "begin": "\\bexport\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.export.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        },
+        {
+          "name": "variable.other.readwrite.alias.wasm",
+          "begin": "\"",
+          "end": "(\")|((?:[^\\\\\\n])$)",
+          "patterns": [
+            {
+              "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
+            }
+          ]
+        }
+      ]
+    },
     "inlineImport": {
       "begin": "\\bimport\\b",
       "beginCaptures": {
@@ -304,7 +351,7 @@
             {
               "name": "entity.name.type.module.wasm",
               "begin": "\"",
-              "end": "\"",
+              "end": "(\")|((?:[^\\\\\\n])$)",
               "patterns": [
                 {
                   "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
@@ -316,7 +363,7 @@
         {
           "name": "variable.other.readwrite.alias.wasm",
           "begin": "\"",
-          "end": "\"",
+          "end": "(\")|((?:[^\\\\\\n])$)",
           "patterns": [
             {
               "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
@@ -324,6 +371,9 @@
           ]
         }
       ]
+    },
+    "instrList": {
+      "patterns": []
     },
     "instrPlainConst": {
       "patterns": [
@@ -524,6 +574,16 @@
       "patterns": [
         {
           "include": "#extra"
+        },
+        {
+          "name": "variable.other.readwrite.alias.wasm",
+          "begin": "\"",
+          "end": "(\")|((?:[^\\\\\\n])$)",
+          "patterns": [
+            {
+              "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
+            }
+          ]
         }
       ]
     },
@@ -562,12 +622,27 @@
           },
           "patterns": [
             {
-              "include": "#moduleFieldExport"
+              "include": "#inlineExport"
             },
             {
-              "include": "#moduleFieldImport"
+              "include": "#inlineImport"
+            },
+            {
+              "include": "#typeUse"
+            },
+            {
+              "include": "#funcTypeParams"
+            },
+            {
+              "include": "#funcTypeResults"
+            },
+            {
+              "include": "#funcLocals"
             }
           ]
+        },
+        {
+          "include": "#instrList"
         }
       ]
     },
@@ -905,8 +980,24 @@
         }
       ]
     },
+    "typeUse": {
+      "name": "meta.type-use.wasm",
+      "begin": "\\btype\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.type.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "name": "variable.other.constant entity.name.type.wasm",
+          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
+        }
+      ]
+    },
     "valueType": {
-      "name": "entity.name.type.alias.wasm",
+      "name": "storage.type.value.wasm",
       "match": "[fi](?:32|64)"
     }
   }
