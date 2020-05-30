@@ -220,11 +220,11 @@ export class Wat implements basis.Render {
       end: lookAhead(Token.RIGHT_PARENTHESIS),
       patterns: [
         include(this.extra),
+        include(this.valueType),
         {
           name: "entity.name.type.alias.wasm",
           match: Token.id,
         },
-        include(this.valueType),
       ],
     };
   }
