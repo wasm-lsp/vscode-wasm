@@ -808,7 +808,7 @@ export class Wat implements basis.Render {
 
   valueType(): schema.Rule {
     return {
-      name: "entity.name.type.alias.wasm",
+      name: "storage.type.value.wasm",
       match: Token.valueType,
     };
   }
