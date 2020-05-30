@@ -529,7 +529,19 @@ export class Wat implements basis.Render {
         0: { name: "keyword.control.export.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.extra)],
+      patterns: [
+        include(this.extra),
+        {
+          name: "variable.other.readwrite.alias.wasm",
+          begin: '"',
+          end: '(")|((?:[^\\\\\\n])$)',
+          patterns: [
+            {
+              match: Token.escape,
+            },
+          ],
+        },
+      ],
     };
   }
 
