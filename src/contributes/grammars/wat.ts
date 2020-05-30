@@ -802,7 +802,18 @@ export class Wat implements basis.Render {
 
   typeUse(): schema.Rule {
     return {
-      patterns: [],
+      name: "meta.type-use.wasm",
+      begin: words(Token.TYPE),
+      beginCaptures: {
+        0: { name: "storage.type.type.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        {
+          name: "variable.other.constant entity.name.type.wasm",
+          match: Token.index,
+        },
+      ],
     };
   }
 
