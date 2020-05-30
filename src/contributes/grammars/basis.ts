@@ -19,7 +19,7 @@ export const Class = {
 
 const id = "[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+";
 const uN = "[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*";
-const idx = `(?:${uN})|(?:${id})`;
+const index = `(?:${uN})|(?:${id})`;
 const valueType = "[fi](?:32|64)";
 
 export const Token = {
@@ -59,7 +59,7 @@ export const Token = {
   TYPE: "type",
   escape: "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)",
   id,
-  idx,
+  index: index,
   uN,
   valueType,
 };

@@ -498,7 +498,7 @@ export class Wat implements basis.Render {
       patterns: [
         include(this.extra),
         {
-          begin: Token.idx,
+          begin: Token.index,
           beginCaptures: {
             0: { name: "variable.other.constant entity.name.data.wasm" },
           },
