@@ -34,6 +34,7 @@ export class Wat implements basis.Render {
         globalTypeMut: this.globalTypeMut(),
         identifier: this.identifier(),
         importDesc: this.importDesc(),
+        inlineExport: this.inlineExport(),
         inlineImport: this.inlineImport(),
         inlineImportNames: this.inlineImportNames(),
         instrPlainConst: this.instrPlainConst(),
