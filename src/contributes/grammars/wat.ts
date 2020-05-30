@@ -26,6 +26,7 @@ export class Wat implements basis.Render {
         elemType: this.elemType(),
         expr: this.expr(),
         extra: this.extra(),
+        funcLocals: this.funcLocals(),
         funcType: this.funcType(),
         funcTypeParams: this.funcTypeParams(),
         funcTypeResults: this.funcTypeResults(),
@@ -37,6 +38,7 @@ export class Wat implements basis.Render {
         inlineExport: this.inlineExport(),
         inlineImport: this.inlineImport(),
         inlineImportNames: this.inlineImportNames(),
+        instrList: this.instrList(),
         instrPlainConst: this.instrPlainConst(),
         instrType: this.instrType(),
         instrTypeInt: this.instrTypeInt(),
@@ -64,6 +66,7 @@ export class Wat implements basis.Render {
         tableFieldsType: this.tableFieldsType(),
         tableType: this.tableType(),
         typeField: this.typeField(),
+        typeUse: this.typeUse(),
         valueType: this.valueType(),
       },
     };
@@ -193,6 +196,12 @@ export class Wat implements basis.Render {
   extra(): schema.Rule {
     return {
       patterns: [include(this.comment), include(this.annotation)],
+    };
+  }
+
+  funcLocals(): schema.Rule {
+    return {
+      patterns: [],
     };
   }
 
@@ -332,6 +341,12 @@ export class Wat implements basis.Render {
           ],
         },
       ],
+    };
+  }
+
+  instrList(): schema.Rule {
+    return {
+      patterns: [],
     };
   }
 
@@ -744,6 +759,12 @@ export class Wat implements basis.Render {
           patterns: [include(this.extra), include(this.funcType)],
         },
       ],
+    };
+  }
+
+  typeUse(): schema.Rule {
+    return {
+      patterns: [],
     };
   }
 
