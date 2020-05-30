@@ -339,7 +339,7 @@ export class Wat implements basis.Render {
             {
               name: "entity.name.type.module.wasm",
               begin: '"',
-              end: '"',
+              end: '(")|((?:[^\\\\\\n])$)',
               patterns: [
                 {
                   match: Token.escape,
@@ -351,7 +351,7 @@ export class Wat implements basis.Render {
         {
           name: "variable.other.readwrite.alias.wasm",
           begin: '"',
-          end: '"',
+          end: '(")|((?:[^\\\\\\n])$)',
           patterns: [
             {
               match: Token.escape,
