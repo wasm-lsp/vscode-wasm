@@ -295,7 +295,123 @@
       "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
     },
     "importDesc": {
-      "patterns": []
+      "begin": "\\(",
+      "beginCaptures": {
+        "0": {
+          "name": "meta.brace.round.wasm"
+        }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": {
+          "name": "meta.brace.round.wasm"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#importDescFuncType"
+        },
+        {
+          "include": "#importDescGlobalType"
+        },
+        {
+          "include": "#importDescMemoryType"
+        },
+        {
+          "include": "#importDescTableType"
+        }
+      ]
+    },
+    "importDescFuncType": {
+      "begin": "\\bfunc\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.func.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "name": "entity.name.function.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "include": "#funcType"
+        },
+        {
+          "include": "#typeUse"
+        }
+      ]
+    },
+    "importDescGlobalType": {
+      "begin": "\\bglobal\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.global.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "name": "variable.other.global.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "include": "#globalType"
+        }
+      ]
+    },
+    "importDescMemoryType": {
+      "begin": "\\bmemory\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.memory.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "name": "variable.other.memory.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "include": "#memoryType"
+        }
+      ]
+    },
+    "importDescTableType": {
+      "begin": "\\btable\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.table.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "name": "variable.other.table.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "include": "#tableType"
+        }
+      ]
     },
     "inlineExport": {
       "name": "meta.export.wasm",
@@ -441,6 +557,37 @@
     },
     "literalNAN": {
       "patterns": []
+    },
+    "memoryFieldsData": {
+      "begin": "\\bdata\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.memory.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#string"
+        }
+      ]
+    },
+    "memoryFieldsType": {
+      "patterns": [
+        {
+          "include": "#inlineImport"
+        },
+        {
+          "include": "#memoryType"
+        }
+      ]
+    },
+    "memoryType": {
+      "patterns": [
+        {
+          "include": "#limits"
+        }
+      ]
     },
     "module": {
       "name": "meta.module.wasm",
@@ -733,6 +880,39 @@
       "patterns": [
         {
           "include": "#extra"
+        },
+        {
+          "name": "variable.other.memory.wasm",
+          "patterns": [
+            {
+              "include": "#identifier"
+            }
+          ]
+        },
+        {
+          "include": "#inlineExport"
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#memoryFieldsData"
+            },
+            {
+              "include": "#memoryFieldsType"
+            }
+          ]
         }
       ]
     },
@@ -774,7 +954,7 @@
           "include": "#extra"
         },
         {
-          "name": "variable.other.global.wasm",
+          "name": "variable.other.table.wasm",
           "patterns": [
             {
               "include": "#identifier"
