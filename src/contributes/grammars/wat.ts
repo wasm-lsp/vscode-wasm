@@ -723,7 +723,7 @@ export class Wat implements basis.Render {
       patterns: [
         include(this.extra),
         {
-          name: "variable.other.global.wasm",
+          name: "variable.other.table.wasm",
           patterns: [include(this.identifier)],
         },
         {
