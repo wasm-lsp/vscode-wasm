@@ -47,6 +47,7 @@ export class Wat implements basis.Render {
         lineComment: this.lineComment(),
         literal: this.literalNAN(),
         literalNAN: this.literalNAN(),
+        memoryType: this.memoryType(),
         module: this.module(),
         moduleField: this.moduleField(),
         moduleFieldData: this.moduleFieldData(),
@@ -448,6 +449,12 @@ export class Wat implements basis.Render {
   }
 
   literalNAN(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  memoryType(): schema.Rule {
     return {
       patterns: [],
     };
