@@ -456,7 +456,7 @@ export class Wat implements basis.Render {
 
   memoryType(): schema.Rule {
     return {
-      patterns: [],
+      patterns: [include(this.limits)],
     };
   }
 
