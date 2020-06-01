@@ -35,6 +35,10 @@ export class Wat implements basis.Render {
         globalTypeMut: this.globalTypeMut(),
         identifier: this.identifier(),
         importDesc: this.importDesc(),
+        importDescFuncType: this.importDescFuncType(),
+        importDescGlobalType: this.importDescGlobalType(),
+        importDescMemoryType: this.importDescMemoryType(),
+        importDescTableType: this.importDescTableType(),
         inlineExport: this.inlineExport(),
         inlineImport: this.inlineImport(),
         inlineImportNames: this.inlineImportNames(),
@@ -303,7 +307,90 @@ export class Wat implements basis.Render {
 
   importDesc(): schema.Rule {
     return {
-      patterns: [],
+      begin: Token.LEFT_PARENTHESIS,
+      beginCaptures: {
+        0: { name: "meta.brace.round.wasm" },
+      },
+      end: Token.RIGHT_PARENTHESIS,
+      endCaptures: {
+        0: { name: "meta.brace.round.wasm" },
+      },
+      patterns: [
+        include(this.importDescFuncType),
+        include(this.importDescGlobalType),
+        include(this.importDescMemoryType),
+        include(this.importDescTableType),
+      ],
+    };
+  }
+
+  importDescFuncType(): schema.Rule {
+    // NOTE: merged with importDescTypeUse
+    return {
+      begin: words(Token.FUNC),
+      beginCaptures: {
+        0: { name: "keyword.control.func.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        {
+          name: "entity.name.function.wasm",
+          patterns: [include(this.identifier)],
+        },
+        include(this.funcType),
+        include(this.typeUse),
+      ],
+    };
+  }
+
+  importDescGlobalType(): schema.Rule {
+    return {
+      begin: words(Token.GLOBAL),
+      beginCaptures: {
+        0: { name: "keyword.control.global.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        {
+          name: "variable.other.global.wasm",
+          patterns: [include(this.identifier)],
+        },
+        include(this.globalType),
+      ],
+    };
+  }
+
+  importDescMemoryType(): schema.Rule {
+    return {
+      begin: words(Token.MEMORY),
+      beginCaptures: {
+        0: { name: "keyword.control.memory.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        {
+          name: "variable.other.memory.wasm",
+          patterns: [include(this.identifier)],
+        },
+        include(this.memoryType),
+      ],
+    };
+  }
+
+  importDescTableType(): schema.Rule {
+    return {
+      begin: words(Token.TABLE),
+      beginCaptures: {
+        0: { name: "keyword.control.table.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        {
+          name: "variable.other.table.wasm",
+          patterns: [include(this.identifier)],
+        },
+        include(this.tableType),
+      ],
     };
   }
 
