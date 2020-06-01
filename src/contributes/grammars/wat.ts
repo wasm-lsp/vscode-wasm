@@ -47,6 +47,8 @@ export class Wat implements basis.Render {
         lineComment: this.lineComment(),
         literal: this.literalNAN(),
         literalNAN: this.literalNAN(),
+        memoryFieldsData: this.memoryFieldsData(),
+        memoryFieldsType: this.memoryFieldsType(),
         memoryType: this.memoryType(),
         module: this.module(),
         moduleField: this.moduleField(),
@@ -451,6 +453,23 @@ export class Wat implements basis.Render {
   literalNAN(): schema.Rule {
     return {
       patterns: [],
+    };
+  }
+
+  memoryFieldsData(): schema.Rule {
+    return {
+      begin: words(Token.DATA),
+      beginCaptures: {
+        0: { name: "storage.type.memory.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.string)],
+    };
+  }
+
+  memoryFieldsType(): schema.Rule {
+    return {
+      patterns: [include(this.inlineImport), include(this.memoryType)],
     };
   }
 
