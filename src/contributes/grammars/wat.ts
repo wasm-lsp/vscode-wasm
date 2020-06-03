@@ -24,6 +24,11 @@ export class Wat implements basis.Render {
         blockComment: this.blockComment(),
         comment: this.comment(),
         elemType: this.elemType(),
+        exportDesc: this.exportDesc(),
+        exportDescFunc: this.exportDescFunc(),
+        exportDescGlobal: this.exportDescGlobal(),
+        exportDescMemory: this.exportDescMemory(),
+        exportDescTable: this.exportDescTable(),
         expr: this.expr(),
         extra: this.extra(),
         funcLocals: this.funcLocals(),
@@ -192,6 +197,61 @@ export class Wat implements basis.Render {
     return {
       name: "storage.type.wasm",
       match: words(Token.FUNCREF),
+    };
+  }
+
+  exportDesc(): schema.Rule {
+    return {
+      patterns: [
+        include(this.exportDescFunc),
+        include(this.exportDescTable),
+        include(this.exportDescMemory),
+        include(this.exportDescGlobal),
+      ],
+    };
+  }
+
+  exportDescFunc(): schema.Rule {
+    return {
+      begin: words(Token.FUNC),
+      beginCaptures: {
+        0: { name: "keyword.control.func.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.index)],
+    };
+  }
+
+  exportDescGlobal(): schema.Rule {
+    return {
+      begin: words(Token.GLOBAL),
+      beginCaptures: {
+        0: { name: "keyword.control.global.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.index)],
+    };
+  }
+
+  exportDescMemory(): schema.Rule {
+    return {
+      begin: words(Token.MEMORY),
+      beginCaptures: {
+        0: { name: "keyword.control.memory.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.index)],
+    };
+  }
+
+  exportDescTable(): schema.Rule {
+    return {
+      begin: words(Token.TABLE),
+      beginCaptures: {
+        0: { name: "keyword.control.table.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.index)],
     };
   }
 
@@ -687,6 +747,17 @@ export class Wat implements basis.Render {
               match: Token.escape,
             },
           ],
+        },
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.exportDesc)],
         },
       ],
     };
