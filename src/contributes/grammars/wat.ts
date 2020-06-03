@@ -39,6 +39,7 @@ export class Wat implements basis.Render {
         importDescGlobalType: this.importDescGlobalType(),
         importDescMemoryType: this.importDescMemoryType(),
         importDescTableType: this.importDescTableType(),
+        index: this.index(),
         inlineExport: this.inlineExport(),
         inlineImport: this.inlineImport(),
         inlineImportNames: this.inlineImportNames(),
@@ -406,6 +407,13 @@ export class Wat implements basis.Render {
         },
         include(this.tableType),
       ],
+    };
+  }
+
+  index(): schema.Rule {
+    return {
+      name: "variable.other.constant",
+      match: Token.index,
     };
   }
 
@@ -960,12 +968,7 @@ export class Wat implements basis.Render {
         0: { name: "storage.type.type.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [
-        {
-          name: "variable.other.constant entity.name.type.wasm",
-          match: Token.index,
-        },
-      ],
+      patterns: [include(this.index)],
     };
   }
 
