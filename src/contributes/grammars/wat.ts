@@ -827,6 +827,7 @@ export class Wat implements basis.Render {
           name: "variable.other.table.wasm",
           patterns: [include(this.identifier)],
         },
+        include(this.elemType),
         {
           begin: Token.LEFT_PARENTHESIS,
           beginCaptures: {
@@ -836,10 +837,12 @@ export class Wat implements basis.Render {
           endCaptures: {
             0: { name: "meta.brace.round.wasm" },
           },
-          patterns: [include(this.inlineExport)],
-        },
-        {
-          patterns: [include(this.tableFieldsElem), include(this.tableFieldsType)],
+          patterns: [
+            include(this.extra),
+            include(this.inlineExport),
+            include(this.tableFieldsElem),
+            include(this.tableFieldsType),
+          ],
         },
       ],
     };
@@ -893,26 +896,19 @@ export class Wat implements basis.Render {
 
   tableFieldsElem(): schema.Rule {
     return {
-      patterns: [],
+      name: "meta.table-fields.elem.wasm",
+      begin: words(Token.ELEM),
+      beginCaptures: {
+        0: { name: "storage.type.elem.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.extra)],
     };
   }
 
   tableFieldsType(): schema.Rule {
     return {
-      patterns: [
-        {
-          begin: Token.LEFT_PARENTHESIS,
-          beginCaptures: {
-            0: { name: "meta.brace.round.wasm" },
-          },
-          end: Token.RIGHT_PARENTHESIS,
-          endCaptures: {
-            0: { name: "meta.brace.round.wasm" },
-          },
-          patterns: [include(this.extra), include(this.inlineImport)],
-        },
-        include(this.tableType),
-      ],
+      patterns: [include(this.inlineImport), include(this.tableType)],
     };
   }
 
