@@ -777,7 +777,6 @@ export class Wat implements basis.Render {
           name: "variable.other.memory.wasm",
           patterns: [include(this.identifier)],
         },
-        include(this.inlineExport),
         {
           begin: Token.LEFT_PARENTHESIS,
           beginCaptures: {
@@ -787,7 +786,7 @@ export class Wat implements basis.Render {
           endCaptures: {
             0: { name: "meta.brace.round.wasm" },
           },
-          patterns: [include(this.memoryFieldsData), include(this.memoryFieldsType)],
+          patterns: [include(this.inlineExport), include(this.memoryFieldsData), include(this.memoryFieldsType)],
         },
       ],
     };
