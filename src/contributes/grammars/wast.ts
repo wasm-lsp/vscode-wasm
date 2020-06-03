@@ -421,7 +421,20 @@ export class Wast extends Wat {
                 0: { name: "entity.name.type.module.wasm" },
               },
               end: lookAhead(Token.RIGHT_PARENTHESIS),
-              patterns: [include(this.extra), include(this.moduleField)],
+              patterns: [
+                include(this.extra),
+                {
+                  begin: Token.LEFT_PARENTHESIS,
+                  beginCaptures: {
+                    0: { name: "meta.brace.round.wasm" },
+                  },
+                  end: Token.RIGHT_PARENTHESIS,
+                  endCaptures: {
+                    0: { name: "meta.brace.round.wasm" },
+                  },
+                  patterns: [include(this.moduleField)],
+                },
+              ],
             },
             {
               begin: words(Token.BINARY),
@@ -439,7 +452,17 @@ export class Wast extends Wat {
               end: lookAhead(Token.RIGHT_PARENTHESIS),
               patterns: [include(this.extra), include(this.string)],
             },
-            include(this.moduleField),
+            {
+              begin: Token.LEFT_PARENTHESIS,
+              beginCaptures: {
+                0: { name: "meta.brace.round.wasm" },
+              },
+              end: Token.RIGHT_PARENTHESIS,
+              endCaptures: {
+                0: { name: "meta.brace.round.wasm" },
+              },
+              patterns: [include(this.moduleField)],
+            },
           ],
         },
       ],
