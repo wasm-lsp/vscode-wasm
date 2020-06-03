@@ -286,14 +286,6 @@ export class Wat implements basis.Render {
 
   funcType(): schema.Rule {
     return {
-      begin: Token.LEFT_PARENTHESIS,
-      beginCaptures: {
-        0: { name: "meta.brace.round.wasm" },
-      },
-      end: Token.RIGHT_PARENTHESIS,
-      endCaptures: {
-        0: { name: "meta.brace.round.wasm" },
-      },
       patterns: [include(this.funcTypeParams), include(this.funcTypeResults)],
     };
   }
