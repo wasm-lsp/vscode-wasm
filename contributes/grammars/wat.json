@@ -150,6 +150,78 @@
       "name": "storage.type.wasm",
       "match": "\\bfuncref\\b"
     },
+    "exportDesc": {
+      "patterns": [
+        {
+          "include": "#exportDescFunc"
+        },
+        {
+          "include": "#exportDescTable"
+        },
+        {
+          "include": "#exportDescMemory"
+        },
+        {
+          "include": "#exportDescGlobal"
+        }
+      ]
+    },
+    "exportDescFunc": {
+      "begin": "\\bfunc\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.func.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#index"
+        }
+      ]
+    },
+    "exportDescGlobal": {
+      "begin": "\\bglobal\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.global.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#index"
+        }
+      ]
+    },
+    "exportDescMemory": {
+      "begin": "\\bmemory\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.memory.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#index"
+        }
+      ]
+    },
+    "exportDescTable": {
+      "begin": "\\btable\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.table.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#index"
+        }
+      ]
+    },
     "expr": {
       "patterns": []
     },
@@ -196,6 +268,7 @@
       ]
     },
     "funcTypeParams": {
+      "name": "meta.func-type.params.wasm",
       "begin": "\\bparam\\b",
       "beginCaptures": {
         "0": {
@@ -217,6 +290,7 @@
       ]
     },
     "funcTypeResults": {
+      "name": "meta.func-type.results.wasm",
       "begin": "\\bresult\\b",
       "beginCaptures": {
         "0": {
@@ -295,6 +369,7 @@
       "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
     },
     "importDesc": {
+      "name": "meta.import-desc.wasm",
       "begin": "\\(",
       "beginCaptures": {
         "0": {
@@ -323,6 +398,7 @@
       ]
     },
     "importDescFuncType": {
+      "name": "meta.import-desc.func-type.wasm",
       "begin": "\\bfunc\\b",
       "beginCaptures": {
         "0": {
@@ -348,6 +424,7 @@
       ]
     },
     "importDescGlobalType": {
+      "name": "meta.import-desc.global-type.wasm",
       "begin": "\\bglobal\\b",
       "beginCaptures": {
         "0": {
@@ -370,6 +447,7 @@
       ]
     },
     "importDescMemoryType": {
+      "name": "meta.import-desc.memory-type.wasm",
       "begin": "\\bmemory\\b",
       "beginCaptures": {
         "0": {
@@ -392,6 +470,7 @@
       ]
     },
     "importDescTableType": {
+      "name": "meta.import-desc.table-type.wasm",
       "begin": "\\btable\\b",
       "beginCaptures": {
         "0": {
@@ -412,6 +491,10 @@
           "include": "#tableType"
         }
       ]
+    },
+    "index": {
+      "name": "variable.other.constant",
+      "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
     },
     "inlineExport": {
       "name": "meta.export.wasm",
@@ -731,6 +814,25 @@
               "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
             }
           ]
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#exportDesc"
+            }
+          ]
         }
       ]
     },
@@ -890,9 +992,6 @@
           ]
         },
         {
-          "include": "#inlineExport"
-        },
-        {
           "begin": "\\(",
           "beginCaptures": {
             "0": {
@@ -906,6 +1005,9 @@
             }
           },
           "patterns": [
+            {
+              "include": "#inlineExport"
+            },
             {
               "include": "#memoryFieldsData"
             },
@@ -962,6 +1064,9 @@
           ]
         },
         {
+          "include": "#elemType"
+        },
+        {
           "begin": "\\(",
           "beginCaptures": {
             "0": {
@@ -976,12 +1081,11 @@
           },
           "patterns": [
             {
+              "include": "#extra"
+            },
+            {
               "include": "#inlineExport"
-            }
-          ]
-        },
-        {
-          "patterns": [
+            },
             {
               "include": "#tableFieldsElem"
             },
@@ -1069,31 +1173,24 @@
       "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
     },
     "tableFieldsElem": {
-      "patterns": []
+      "name": "meta.table-fields.elem.wasm",
+      "begin": "\\belem\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.elem.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#extra"
+        }
+      ]
     },
     "tableFieldsType": {
       "patterns": [
         {
-          "begin": "\\(",
-          "beginCaptures": {
-            "0": {
-              "name": "meta.brace.round.wasm"
-            }
-          },
-          "end": "\\)",
-          "endCaptures": {
-            "0": {
-              "name": "meta.brace.round.wasm"
-            }
-          },
-          "patterns": [
-            {
-              "include": "#extra"
-            },
-            {
-              "include": "#inlineImport"
-            }
-          ]
+          "include": "#inlineImport"
         },
         {
           "include": "#tableType"
@@ -1171,8 +1268,7 @@
       "end": "(?=\\))",
       "patterns": [
         {
-          "name": "variable.other.constant entity.name.type.wasm",
-          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
+          "include": "#index"
         }
       ]
     },
