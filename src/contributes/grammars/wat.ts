@@ -231,6 +231,7 @@ export class Wat implements basis.Render {
 
   funcTypeParams(): schema.Rule {
     return {
+      name: "meta.func-type.params.wasm",
       begin: words(Token.PARAM),
       beginCaptures: {
         0: { name: "keyword.control.param.wasm" },
@@ -249,6 +250,7 @@ export class Wat implements basis.Render {
 
   funcTypeResults(): schema.Rule {
     return {
+      name: "meta.func-type.results.wasm",
       begin: words(Token.RESULT),
       beginCaptures: {
         0: { name: "keyword.control.param.wasm" },
@@ -307,6 +309,7 @@ export class Wat implements basis.Render {
 
   importDesc(): schema.Rule {
     return {
+      name: "meta.import-desc.wasm",
       begin: Token.LEFT_PARENTHESIS,
       beginCaptures: {
         0: { name: "meta.brace.round.wasm" },
@@ -327,6 +330,7 @@ export class Wat implements basis.Render {
   importDescFuncType(): schema.Rule {
     // NOTE: merged with importDescTypeUse
     return {
+      name: "meta.import-desc.func-type.wasm",
       begin: words(Token.FUNC),
       beginCaptures: {
         0: { name: "keyword.control.func.wasm" },
@@ -345,6 +349,7 @@ export class Wat implements basis.Render {
 
   importDescGlobalType(): schema.Rule {
     return {
+      name: "meta.import-desc.global-type.wasm",
       begin: words(Token.GLOBAL),
       beginCaptures: {
         0: { name: "keyword.control.global.wasm" },
@@ -362,6 +367,7 @@ export class Wat implements basis.Render {
 
   importDescMemoryType(): schema.Rule {
     return {
+      name: "meta.import-desc.memory-type.wasm",
       begin: words(Token.MEMORY),
       beginCaptures: {
         0: { name: "keyword.control.memory.wasm" },
@@ -379,6 +385,7 @@ export class Wat implements basis.Render {
 
   importDescTableType(): schema.Rule {
     return {
+      name: "meta.import-desc.table-type.wasm",
       begin: words(Token.TABLE),
       beginCaptures: {
         0: { name: "keyword.control.table.wasm" },
