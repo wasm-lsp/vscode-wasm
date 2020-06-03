@@ -406,7 +406,6 @@ export class Wast extends Wat {
 
   scriptModule(): schema.Rule {
     return {
-      name: "meta.module.wasm",
       patterns: [
         {
           begin: words(Token.MODULE),
