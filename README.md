@@ -2,7 +2,7 @@
   <h1>vscode-wasm</h1>
   <p style="margin-bottom: 0.5ex;">
     <a href="https://github.com/wasm-lsp/vscode-wasm/actions"><img
-        src="https://github.com/wasm-lsp/vscode-wasm/workflows/main/badge.svg" /></a>
+        src="https://img.shields.io/github/workflow/status/wasm-lsp/vscode-wasm/main?logo=github" /></a>
     <img src="https://img.shields.io/npm/types/@types/vscode?logo=typescript" />
     <img src="https://img.shields.io/badge/eslint-checked-informational?logo=eslint" />
     <img src="https://img.shields.io/badge/prettier-formatted-informational?logo=prettier" />
