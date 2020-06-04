@@ -12,6 +12,7 @@
     "type": "git",
     "url": "https://github.com/freebroccolo/vscode-reasonml.git"
   },
+  "publisher": "darinmorrison",
   "license": "Apache-2.0 WITH LLVM-exception",
   "engines": {
     "vscode": "^1.43.0"
