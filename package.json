@@ -8,6 +8,10 @@
     "email": "darinmorrison@users.noreply.github.com",
     "url": "https://github.com/darinmorrison"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/freebroccolo/vscode-reasonml.git"
+  },
   "license": "Apache-2.0 WITH LLVM-exception",
   "engines": {
     "vscode": "^1.43.0"
