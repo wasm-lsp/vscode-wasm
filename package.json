@@ -1,8 +1,8 @@
 {
   "name": "vscode-wasm",
-  "displayName": "vscode-wasm",
   "description": "Visual Studio Code client for the WebAssembly language server",
   "version": "0.0.1",
+  "license": "Apache-2.0 WITH LLVM-exception",
   "author": {
     "name": "Darin Morrison",
     "email": "darinmorrison@users.noreply.github.com",
@@ -12,8 +12,8 @@
     "type": "git",
     "url": "https://github.com/freebroccolo/vscode-reasonml.git"
   },
+  "displayName": "vscode-wasm",
   "publisher": "darinmorrison",
-  "license": "Apache-2.0 WITH LLVM-exception",
   "engines": {
     "vscode": "^1.43.0"
   },
