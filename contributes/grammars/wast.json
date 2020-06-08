@@ -176,7 +176,7 @@
       "end": "(?=\\))",
       "patterns": [
         {
-          "include": "#index"
+          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
         }
       ]
     },
@@ -190,7 +190,7 @@
       "end": "(?=\\))",
       "patterns": [
         {
-          "include": "#index"
+          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
         }
       ]
     },
@@ -204,7 +204,7 @@
       "end": "(?=\\))",
       "patterns": [
         {
-          "include": "#index"
+          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
         }
       ]
     },
@@ -218,12 +218,105 @@
       "end": "(?=\\))",
       "patterns": [
         {
-          "include": "#index"
+          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
         }
       ]
     },
     "expr": {
-      "patterns": []
+      "patterns": [
+        {
+          "include": "#exprPlain"
+        },
+        {
+          "include": "#exprCall"
+        },
+        {
+          "include": "#exprBlock"
+        },
+        {
+          "include": "#exprLoop"
+        },
+        {
+          "include": "#exprIf"
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#expr"
+            }
+          ]
+        }
+      ]
+    },
+    "exprBlock": {
+      "patterns": [
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bblock\\b"
+        }
+      ]
+    },
+    "exprCall": {
+      "patterns": [
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bcall_indirect\\b"
+        }
+      ]
+    },
+    "exprIf": {
+      "patterns": [
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bif\\b"
+        }
+      ]
+    },
+    "exprLoop": {
+      "patterns": [
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bloop\\b"
+        }
+      ]
+    },
+    "exprPlain": {
+      "patterns": [
+        {
+          "include": "#instrPlain"
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#expr"
+            }
+          ]
+        }
+      ]
     },
     "extra": {
       "patterns": [
@@ -246,11 +339,7 @@
       "patterns": [
         {
           "name": "variable.parameter.local.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "include": "#valueType"
@@ -364,10 +453,6 @@
         }
       ]
     },
-    "identifier": {
-      "name": "entity.name.type.alias.wasm",
-      "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
-    },
     "importDesc": {
       "name": "meta.import-desc.wasm",
       "begin": "\\(",
@@ -409,11 +494,7 @@
       "patterns": [
         {
           "name": "entity.name.function.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "include": "#funcType"
@@ -435,11 +516,7 @@
       "patterns": [
         {
           "name": "variable.other.global.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "include": "#globalType"
@@ -458,11 +535,7 @@
       "patterns": [
         {
           "name": "variable.other.memory.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "include": "#memoryType"
@@ -481,20 +554,12 @@
       "patterns": [
         {
           "name": "variable.other.table.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "include": "#tableType"
         }
       ]
-    },
-    "index": {
-      "name": "variable.other.constant",
-      "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
     },
     "inlineExport": {
       "name": "meta.export.wasm",
@@ -571,7 +636,110 @@
         }
       ]
     },
+    "instrBlock": {
+      "patterns": []
+    },
+    "instrCall": {
+      "patterns": []
+    },
     "instrList": {
+      "patterns": [
+        {
+          "include": "#instrListCall"
+        },
+        {
+          "include": "#instr"
+        }
+      ]
+    },
+    "instrPlain": {
+      "patterns": [
+        {
+          "include": "#instrPlainNop"
+        },
+        {
+          "include": "#instrPlainBr"
+        },
+        {
+          "include": "#instrPlainBrIf"
+        },
+        {
+          "include": "#instrPlainBrTable"
+        },
+        {
+          "include": "#instrPlainReturn"
+        },
+        {
+          "include": "#instrPlainLocalGet"
+        },
+        {
+          "include": "#instrPlainLocalSet"
+        },
+        {
+          "include": "#instrPlainLocalTee"
+        },
+        {
+          "include": "#instrPlainGlobalGet"
+        },
+        {
+          "include": "#instrPlainGlobalSet"
+        },
+        {
+          "include": "#instrPlainMemorySize"
+        },
+        {
+          "include": "#instrPlainMemoryGrow"
+        },
+        {
+          "include": "#instrPlainConst"
+        },
+        {
+          "include": "#instrPlainTest"
+        },
+        {
+          "include": "#instrPlainCompare"
+        },
+        {
+          "include": "#instrPlainUnary"
+        },
+        {
+          "include": "#instrPlainBinary"
+        },
+        {
+          "include": "#instrPlainConvert"
+        },
+        {
+          "include": "#instrPlainLoad"
+        },
+        {
+          "include": "#instrPlainStore"
+        },
+        {
+          "include": "#instrPlainCall"
+        }
+      ]
+    },
+    "instrPlainBinary": {
+      "patterns": []
+    },
+    "instrPlainBr": {
+      "name": "keyword.control.wasm",
+      "match": "\\bbr\\b"
+    },
+    "instrPlainBrIf": {
+      "name": "keyword.control.wasm",
+      "match": "\\bbr_if\\b"
+    },
+    "instrPlainBrTable": {
+      "patterns": []
+    },
+    "instrPlainCall": {
+      "patterns": []
+    },
+    "instrPlainCompare": {
+      "patterns": []
+    },
+    "instrPlainConvert": {
       "patterns": []
     },
     "instrPlainConst": {
@@ -591,6 +759,46 @@
           "include": "#literal"
         }
       ]
+    },
+    "instrPlainGlobalGet": {
+      "patterns": []
+    },
+    "instrPlainGlobalSet": {
+      "patterns": []
+    },
+    "instrPlainLoad": {
+      "patterns": []
+    },
+    "instrPlainLocalGet": {
+      "patterns": []
+    },
+    "instrPlainLocalSet": {
+      "patterns": []
+    },
+    "instrPlainLocalTee": {
+      "patterns": []
+    },
+    "instrPlainMemorySize": {
+      "patterns": []
+    },
+    "instrPlainMemoryGrow": {
+      "patterns": []
+    },
+    "instrPlainNop": {
+      "name": "keyword.control.wasm",
+      "match": "\\bnop\\b"
+    },
+    "instrPlainReturn": {
+      "patterns": []
+    },
+    "instrPlainStore": {
+      "patterns": []
+    },
+    "instrPlainTest": {
+      "patterns": []
+    },
+    "instrPlainUnary": {
+      "patterns": []
     },
     "instrType": {
       "patterns": [
@@ -762,18 +970,14 @@
           "include": "#extra"
         },
         {
-          "begin": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)",
-          "beginCaptures": {
-            "0": {
-              "name": "variable.other.constant entity.name.data.wasm"
-            }
-          },
-          "end": "(?=\\))",
-          "patterns": [
-            {
-              "include": "#extra"
-            }
-          ]
+          "name": "variable.other.constant entity.name.data.wasm",
+          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
+        },
+        {
+          "include": "#offset"
+        },
+        {
+          "include": "#string"
         }
       ]
     },
@@ -789,6 +993,12 @@
       "patterns": [
         {
           "include": "#extra"
+        },
+        {
+          "include": "#offset"
+        },
+        {
+          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
         }
       ]
     },
@@ -837,6 +1047,7 @@
       ]
     },
     "moduleFieldFunc": {
+      "name": "meta.func.wasm",
       "begin": "\\bfunc\\b",
       "beginCaptures": {
         "0": {
@@ -850,11 +1061,7 @@
         },
         {
           "name": "entity.name.function.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "begin": "\\(",
@@ -887,6 +1094,9 @@
             },
             {
               "include": "#funcLocals"
+            },
+            {
+              "include": "#expr"
             }
           ]
         },
@@ -910,11 +1120,7 @@
         },
         {
           "name": "variable.other.global.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "begin": "\\(",
@@ -985,11 +1191,7 @@
         },
         {
           "name": "variable.other.memory.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "begin": "\\(",
@@ -1057,11 +1259,7 @@
         },
         {
           "name": "variable.other.table.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "include": "#elemType"
@@ -1111,11 +1309,7 @@
         },
         {
           "name": "entity.name.type.alias.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "include": "#typeField"
@@ -1142,6 +1336,28 @@
       "patterns": [
         {
           "include": "#stringCharacterEscape"
+        }
+      ]
+    },
+    "offset": {
+      "begin": "\\(",
+      "beginCaptures": {
+        "0": {
+          "name": "meta.brace.round.wasm"
+        }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": {
+          "name": "meta.brace.round.wasm"
+        }
+      },
+      "patterns": []
+    },
+    "offsetExpr": {
+      "patterns": [
+        {
+          "include": "#expr"
         }
       ]
     },
@@ -1268,7 +1484,8 @@
       "end": "(?=\\))",
       "patterns": [
         {
-          "include": "#index"
+          "name": "entity.name.type.alias.wasm",
+          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
         }
       ]
     },
@@ -1298,11 +1515,7 @@
       "patterns": [
         {
           "name": "variable.other.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "name": "variable.other.readwrite.alias.wasm",
@@ -1328,11 +1541,7 @@
       "patterns": [
         {
           "name": "variable.other.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "name": "variable.other.readwrite.alias.wasm",
@@ -1663,11 +1872,7 @@
       "patterns": [
         {
           "name": "variable.other.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "include": "#string"
@@ -1686,11 +1891,7 @@
       "patterns": [
         {
           "name": "variable.other.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "include": "#string"
@@ -1709,11 +1910,7 @@
       "patterns": [
         {
           "name": "variable.other.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
           "include": "#command"
@@ -1735,11 +1932,7 @@
         },
         {
           "name": "variable.other.wasm",
-          "patterns": [
-            {
-              "include": "#identifier"
-            }
-          ]
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         }
       ]
     },
