@@ -1342,7 +1342,12 @@ export class Wat implements basis.Render {
         0: { name: "storage.type.type.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [{ match: Token.index }],
+      patterns: [
+        {
+          name: "entity.name.type.alias.wasm",
+          match: Token.index,
+        },
+      ],
     };
   }
 
