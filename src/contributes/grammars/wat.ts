@@ -43,13 +43,11 @@ export class Wat implements basis.Render {
         globalType: this.globalType(),
         globalTypeImm: this.globalTypeImm(),
         globalTypeMut: this.globalTypeMut(),
-        identifier: this.identifier(),
         importDesc: this.importDesc(),
         importDescFuncType: this.importDescFuncType(),
         importDescGlobalType: this.importDescGlobalType(),
         importDescMemoryType: this.importDescMemoryType(),
         importDescTableType: this.importDescTableType(),
-        index: this.index(),
         inlineExport: this.inlineExport(),
         inlineImport: this.inlineImport(),
         inlineImportNames: this.inlineImportNames(),
@@ -248,7 +246,7 @@ export class Wat implements basis.Render {
         0: { name: "keyword.control.func.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.index)],
+      patterns: [{ match: Token.index }],
     };
   }
 
@@ -259,7 +257,7 @@ export class Wat implements basis.Render {
         0: { name: "keyword.control.global.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.index)],
+      patterns: [{ match: Token.index }],
     };
   }
 
@@ -270,7 +268,7 @@ export class Wat implements basis.Render {
         0: { name: "keyword.control.memory.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.index)],
+      patterns: [{ match: Token.index }],
     };
   }
 
@@ -281,7 +279,7 @@ export class Wat implements basis.Render {
         0: { name: "keyword.control.table.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.index)],
+      patterns: [{ match: Token.index }],
     };
   }
 
@@ -388,7 +386,7 @@ export class Wat implements basis.Render {
       patterns: [
         {
           name: "variable.parameter.local.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
         include(this.valueType),
       ],
@@ -472,13 +470,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  identifier(): schema.Rule {
-    return {
-      name: "entity.name.type.alias.wasm",
-      match: `\\$${Token.id}`,
-    };
-  }
-
   importDesc(): schema.Rule {
     return {
       name: "meta.import-desc.wasm",
@@ -511,7 +502,7 @@ export class Wat implements basis.Render {
       patterns: [
         {
           name: "entity.name.function.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
         include(this.funcType),
         include(this.typeUse),
@@ -530,7 +521,7 @@ export class Wat implements basis.Render {
       patterns: [
         {
           name: "variable.other.global.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
         include(this.globalType),
       ],
@@ -548,7 +539,7 @@ export class Wat implements basis.Render {
       patterns: [
         {
           name: "variable.other.memory.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
         include(this.memoryType),
       ],
@@ -566,17 +557,10 @@ export class Wat implements basis.Render {
       patterns: [
         {
           name: "variable.other.table.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
         include(this.tableType),
       ],
-    };
-  }
-
-  index(): schema.Rule {
-    return {
-      name: "variable.other.constant",
-      match: Token.index,
     };
   }
 
@@ -1021,7 +1005,7 @@ export class Wat implements basis.Render {
         0: { name: "storage.type.elem.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.extra), include(this.offset), include(this.index)],
+      patterns: [include(this.extra), include(this.offset), { match: Token.index }],
     };
   }
 
@@ -1072,7 +1056,7 @@ export class Wat implements basis.Render {
         include(this.extra),
         {
           name: "entity.name.function.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
         {
           begin: Token.LEFT_PARENTHESIS,
@@ -1110,7 +1094,7 @@ export class Wat implements basis.Render {
         include(this.extra),
         {
           name: "variable.other.global.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
         {
           begin: Token.LEFT_PARENTHESIS,
@@ -1153,7 +1137,7 @@ export class Wat implements basis.Render {
         include(this.extra),
         {
           name: "variable.other.memory.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
         {
           begin: Token.LEFT_PARENTHESIS,
@@ -1203,7 +1187,7 @@ export class Wat implements basis.Render {
         include(this.extra),
         {
           name: "variable.other.table.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
         include(this.elemType),
         {
@@ -1238,7 +1222,7 @@ export class Wat implements basis.Render {
         include(this.extra),
         {
           name: "entity.name.type.alias.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
         include(this.typeField),
       ],
@@ -1358,7 +1342,7 @@ export class Wat implements basis.Render {
         0: { name: "storage.type.type.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.index)],
+      patterns: [{ match: Token.index }],
     };
   }
 

@@ -80,7 +80,7 @@ export class Wast extends Wat {
       patterns: [
         {
           name: "variable.other.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
         {
           name: "variable.other.readwrite.alias.wasm",
@@ -107,7 +107,7 @@ export class Wast extends Wat {
       patterns: [
         {
           name: "variable.other.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
         {
           name: "variable.other.readwrite.alias.wasm",
@@ -337,7 +337,7 @@ export class Wast extends Wat {
       patterns: [
         {
           name: "variable.other.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
         include(this.command),
       ],
@@ -355,7 +355,7 @@ export class Wast extends Wat {
       patterns: [
         {
           name: "variable.other.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
         include(this.string),
       ],
@@ -373,7 +373,7 @@ export class Wast extends Wat {
       patterns: [
         {
           name: "variable.other.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
         include(this.string),
       ],
@@ -392,7 +392,7 @@ export class Wast extends Wat {
         include(this.name),
         {
           name: "variable.other.wasm",
-          patterns: [include(this.identifier)],
+          match: Token.identifier,
         },
       ],
     };
