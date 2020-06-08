@@ -759,6 +759,7 @@ export class Wat implements basis.Render {
 
   moduleFieldFunc(): schema.Rule {
     return {
+      name: "meta.func.wasm",
       begin: words(Token.FUNC),
       beginCaptures: {
         0: { name: "storage.type.function.wasm" },
