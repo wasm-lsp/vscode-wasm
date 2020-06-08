@@ -718,7 +718,7 @@ export class Wat implements basis.Render {
         0: { name: "storage.type.elem.wasm" },
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [include(this.extra)],
+      patterns: [include(this.extra), include(this.offset), include(this.index)],
     };
   }
 
