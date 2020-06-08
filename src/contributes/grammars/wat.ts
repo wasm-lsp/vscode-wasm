@@ -30,6 +30,11 @@ export class Wat implements basis.Render {
         exportDescMemory: this.exportDescMemory(),
         exportDescTable: this.exportDescTable(),
         expr: this.expr(),
+        exprBlock: this.exprBlock(),
+        exprCall: this.exprCall(),
+        exprIf: this.exprIf(),
+        exprLoop: this.exprLoop(),
+        exprPlain: this.exprPlain(),
         extra: this.extra(),
         funcLocals: this.funcLocals(),
         funcType: this.funcType(),
@@ -48,8 +53,31 @@ export class Wat implements basis.Render {
         inlineExport: this.inlineExport(),
         inlineImport: this.inlineImport(),
         inlineImportNames: this.inlineImportNames(),
+        instrBlock: this.instrBlock(),
+        instrCall: this.instrCall(),
         instrList: this.instrList(),
+        instrPlain: this.instrPlain(),
+        instrPlainBinary: this.instrPlainBinary(),
+        instrPlainBr: this.instrPlainBr(),
+        instrPlainBrIf: this.instrPlainBrIf(),
+        instrPlainBrTable: this.instrPlainBrTable(),
+        instrPlainCall: this.instrPlainCall(),
+        instrPlainCompare: this.instrPlainCompare(),
+        instrPlainConvert: this.instrPlainConvert(),
         instrPlainConst: this.instrPlainConst(),
+        instrPlainGlobalGet: this.instrPlainGlobalGet(),
+        instrPlainGlobalSet: this.instrPlainGlobalSet(),
+        instrPlainLoad: this.instrPlainLoad(),
+        instrPlainLocalGet: this.instrPlainLocalGet(),
+        instrPlainLocalSet: this.instrPlainLocalSet(),
+        instrPlainLocalTee: this.instrPlainLocalTee(),
+        instrPlainMemorySize: this.instrPlainMemorySize(),
+        instrPlainMemoryGrow: this.instrPlainMemoryGrow(),
+        instrPlainNop: this.instrPlainNop(),
+        instrPlainReturn: this.instrPlainReturn(),
+        instrPlainStore: this.instrPlainStore(),
+        instrPlainTest: this.instrPlainTest(),
+        instrPlainUnary: this.instrPlainUnary(),
         instrType: this.instrType(),
         instrTypeInt: this.instrTypeInt(),
         instrTypeFloat: this.instrTypeFloat(),
@@ -259,7 +287,88 @@ export class Wat implements basis.Render {
 
   expr(): schema.Rule {
     return {
-      patterns: [],
+      patterns: [
+        include(this.exprPlain),
+        include(this.exprCall),
+        include(this.exprBlock),
+        include(this.exprLoop),
+        include(this.exprIf),
+        {
+          // NOTE: should this be included here or alongside expr in the parent rule?
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.expr)],
+        },
+      ],
+    };
+  }
+
+  exprBlock(): schema.Rule {
+    return {
+      patterns: [
+        {
+          name: "keyword.control.wasm",
+          match: words(Token.BLOCK),
+        },
+      ],
+    };
+  }
+
+  exprCall(): schema.Rule {
+    return {
+      patterns: [
+        {
+          name: "keyword.control.wasm",
+          match: words(Token.CALL_INDIRECT),
+        },
+      ],
+    };
+  }
+
+  exprIf(): schema.Rule {
+    return {
+      patterns: [
+        {
+          name: "keyword.control.wasm",
+          match: words(Token.IF),
+        },
+      ],
+    };
+  }
+
+  exprLoop(): schema.Rule {
+    return {
+      patterns: [
+        {
+          name: "keyword.control.wasm",
+          match: words(Token.LOOP),
+        },
+      ],
+    };
+  }
+
+  exprPlain(): schema.Rule {
+    return {
+      patterns: [
+        include(this.instrPlain),
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.expr)],
+        },
+      ],
     };
   }
 
@@ -540,7 +649,112 @@ export class Wat implements basis.Render {
     };
   }
 
+  instr(): schema.Rule {
+    return {
+      patterns: [
+        include(this.instrPlain),
+        include(this.instrCall),
+        include(this.instrBlock),
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [include(this.expr)],
+        },
+      ],
+    };
+  }
+
+  instrBlock(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrCall(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
   instrList(): schema.Rule {
+    return {
+      patterns: [include(this.instrListCall), include(this.instr)],
+    };
+  }
+
+  instrListCall(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlain(): schema.Rule {
+    return {
+      patterns: [
+        include(this.instrPlainNop),
+        include(this.instrPlainBr),
+        include(this.instrPlainBrIf),
+        include(this.instrPlainBrTable),
+        include(this.instrPlainReturn),
+        include(this.instrPlainLocalGet),
+        include(this.instrPlainLocalSet),
+        include(this.instrPlainLocalTee),
+        include(this.instrPlainGlobalGet),
+        include(this.instrPlainGlobalSet),
+        include(this.instrPlainMemorySize),
+        include(this.instrPlainMemoryGrow),
+        include(this.instrPlainConst),
+        include(this.instrPlainTest),
+        include(this.instrPlainCompare),
+        include(this.instrPlainUnary),
+        include(this.instrPlainBinary),
+        include(this.instrPlainConvert),
+        include(this.instrPlainLoad),
+        include(this.instrPlainStore),
+        include(this.instrPlainCall),
+      ],
+    };
+  }
+
+  instrPlainBinary(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainBr(): schema.Rule {
+    return {
+      name: "keyword.control.wasm",
+      match: words(Token.BR),
+    };
+  }
+
+  instrPlainBrIf(): schema.Rule {
+    return {
+      name: "keyword.control.wasm",
+      match: words(Token.BR_IF),
+    };
+  }
+
+  instrPlainBrTable(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainCall(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainCompare(): schema.Rule {
     return {
       patterns: [],
     };
@@ -560,6 +774,97 @@ export class Wat implements basis.Render {
         },
         include(this.literal),
       ],
+    };
+  }
+
+  instrPlainConvert(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainGlobalGet(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainGlobalSet(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainGlobalTee(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainLoad(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainLocalGet(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainLocalSet(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainLocalTee(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainMemoryGrow(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainMemorySize(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainNop(): schema.Rule {
+    return {
+      name: "keyword.control.wasm",
+      match: words(Token.NOP),
+    };
+  }
+
+  instrPlainReturn(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainStore(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainTest(): schema.Rule {
+    return {
+      patterns: [],
+    };
+  }
+
+  instrPlainUnary(): schema.Rule {
+    return {
+      patterns: [],
     };
   }
 
