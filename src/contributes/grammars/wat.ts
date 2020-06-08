@@ -699,13 +699,11 @@ export class Wat implements basis.Render {
       patterns: [
         include(this.extra),
         {
-          begin: Token.index,
-          beginCaptures: {
-            0: { name: "variable.other.constant entity.name.data.wasm" },
-          },
-          end: lookAhead(Token.RIGHT_PARENTHESIS),
-          patterns: [include(this.extra) /*, include(this.offset), include(this.string)*/],
+          name: "variable.other.constant entity.name.data.wasm",
+          match: Token.index,
         },
+        include(this.offset),
+        include(this.string),
       ],
     };
   }
