@@ -787,6 +787,7 @@ export class Wat implements basis.Render {
             include(this.funcTypeParams),
             include(this.funcTypeResults),
             include(this.funcLocals),
+            include(this.expr),
           ],
         },
         include(this.instrList),
