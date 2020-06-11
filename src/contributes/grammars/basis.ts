@@ -34,6 +34,7 @@ export const Token = {
   BLOCK: "block",
   BR: "br",
   BR_IF: "br_if",
+  CALL: "call",
   CALL_INDIRECT: "call_indirect",
   CONST: "const",
   DATA: "data",
