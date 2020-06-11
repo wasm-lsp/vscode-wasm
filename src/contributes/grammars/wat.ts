@@ -309,11 +309,33 @@ export class Wat implements basis.Render {
 
   exprBlock(): schema.Rule {
     return {
+      begin: words(Token.BLOCK),
+      beginCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
       patterns: [
         {
-          name: "keyword.control.wasm",
-          match: words(Token.BLOCK),
+          name: "variable.block.global.wasm",
+          match: Token.identifier,
         },
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          beginCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          end: Token.RIGHT_PARENTHESIS,
+          endCaptures: {
+            0: { name: "meta.brace.round.wasm" },
+          },
+          patterns: [
+            include(this.typeUse),
+            include(this.funcTypeParams),
+            include(this.funcTypeResults),
+            include(this.expr),
+          ],
+        },
+        include(this.instrList),
       ],
     };
   }
