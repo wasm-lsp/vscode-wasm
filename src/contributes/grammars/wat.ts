@@ -756,7 +756,17 @@ export class Wat implements basis.Render {
 
   instrPlainCall(): schema.Rule {
     return {
-      patterns: [],
+      begin: words(Token.CALL),
+      beginCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [
+        {
+          name: "variable.other.wasm",
+          match: Token.index,
+        },
+      ],
     };
   }
 
