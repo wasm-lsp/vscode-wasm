@@ -3,7 +3,22 @@
 import * as basis from "./basis";
 import * as schema from "./schema";
 
-const { Token, alt, capture, group, include, lastWords, lookAhead, lookBehind, manyOne, opt, seq, set, words } = basis;
+const {
+  Token,
+  alt,
+  capture,
+  group,
+  include,
+  lastWords,
+  lookAhead,
+  lookBehind,
+  manyOne,
+  ops,
+  opt,
+  seq,
+  set,
+  words,
+} = basis;
 
 export class Wat implements basis.Render {
   constructor() {
@@ -759,7 +774,36 @@ export class Wat implements basis.Render {
   instrPlainBinary(): schema.Rule {
     return {
       name: "meta.instrPlainBinary.wasm",
-      patterns: [],
+      patterns: [
+        {
+          name: "keyword.control.wasm",
+          match: seq(words(Token.instrType), ops(Token.FULL_STOP), group(alt("add", "sub", "mul"))),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(
+            words(Token.instrTypeInt),
+            ops(Token.FULL_STOP),
+            group(alt("and", "or", "xor", "shl", "rotl", "rotr")),
+          ),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(
+            words(Token.instrTypeInt),
+            ops(Token.FULL_STOP),
+            words(seq(group(alt("div", "rem", "shr")), "_", set("su"))),
+          ),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(
+            words(Token.instrTypeFloat),
+            ops(Token.FULL_STOP),
+            group(alt("add", "sub", "mul", "div", "min", "max", "copysign")),
+          ),
+        },
+      ],
     };
   }
 
