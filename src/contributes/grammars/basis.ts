@@ -23,57 +23,6 @@ const identifier = `\\$${id}`;
 const index = `(?:${uN})|(?:${identifier})`;
 const valueType = "[fi](?:32|64)";
 
-export const Token = {
-  ASSERT_EXHAUSTION: "assert_exhaustion",
-  ASSERT_INVALID: "assert_invalid",
-  ASSERT_MALFORMED: "assert_malformed",
-  ASSERT_RETURN: "assert_return",
-  ASSERT_TRAP: "assert_trap",
-  ASSERT_UNLINKABLE: "assert_unlinkable",
-  BINARY: "binary",
-  BLOCK: "block",
-  BR: "br",
-  BR_IF: "br_if",
-  CALL: "call",
-  CALL_INDIRECT: "call_indirect",
-  CONST: "const",
-  DATA: "data",
-  ELEM: "elem",
-  EXPORT: "export",
-  FUNC: "func",
-  FUNCREF: "funcref",
-  GET: "get",
-  GLOBAL: "global",
-  IF: "if",
-  IMPORT: "import",
-  INPUT: "input",
-  INVOKE: "invoke",
-  LEFT_PARENTHESIS: "\\(",
-  LOCAL: "local",
-  LOOP: "loop",
-  MEMORY: "memory",
-  MODULE: "module",
-  MUT: "mut",
-  NOP: "nop",
-  OFFSET: "offset",
-  OUTPUT: "output",
-  PARAM: "param",
-  QUOTE: "quote",
-  REGISTER: "register",
-  RESULT: "result",
-  RIGHT_PARENTHESIS: "\\)",
-  SCRIPT: "script",
-  START: "start",
-  TABLE: "table",
-  TYPE: "type",
-  escape: "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)",
-  id,
-  identifier,
-  index,
-  uN,
-  valueType,
-};
-
 export function ref<T extends unknown[]>(f: (...args: T) => schema.Rule): string {
   return `#${f.name}`;
 }
@@ -126,8 +75,69 @@ export const lastOps = (...rest: string[]): string => {
 
 export const lastWords = (...rest: string[]): string => {
   const result: string[] = [];
-  for (const token of rest) result.push(`[^${Token.id}]${token}`, `^${token}`);
-  return group(seq(lookBehind(group(alt(...result))), negativeLookAhead(`${Token.id}`)));
+  for (const token of rest) result.push(`[^${id}]${token}`, `^${token}`);
+  return group(seq(lookBehind(group(alt(...result))), negativeLookAhead(`${id}`)));
+};
+
+const instrTypeInt: string = seq("i", group(alt("32", "64")));
+
+const instrTypeFloat: string = seq("f", group(alt("32", "64")));
+
+const instrType: string = group(alt(instrTypeInt, instrTypeFloat));
+
+export const Token = {
+  ASSERT_EXHAUSTION: "assert_exhaustion",
+  ASSERT_INVALID: "assert_invalid",
+  ASSERT_MALFORMED: "assert_malformed",
+  ASSERT_RETURN: "assert_return",
+  ASSERT_TRAP: "assert_trap",
+  ASSERT_UNLINKABLE: "assert_unlinkable",
+  BINARY: "binary",
+  BLOCK: "block",
+  BR: "br",
+  BR_IF: "br_if",
+  CALL: "call",
+  CALL_INDIRECT: "call_indirect",
+  CONST: "const",
+  DATA: "data",
+  ELEM: "elem",
+  EXPORT: "export",
+  FULL_STOP: "\\.",
+  FUNC: "func",
+  FUNCREF: "funcref",
+  GET: "get",
+  GLOBAL: "global",
+  IF: "if",
+  IMPORT: "import",
+  INPUT: "input",
+  INVOKE: "invoke",
+  LEFT_PARENTHESIS: "\\(",
+  LOCAL: "local",
+  LOOP: "loop",
+  MEMORY: "memory",
+  MODULE: "module",
+  MUT: "mut",
+  NOP: "nop",
+  OFFSET: "offset",
+  OUTPUT: "output",
+  PARAM: "param",
+  QUOTE: "quote",
+  REGISTER: "register",
+  RESULT: "result",
+  RIGHT_PARENTHESIS: "\\)",
+  SCRIPT: "script",
+  START: "start",
+  TABLE: "table",
+  TYPE: "type",
+  escape: "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)",
+  id,
+  identifier,
+  index,
+  instrType,
+  instrTypeFloat,
+  instrTypeInt,
+  uN,
+  valueType,
 };
 
 export class Scope {}
