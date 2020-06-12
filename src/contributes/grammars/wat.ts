@@ -1274,6 +1274,7 @@ export class Wat implements basis.Render {
       endCaptures: {
         0: { name: "meta.brace.round.wasm" },
       },
+      patterns: [include(this.offsetConstExpr), include(this.offsetExpr)],
     };
   }
 
