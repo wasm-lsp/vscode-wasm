@@ -51,6 +51,7 @@ export class Wat implements basis.Render {
         inlineExport: this.inlineExport(),
         inlineImport: this.inlineImport(),
         inlineImportNames: this.inlineImportNames(),
+        instr: this.instr(),
         instrBlock: this.instrBlock(),
         instrCall: this.instrCall(),
         instrList: this.instrList(),
