@@ -101,6 +101,7 @@ export class Wat implements basis.Render {
         moduleFieldType: this.moduleFieldType(),
         name: this.name(),
         offset: this.offset(),
+        offsetConstExpr: this.offsetConstExpr(),
         offsetExpr: this.offsetExpr(),
         string: this.string(),
         stringCharacterEscape: this.stringCharacterEscape(),
@@ -1273,7 +1274,17 @@ export class Wat implements basis.Render {
       endCaptures: {
         0: { name: "meta.brace.round.wasm" },
       },
-      patterns: [],
+    };
+  }
+
+  offsetConstExpr(): schema.Rule {
+    return {
+      begin: words(Token.OFFSET),
+      beginCaptures: {
+        0: { name: "storage.type.type.wasm" },
+      },
+      end: lookAhead(Token.RIGHT_PARENTHESIS),
+      patterns: [include(this.instr)],
     };
   }
 
