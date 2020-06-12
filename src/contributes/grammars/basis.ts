@@ -69,7 +69,7 @@ export const Token = {
   escape: "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)",
   id,
   identifier,
-  index: index,
+  index,
   uN,
   valueType,
 };
