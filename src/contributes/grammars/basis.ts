@@ -83,19 +83,33 @@ export function include<T extends unknown[]>(f: (...args: T) => schema.Rule): { 
 }
 
 export const alt = (...rest: string[]): string => rest.join("|");
+
 export const capture = (arg: string): string => `(${arg})`;
+
 export const complement = (...rest: string[]): string => `[^${rest.join("")}]`;
+
 export const group = (arg: string): string => `(?:${arg})`;
+
 export const lookBehind = (arg: string): string => `(?<=${arg})`;
+
 export const negativeLookBehind = (arg: string): string => `(?<!${arg})`;
+
 export const seq = (...rest: string[]): string => rest.join("");
+
 export const negativeLookAhead = (arg: string): string => `(?!${arg})`;
+
 export const set = (...rest: string[]): string => `[${rest.join("")}]`;
+
 export const many = (arg: string): string => `${arg}*`;
+
 export const manyOne = (arg: string): string => `${arg}+`;
+
 export const opt = (arg: string): string => `${arg}?`;
+
 export const words = (arg: string): string => `\\b${arg}\\b`;
+
 export const lookAhead = (arg: string): string => `(?=${arg})`;
+
 export function lastWords(...rest: string[]): string {
   const result: string[] = [];
   for (const token of rest) result.push(`[^${Token.id}]${token}`, `^${token}`);
