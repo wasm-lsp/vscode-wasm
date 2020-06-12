@@ -90,30 +90,30 @@ export const complement = (...rest: string[]): string => `[^${rest.join("")}]`;
 
 export const group = (arg: string): string => `(?:${arg})`;
 
+export const lookAhead = (arg: string): string => `(?=${arg})`;
+
 export const lookBehind = (arg: string): string => `(?<=${arg})`;
-
-export const negativeLookBehind = (arg: string): string => `(?<!${arg})`;
-
-export const seq = (...rest: string[]): string => rest.join("");
-
-export const negativeLookAhead = (arg: string): string => `(?!${arg})`;
-
-export const set = (...rest: string[]): string => `[${rest.join("")}]`;
 
 export const many = (arg: string): string => `${arg}*`;
 
 export const manyOne = (arg: string): string => `${arg}+`;
 
-export function ops(arg: string): string {
-  const operatorTokens: string[] = ["\\."];
-  return seq(negativeLookBehind(set(...operatorTokens)), arg, negativeLookAhead(set(...operatorTokens)));
-}
+export const negativeLookAhead = (arg: string): string => `(?!${arg})`;
+
+export const negativeLookBehind = (arg: string): string => `(?<!${arg})`;
 
 export const opt = (arg: string): string => `${arg}?`;
 
+export const seq = (...rest: string[]): string => rest.join("");
+
+export const set = (...rest: string[]): string => `[${rest.join("")}]`;
+
 export const words = (arg: string): string => `\\b${arg}\\b`;
 
-export const lookAhead = (arg: string): string => `(?=${arg})`;
+export const ops = (arg: string): string => {
+  const operatorTokens: string[] = ["\\."];
+  return seq(negativeLookBehind(set(...operatorTokens)), arg, negativeLookAhead(set(...operatorTokens)));
+};
 
 export function lastOps(...rest: string[]): string {
   const operatorTokens: string[] = ["\\."];
