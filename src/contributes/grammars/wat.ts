@@ -205,7 +205,7 @@ export class Wat implements basis.Render {
 
   blockComment(): schema.Rule {
     return {
-      name: "meta.comment.block.wasm comment.block.wasm",
+      name: "meta.blockComment.wasm comment.block.wasm",
       begin: capture("\\(;"),
       beginCaptures: {
         1: { name: "punctuation.definition.comment.wasm" },
@@ -425,7 +425,7 @@ export class Wat implements basis.Render {
 
   funcTypeParams(): schema.Rule {
     return {
-      name: "meta.func-type.params.wasm",
+      name: "meta.funcTypeParams.wasm",
       begin: words(Token.PARAM),
       beginCaptures: {
         0: { name: "keyword.control.param.wasm" },
@@ -444,7 +444,7 @@ export class Wat implements basis.Render {
 
   funcTypeResults(): schema.Rule {
     return {
-      name: "meta.func-type.results.wasm",
+      name: "meta.funcTypeResults.wasm",
       begin: words(Token.RESULT),
       beginCaptures: {
         0: { name: "keyword.control.param.wasm" },
@@ -496,7 +496,7 @@ export class Wat implements basis.Render {
 
   importDesc(): schema.Rule {
     return {
-      name: "meta.import-desc.wasm",
+      name: "meta.importDesc.wasm",
       begin: Token.LEFT_PARENTHESIS,
       beginCaptures: {
         0: { name: "meta.brace.round.wasm" },
@@ -517,7 +517,7 @@ export class Wat implements basis.Render {
   importDescFuncType(): schema.Rule {
     // NOTE: merged with importDescTypeUse
     return {
-      name: "meta.import-desc.func-type.wasm",
+      name: "meta.importDescFuncType.wasm",
       begin: words(Token.FUNC),
       beginCaptures: {
         0: { name: "keyword.control.func.wasm" },
@@ -536,7 +536,7 @@ export class Wat implements basis.Render {
 
   importDescGlobalType(): schema.Rule {
     return {
-      name: "meta.import-desc.global-type.wasm",
+      name: "meta.importDescGlobalType.wasm",
       begin: words(Token.GLOBAL),
       beginCaptures: {
         0: { name: "keyword.control.global.wasm" },
@@ -554,7 +554,7 @@ export class Wat implements basis.Render {
 
   importDescMemoryType(): schema.Rule {
     return {
-      name: "meta.import-desc.memory-type.wasm",
+      name: "meta.importDescMemoryType.wasm",
       begin: words(Token.MEMORY),
       beginCaptures: {
         0: { name: "keyword.control.memory.wasm" },
@@ -572,7 +572,7 @@ export class Wat implements basis.Render {
 
   importDescTableType(): schema.Rule {
     return {
-      name: "meta.import-desc.table-type.wasm",
+      name: "meta.importDescTableType.wasm",
       begin: words(Token.TABLE),
       beginCaptures: {
         0: { name: "keyword.control.table.wasm" },
@@ -590,7 +590,7 @@ export class Wat implements basis.Render {
 
   inlineExport(): schema.Rule {
     return {
-      name: "meta.export.wasm",
+      name: "meta.inlineExport.wasm",
       begin: words(Token.EXPORT),
       beginCaptures: {
         0: { name: "keyword.control.export.wasm" },
@@ -1013,7 +1013,7 @@ export class Wat implements basis.Render {
 
   moduleFieldData(): schema.Rule {
     return {
-      name: "meta.data.wasm",
+      name: "meta.moduleFieldData.wasm",
       begin: words(Token.DATA),
       beginCaptures: {
         0: { name: "storage.type.data.wasm" },
@@ -1033,7 +1033,7 @@ export class Wat implements basis.Render {
 
   moduleFieldElem(): schema.Rule {
     return {
-      name: "meta.elem.wasm",
+      name: "meta.moduleFieldElem.wasm",
       begin: words(Token.ELEM),
       beginCaptures: {
         0: { name: "storage.type.elem.wasm" },
@@ -1045,7 +1045,7 @@ export class Wat implements basis.Render {
 
   moduleFieldExport(): schema.Rule {
     return {
-      name: "meta.export.wasm",
+      name: "meta.moduleFieldExport.wasm",
       begin: words(Token.EXPORT),
       beginCaptures: {
         0: { name: "keyword.control.export.wasm" },
@@ -1080,7 +1080,7 @@ export class Wat implements basis.Render {
 
   moduleFieldFunc(): schema.Rule {
     return {
-      name: "meta.func.wasm",
+      name: "meta.moduleFieldFunc.wasm",
       begin: words(Token.FUNC),
       beginCaptures: {
         0: { name: "storage.type.function.wasm" },
@@ -1118,7 +1118,7 @@ export class Wat implements basis.Render {
 
   moduleFieldGlobal(): schema.Rule {
     return {
-      name: "meta.global.wasm",
+      name: "meta.moduleFieldGlobal.wasm",
       begin: words(Token.GLOBAL),
       beginCaptures: {
         0: { name: "storage.type.global.wasm" },
@@ -1149,7 +1149,7 @@ export class Wat implements basis.Render {
 
   moduleFieldImport(): schema.Rule {
     return {
-      name: "meta.import.wasm",
+      name: "meta.moduleFieldImport.wasm",
       begin: words(Token.IMPORT),
       beginCaptures: {
         0: { name: "keyword.control.import.wasm" },
@@ -1161,7 +1161,7 @@ export class Wat implements basis.Render {
 
   moduleFieldMemory(): schema.Rule {
     return {
-      name: "meta.memory.wasm",
+      name: "meta.moduleFieldMemory.wasm",
       begin: words(Token.MEMORY),
       beginCaptures: {
         0: { name: "storage.type.memory.wasm" },
@@ -1190,7 +1190,7 @@ export class Wat implements basis.Render {
 
   moduleFieldStart(): schema.Rule {
     return {
-      name: "meta.start.wasm",
+      name: "meta.moduleFieldStart.wasm",
       begin: words(Token.START),
       beginCaptures: {
         0: { name: "keyword.control.start.wasm" },
@@ -1211,7 +1211,7 @@ export class Wat implements basis.Render {
 
   moduleFieldTable(): schema.Rule {
     return {
-      name: "meta.table.wasm",
+      name: "meta.moduleFieldTable.wasm",
       begin: words(Token.TABLE),
       beginCaptures: {
         0: { name: "storage.type.table.wasm" },
@@ -1246,7 +1246,7 @@ export class Wat implements basis.Render {
 
   moduleFieldType(): schema.Rule {
     return {
-      name: "meta.type.wasm",
+      name: "meta.moduleFieldType.wasm",
       begin: words(Token.TYPE),
       beginCaptures: {
         0: { name: "storage.type.type.wasm" },
@@ -1324,7 +1324,7 @@ export class Wat implements basis.Render {
 
   tableFieldsElem(): schema.Rule {
     return {
-      name: "meta.table-fields.elem.wasm",
+      name: "meta.tableFieldsElem.wasm",
       begin: words(Token.ELEM),
       beginCaptures: {
         0: { name: "storage.type.elem.wasm" },
@@ -1382,7 +1382,7 @@ export class Wat implements basis.Render {
 
   typeUse(): schema.Rule {
     return {
-      name: "meta.type-use.wasm",
+      name: "meta.typeUse.wasm",
       begin: words(Token.TYPE),
       beginCaptures: {
         0: { name: "storage.type.type.wasm" },
@@ -1399,7 +1399,7 @@ export class Wat implements basis.Render {
 
   valueType(): schema.Rule {
     return {
-      name: "storage.type.value.wasm",
+      name: "storage.valueType.wasm",
       match: Token.valueType,
     };
   }
