@@ -115,20 +115,20 @@ export const ops = (arg: string): string => {
   return seq(negativeLookBehind(set(...operatorTokens)), arg, negativeLookAhead(set(...operatorTokens)));
 };
 
-export function lastOps(...rest: string[]): string {
+export const lastOps = (...rest: string[]): string => {
   const operatorTokens: string[] = ["\\."];
   const result: string[] = [];
   for (const token of rest) {
     result.push(`[^${seq(...operatorTokens)}]${token}`, `^${token}`);
   }
   return group(seq(lookBehind(group(alt(...result))), negativeLookAhead(set(...operatorTokens))));
-}
+};
 
-export function lastWords(...rest: string[]): string {
+export const lastWords = (...rest: string[]): string => {
   const result: string[] = [];
   for (const token of rest) result.push(`[^${Token.id}]${token}`, `^${token}`);
   return group(seq(lookBehind(group(alt(...result))), negativeLookAhead(`${Token.id}`)));
-}
+};
 
 export class Scope {}
 
