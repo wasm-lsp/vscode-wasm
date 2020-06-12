@@ -117,6 +117,7 @@ export class Wat implements basis.Render {
 
   PARSE(): schema.Rule {
     return {
+      name: "meta.PARSE.wasm",
       patterns: [
         include(this.extra),
         {
@@ -173,6 +174,7 @@ export class Wat implements basis.Render {
 
   annotationParens(): schema.Rule {
     return {
+      name: "meta.annotationParens.wasm",
       begin: Token.LEFT_PARENTHESIS,
       end: Token.RIGHT_PARENTHESIS,
       patterns: [include(this.annotationPart)],
@@ -181,6 +183,7 @@ export class Wat implements basis.Render {
 
   annotationPart(): schema.Rule {
     return {
+      name: "meta.annotationPart.wasm",
       patterns: [
         include(this.comment),
         include(this.annotationParens),
@@ -219,19 +222,21 @@ export class Wat implements basis.Render {
 
   comment(): schema.Rule {
     return {
+      name: "meta.comment.wasm",
       patterns: [include(this.lineComment), include(this.blockComment)],
     };
   }
 
   elemType(): schema.Rule {
     return {
-      name: "storage.type.wasm",
+      name: "meta.elemType.wasm storage.type.wasm",
       match: words(Token.FUNCREF),
     };
   }
 
   exportDesc(): schema.Rule {
     return {
+      name: "meta.exportDesc.wasm",
       patterns: [
         include(this.exportDescFunc),
         include(this.exportDescTable),
@@ -243,6 +248,7 @@ export class Wat implements basis.Render {
 
   exportDescFunc(): schema.Rule {
     return {
+      name: "meta.exportDescFunc.wasm",
       begin: words(Token.FUNC),
       beginCaptures: {
         0: { name: "keyword.control.func.wasm" },
@@ -254,6 +260,7 @@ export class Wat implements basis.Render {
 
   exportDescGlobal(): schema.Rule {
     return {
+      name: "meta.exportDescGlobal.wasm",
       begin: words(Token.GLOBAL),
       beginCaptures: {
         0: { name: "keyword.control.global.wasm" },
@@ -265,6 +272,7 @@ export class Wat implements basis.Render {
 
   exportDescMemory(): schema.Rule {
     return {
+      name: "meta.exportDescMemory.wasm",
       begin: words(Token.MEMORY),
       beginCaptures: {
         0: { name: "keyword.control.memory.wasm" },
@@ -276,6 +284,7 @@ export class Wat implements basis.Render {
 
   exportDescTable(): schema.Rule {
     return {
+      name: "meta.exportDescTable.wasm",
       begin: words(Token.TABLE),
       beginCaptures: {
         0: { name: "keyword.control.table.wasm" },
@@ -287,6 +296,7 @@ export class Wat implements basis.Render {
 
   expr(): schema.Rule {
     return {
+      name: "meta.expr.wasm",
       patterns: [
         include(this.exprPlain),
         include(this.exprCall),
@@ -311,6 +321,7 @@ export class Wat implements basis.Render {
 
   exprBlock(): schema.Rule {
     return {
+      name: "meta.exprBlock.wasm",
       begin: words(Token.BLOCK),
       beginCaptures: {
         0: { name: "keyword.control.wasm" },
@@ -344,6 +355,7 @@ export class Wat implements basis.Render {
 
   exprCall(): schema.Rule {
     return {
+      name: "meta.exprCall.wasm",
       patterns: [
         {
           name: "keyword.control.wasm",
@@ -355,6 +367,7 @@ export class Wat implements basis.Render {
 
   exprIf(): schema.Rule {
     return {
+      name: "meta.exprIf.wasm",
       patterns: [
         {
           name: "keyword.control.wasm",
@@ -366,6 +379,7 @@ export class Wat implements basis.Render {
 
   exprLoop(): schema.Rule {
     return {
+      name: "meta.exprLoop.wasm",
       patterns: [
         {
           name: "keyword.control.wasm",
@@ -377,6 +391,7 @@ export class Wat implements basis.Render {
 
   exprPlain(): schema.Rule {
     return {
+      name: "meta.exprPlain.wasm",
       patterns: [
         include(this.instrPlain),
         {
@@ -396,12 +411,14 @@ export class Wat implements basis.Render {
 
   extra(): schema.Rule {
     return {
+      name: "meta.extra.wasm",
       patterns: [include(this.comment), include(this.annotation)],
     };
   }
 
   funcLocals(): schema.Rule {
     return {
+      name: "meta.funcLocals.wasm",
       begin: words(Token.LOCAL),
       beginCaptures: {
         0: { name: "keyword.control.local.wasm" },
@@ -419,6 +436,7 @@ export class Wat implements basis.Render {
 
   funcType(): schema.Rule {
     return {
+      name: "meta.funcType.wasm",
       patterns: [include(this.funcTypeParams), include(this.funcTypeResults)],
     };
   }
@@ -456,18 +474,21 @@ export class Wat implements basis.Render {
 
   globalType(): schema.Rule {
     return {
+      name: "meta.globalType.wasm",
       patterns: [include(this.globalTypeImm), include(this.globalTypeMut)],
     };
   }
 
   globalTypeImm(): schema.Rule {
     return {
+      name: "meta.globalTypeImm.wasm",
       patterns: [include(this.valueType)],
     };
   }
 
   globalTypeMut(): schema.Rule {
     return {
+      name: "meta.globalTypeMut.wasm",
       patterns: [
         {
           begin: Token.LEFT_PARENTHESIS,
@@ -614,6 +635,7 @@ export class Wat implements basis.Render {
 
   inlineImport(): schema.Rule {
     return {
+      name: "meta.inlineImport.wasm",
       begin: words(Token.IMPORT),
       beginCaptures: {
         0: { name: "keyword.control.import.wasm" },
@@ -625,6 +647,7 @@ export class Wat implements basis.Render {
 
   inlineImportNames(): schema.Rule {
     return {
+      name: "meta.inlineImportNames.wasm",
       patterns: [
         {
           begin: lastWords(Token.IMPORT),
@@ -659,6 +682,7 @@ export class Wat implements basis.Render {
 
   instr(): schema.Rule {
     return {
+      name: "meta.instr.wasm",
       patterns: [
         include(this.instrPlain),
         include(this.instrCall),
@@ -680,30 +704,35 @@ export class Wat implements basis.Render {
 
   instrBlock(): schema.Rule {
     return {
+      name: "meta.instrBlock.wasm",
       patterns: [],
     };
   }
 
   instrCall(): schema.Rule {
     return {
+      name: "meta.instrCall.wasm",
       patterns: [],
     };
   }
 
   instrList(): schema.Rule {
     return {
+      name: "meta.instrList.wasm",
       patterns: [include(this.instrListCall), include(this.instr)],
     };
   }
 
   instrListCall(): schema.Rule {
     return {
+      name: "meta.instrListCall.wasm",
       patterns: [],
     };
   }
 
   instrPlain(): schema.Rule {
     return {
+      name: "meta.instrPlain.wasm",
       patterns: [
         include(this.instrPlainNop),
         include(this.instrPlainBr),
@@ -732,32 +761,35 @@ export class Wat implements basis.Render {
 
   instrPlainBinary(): schema.Rule {
     return {
+      name: "meta.instrPlainBinary.wasm",
       patterns: [],
     };
   }
 
   instrPlainBr(): schema.Rule {
     return {
-      name: "keyword.control.wasm",
+      name: "meta.instrPlainBr.wasm keyword.control.wasm",
       match: words(Token.BR),
     };
   }
 
   instrPlainBrIf(): schema.Rule {
     return {
-      name: "keyword.control.wasm",
+      name: "meta.instrPlainBrIf.wasm keyword.control.wasm",
       match: words(Token.BR_IF),
     };
   }
 
   instrPlainBrTable(): schema.Rule {
     return {
+      name: "meta.instrPlainBrTable.wasm",
       patterns: [],
     };
   }
 
   instrPlainCall(): schema.Rule {
     return {
+      name: "meta.instrPlainCall.wasm",
       begin: words(Token.CALL),
       beginCaptures: {
         0: { name: "keyword.control.wasm" },
@@ -774,12 +806,14 @@ export class Wat implements basis.Render {
 
   instrPlainCompare(): schema.Rule {
     return {
+      name: "meta.instrPlainCompare.wasm",
       patterns: [],
     };
   }
 
   instrPlainConst(): schema.Rule {
     return {
+      name: "meta.instrPlainConst.wasm",
       patterns: [
         include(this.instrType),
         {
@@ -797,117 +831,133 @@ export class Wat implements basis.Render {
 
   instrPlainConvert(): schema.Rule {
     return {
+      name: "meta.instrPlainConvert.wasm",
       patterns: [],
     };
   }
 
   instrPlainGlobalGet(): schema.Rule {
     return {
+      name: "meta.instrPlainGlobalGet.wasm",
       patterns: [],
     };
   }
 
   instrPlainGlobalSet(): schema.Rule {
     return {
+      name: "meta.instrPlainGlobalSet.wasm",
       patterns: [],
     };
   }
 
   instrPlainGlobalTee(): schema.Rule {
     return {
+      name: "meta.instrPlainGlobalTee.wasm",
       patterns: [],
     };
   }
 
   instrPlainLoad(): schema.Rule {
     return {
+      name: "meta.instrPlainLoad.wasm",
       patterns: [],
     };
   }
 
   instrPlainLocalGet(): schema.Rule {
     return {
+      name: "meta.instrPlainLocalGet.wasm",
       patterns: [],
     };
   }
 
   instrPlainLocalSet(): schema.Rule {
     return {
+      name: "meta.instrPlainLocalSet.wasm",
       patterns: [],
     };
   }
 
   instrPlainLocalTee(): schema.Rule {
     return {
+      name: "meta.instrPlainLocalTee.wasm",
       patterns: [],
     };
   }
 
   instrPlainMemoryGrow(): schema.Rule {
     return {
+      name: "meta.instrPlainMemoryGrow.wasm",
       patterns: [],
     };
   }
 
   instrPlainMemorySize(): schema.Rule {
     return {
+      name: "meta.instrPlainMemorySize.wasm",
       patterns: [],
     };
   }
 
   instrPlainNop(): schema.Rule {
     return {
-      name: "keyword.control.wasm",
+      name: "meta.instrPlainNop.wasm keyword.control.wasm",
       match: words(Token.NOP),
     };
   }
 
   instrPlainReturn(): schema.Rule {
     return {
+      name: "meta.instrPlainReturn.wasm",
       patterns: [],
     };
   }
 
   instrPlainStore(): schema.Rule {
     return {
+      name: "meta.instrPlainStore.wasm",
       patterns: [],
     };
   }
 
   instrPlainTest(): schema.Rule {
     return {
+      name: "meta.instrPlainTest.wasm",
       patterns: [],
     };
   }
 
   instrPlainUnary(): schema.Rule {
     return {
+      name: "meta.instrPlainUnary.wasm",
       patterns: [],
     };
   }
 
   instrType(): schema.Rule {
     return {
+      name: "meta.instrType.wasm",
       patterns: [include(this.instrTypeInt), include(this.instrTypeFloat)],
     };
   }
 
   instrTypeInt(): schema.Rule {
     return {
-      name: "storage.type.int.wasm",
+      name: "meta.instrTypeInt.wasm storage.type.int.wasm",
       match: seq("i", group(alt("32", "64"))),
     };
   }
 
   instrTypeFloat(): schema.Rule {
     return {
-      name: "storage.type.float.wasm",
+      name: "meta.instrTypeFloat.wasm storage.type.float.wasm",
       match: seq("f", group(alt("32", "64"))),
     };
   }
 
   limits(): schema.Rule {
     return {
+      name: "meta.limits.wasm",
       patterns: [
         {
           name: "constant.numeric.integer",
@@ -933,18 +983,21 @@ export class Wat implements basis.Render {
 
   literal(): schema.Rule {
     return {
+      name: "meta.literal.wasm",
       patterns: [],
     };
   }
 
   literalNAN(): schema.Rule {
     return {
+      name: "meta.literalNAN.wasm",
       patterns: [],
     };
   }
 
   memoryFieldsData(): schema.Rule {
     return {
+      name: "meta.memoryFieldsData.wasm",
       begin: words(Token.DATA),
       beginCaptures: {
         0: { name: "storage.type.memory.wasm" },
@@ -956,12 +1009,14 @@ export class Wat implements basis.Render {
 
   memoryFieldsType(): schema.Rule {
     return {
+      name: "meta.memoryFieldsType.wasm",
       patterns: [include(this.inlineImport), include(this.memoryType)],
     };
   }
 
   memoryType(): schema.Rule {
     return {
+      name: "meta.memoryType.wasm",
       patterns: [include(this.limits)],
     };
   }
@@ -995,6 +1050,7 @@ export class Wat implements basis.Render {
 
   moduleField(): schema.Rule {
     return {
+      name: "meta.moduleField.wasm",
       patterns: [
         include(this.extra),
         include(this.moduleFieldData),
@@ -1280,6 +1336,7 @@ export class Wat implements basis.Render {
 
   offsetConstExpr(): schema.Rule {
     return {
+      name: "meta.offsetConstExpr.wasm",
       begin: words(Token.OFFSET),
       beginCaptures: {
         0: { name: "storage.type.type.wasm" },
@@ -1291,17 +1348,21 @@ export class Wat implements basis.Render {
 
   offsetExpr(): schema.Rule {
     return {
+      name: "meta.offsetExpr.wasm",
       patterns: [include(this.expr)],
     };
   }
 
   name(): schema.Rule {
-    return this.string();
+    return {
+      name: "meta.name.wasm",
+      patterns: [include(this.string)],
+    };
   }
 
   string(): schema.Rule {
     return {
-      name: "string.quoted.double.wasm",
+      name: "meta.string.wasm string.quoted.double.wasm",
       begin: '"',
       beginCaptures: {
         0: { name: "punctuation.definition.string.begin.wasm" },
@@ -1317,7 +1378,7 @@ export class Wat implements basis.Render {
 
   stringCharacterEscape(): schema.Rule {
     return {
-      name: "constant.character.escape.wasm",
+      name: "meta.stringCharacterEscape.wasm constant.character.escape.wasm",
       match: Token.escape,
     };
   }
@@ -1336,18 +1397,21 @@ export class Wat implements basis.Render {
 
   tableFieldsType(): schema.Rule {
     return {
+      name: "meta.tableFieldsType.wasm",
       patterns: [include(this.inlineImport), include(this.tableType)],
     };
   }
 
   tableType(): schema.Rule {
     return {
+      name: "meta.tableType.wasm",
       patterns: [include(this.limits), include(this.elemType)],
     };
   }
 
   typeField(): schema.Rule {
     return {
+      name: "meta.typeField.wasm",
       begin: Token.LEFT_PARENTHESIS,
       beginCaptures: {
         0: { name: "meta.brace.round.wasm" },
@@ -1399,7 +1463,7 @@ export class Wat implements basis.Render {
 
   valueType(): schema.Rule {
     return {
-      name: "storage.valueType.wasm",
+      name: "meta.valueType.wasm storage.valueType.wasm",
       match: Token.valueType,
     };
   }
