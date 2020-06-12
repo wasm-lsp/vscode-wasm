@@ -104,6 +104,11 @@ export const many = (arg: string): string => `${arg}*`;
 
 export const manyOne = (arg: string): string => `${arg}+`;
 
+export function ops(arg: string): string {
+  const operatorTokens: string[] = ["\\."];
+  return seq(negativeLookBehind(set(...operatorTokens)), arg, negativeLookAhead(set(...operatorTokens)));
+}
+
 export const opt = (arg: string): string => `${arg}?`;
 
 export const words = (arg: string): string => `\\b${arg}\\b`;
