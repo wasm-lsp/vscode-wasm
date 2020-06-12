@@ -1264,6 +1264,7 @@ export class Wat implements basis.Render {
 
   offset(): schema.Rule {
     return {
+      name: "meta.offset.wasm",
       begin: Token.LEFT_PARENTHESIS,
       beginCaptures: {
         0: { name: "meta.brace.round.wasm" },
