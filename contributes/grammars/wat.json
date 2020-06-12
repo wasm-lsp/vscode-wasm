@@ -11,6 +11,7 @@
   ],
   "repository": {
     "PARSE": {
+      "name": "meta.PARSE.wasm",
       "patterns": [
         {
           "include": "#extra"
@@ -91,6 +92,7 @@
       ]
     },
     "annotationParens": {
+      "name": "meta.annotationParens.wasm",
       "begin": "\\(",
       "end": "\\)",
       "patterns": [
@@ -100,6 +102,7 @@
       ]
     },
     "annotationPart": {
+      "name": "meta.annotationPart.wasm",
       "patterns": [
         {
           "include": "#comment"
@@ -122,7 +125,7 @@
       ]
     },
     "blockComment": {
-      "name": "meta.comment.block.wasm comment.block.wasm",
+      "name": "meta.blockComment.wasm comment.block.wasm",
       "begin": "(\\(;)",
       "beginCaptures": {
         "1": {
@@ -137,6 +140,7 @@
       }
     },
     "comment": {
+      "name": "meta.comment.wasm",
       "patterns": [
         {
           "include": "#lineComment"
@@ -147,10 +151,11 @@
       ]
     },
     "elemType": {
-      "name": "storage.type.wasm",
+      "name": "meta.elemType.wasm storage.type.wasm",
       "match": "\\bfuncref\\b"
     },
     "exportDesc": {
+      "name": "meta.exportDesc.wasm",
       "patterns": [
         {
           "include": "#exportDescFunc"
@@ -167,6 +172,7 @@
       ]
     },
     "exportDescFunc": {
+      "name": "meta.exportDescFunc.wasm",
       "begin": "\\bfunc\\b",
       "beginCaptures": {
         "0": {
@@ -181,6 +187,7 @@
       ]
     },
     "exportDescGlobal": {
+      "name": "meta.exportDescGlobal.wasm",
       "begin": "\\bglobal\\b",
       "beginCaptures": {
         "0": {
@@ -195,6 +202,7 @@
       ]
     },
     "exportDescMemory": {
+      "name": "meta.exportDescMemory.wasm",
       "begin": "\\bmemory\\b",
       "beginCaptures": {
         "0": {
@@ -209,6 +217,7 @@
       ]
     },
     "exportDescTable": {
+      "name": "meta.exportDescTable.wasm",
       "begin": "\\btable\\b",
       "beginCaptures": {
         "0": {
@@ -223,6 +232,7 @@
       ]
     },
     "expr": {
+      "name": "meta.expr.wasm",
       "patterns": [
         {
           "include": "#exprPlain"
@@ -261,14 +271,54 @@
       ]
     },
     "exprBlock": {
+      "name": "meta.exprBlock.wasm",
+      "begin": "\\bblock\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.wasm"
+        }
+      },
+      "end": "(?=\\))",
       "patterns": [
         {
-          "name": "keyword.control.wasm",
-          "match": "\\bblock\\b"
+          "name": "variable.block.global.wasm",
+          "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#typeUse"
+            },
+            {
+              "include": "#funcTypeParams"
+            },
+            {
+              "include": "#funcTypeResults"
+            },
+            {
+              "include": "#expr"
+            }
+          ]
+        },
+        {
+          "include": "#instrList"
         }
       ]
     },
     "exprCall": {
+      "name": "meta.exprCall.wasm",
       "patterns": [
         {
           "name": "keyword.control.wasm",
@@ -277,6 +327,7 @@
       ]
     },
     "exprIf": {
+      "name": "meta.exprIf.wasm",
       "patterns": [
         {
           "name": "keyword.control.wasm",
@@ -285,6 +336,7 @@
       ]
     },
     "exprLoop": {
+      "name": "meta.exprLoop.wasm",
       "patterns": [
         {
           "name": "keyword.control.wasm",
@@ -293,6 +345,7 @@
       ]
     },
     "exprPlain": {
+      "name": "meta.exprPlain.wasm",
       "patterns": [
         {
           "include": "#instrPlain"
@@ -319,6 +372,7 @@
       ]
     },
     "extra": {
+      "name": "meta.extra.wasm",
       "patterns": [
         {
           "include": "#comment"
@@ -329,6 +383,7 @@
       ]
     },
     "funcLocals": {
+      "name": "meta.funcLocals.wasm",
       "begin": "\\blocal\\b",
       "beginCaptures": {
         "0": {
@@ -347,6 +402,7 @@
       ]
     },
     "funcType": {
+      "name": "meta.funcType.wasm",
       "patterns": [
         {
           "include": "#funcTypeParams"
@@ -357,7 +413,7 @@
       ]
     },
     "funcTypeParams": {
-      "name": "meta.func-type.params.wasm",
+      "name": "meta.funcTypeParams.wasm",
       "begin": "\\bparam\\b",
       "beginCaptures": {
         "0": {
@@ -379,7 +435,7 @@
       ]
     },
     "funcTypeResults": {
-      "name": "meta.func-type.results.wasm",
+      "name": "meta.funcTypeResults.wasm",
       "begin": "\\bresult\\b",
       "beginCaptures": {
         "0": {
@@ -397,6 +453,7 @@
       ]
     },
     "globalType": {
+      "name": "meta.globalType.wasm",
       "patterns": [
         {
           "include": "#globalTypeImm"
@@ -407,6 +464,7 @@
       ]
     },
     "globalTypeImm": {
+      "name": "meta.globalTypeImm.wasm",
       "patterns": [
         {
           "include": "#valueType"
@@ -414,6 +472,7 @@
       ]
     },
     "globalTypeMut": {
+      "name": "meta.globalTypeMut.wasm",
       "patterns": [
         {
           "begin": "\\(",
@@ -454,7 +513,7 @@
       ]
     },
     "importDesc": {
-      "name": "meta.import-desc.wasm",
+      "name": "meta.importDesc.wasm",
       "begin": "\\(",
       "beginCaptures": {
         "0": {
@@ -483,7 +542,7 @@
       ]
     },
     "importDescFuncType": {
-      "name": "meta.import-desc.func-type.wasm",
+      "name": "meta.importDescFuncType.wasm",
       "begin": "\\bfunc\\b",
       "beginCaptures": {
         "0": {
@@ -505,7 +564,7 @@
       ]
     },
     "importDescGlobalType": {
-      "name": "meta.import-desc.global-type.wasm",
+      "name": "meta.importDescGlobalType.wasm",
       "begin": "\\bglobal\\b",
       "beginCaptures": {
         "0": {
@@ -524,7 +583,7 @@
       ]
     },
     "importDescMemoryType": {
-      "name": "meta.import-desc.memory-type.wasm",
+      "name": "meta.importDescMemoryType.wasm",
       "begin": "\\bmemory\\b",
       "beginCaptures": {
         "0": {
@@ -543,7 +602,7 @@
       ]
     },
     "importDescTableType": {
-      "name": "meta.import-desc.table-type.wasm",
+      "name": "meta.importDescTableType.wasm",
       "begin": "\\btable\\b",
       "beginCaptures": {
         "0": {
@@ -562,7 +621,7 @@
       ]
     },
     "inlineExport": {
-      "name": "meta.export.wasm",
+      "name": "meta.inlineExport.wasm",
       "begin": "\\bexport\\b",
       "beginCaptures": {
         "0": {
@@ -587,6 +646,7 @@
       ]
     },
     "inlineImport": {
+      "name": "meta.inlineImport.wasm",
       "begin": "\\bimport\\b",
       "beginCaptures": {
         "0": {
@@ -604,6 +664,7 @@
       ]
     },
     "inlineImportNames": {
+      "name": "meta.inlineImportNames.wasm",
       "patterns": [
         {
           "begin": "(?:(?<=(?:[^[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+]import|^import))(?![0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+))",
@@ -636,13 +697,49 @@
         }
       ]
     },
+    "instr": {
+      "name": "meta.instr.wasm",
+      "patterns": [
+        {
+          "include": "#instrPlain"
+        },
+        {
+          "include": "#instrCall"
+        },
+        {
+          "include": "#instrBlock"
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.round.wasm"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#expr"
+            }
+          ]
+        }
+      ]
+    },
     "instrBlock": {
+      "name": "meta.instrBlock.wasm",
       "patterns": []
     },
     "instrCall": {
+      "name": "meta.instrCall.wasm",
       "patterns": []
     },
     "instrList": {
+      "name": "meta.instrList.wasm",
       "patterns": [
         {
           "include": "#instrListCall"
@@ -653,6 +750,7 @@
       ]
     },
     "instrPlain": {
+      "name": "meta.instrPlain.wasm",
       "patterns": [
         {
           "include": "#instrPlainNop"
@@ -720,32 +818,67 @@
       ]
     },
     "instrPlainBinary": {
-      "patterns": []
+      "name": "meta.instrPlainBinary.wasm",
+      "patterns": [
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\b(?:i(?:32|64)|f(?:32|64))\\b(?<![\\.])\\.(?![\\.])(?:add|sub|mul)"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bi(?:32|64)\\b(?<![\\.])\\.(?![\\.])(?:and|or|xor|shl|rotl|rotr)"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bi(?:32|64)\\b(?<![\\.])\\.(?![\\.])\\b(?:div|rem|shr)_[su]\\b"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bf(?:32|64)\\b(?<![\\.])\\.(?![\\.])(?:add|sub|mul|div|min|max|copysign)"
+        }
+      ]
     },
     "instrPlainBr": {
-      "name": "keyword.control.wasm",
+      "name": "meta.instrPlainBr.wasm keyword.control.wasm",
       "match": "\\bbr\\b"
     },
     "instrPlainBrIf": {
-      "name": "keyword.control.wasm",
+      "name": "meta.instrPlainBrIf.wasm keyword.control.wasm",
       "match": "\\bbr_if\\b"
     },
     "instrPlainBrTable": {
+      "name": "meta.instrPlainBrTable.wasm",
       "patterns": []
     },
     "instrPlainCall": {
-      "patterns": []
+      "name": "meta.instrPlainCall.wasm",
+      "begin": "\\bcall\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "name": "variable.other.wasm",
+          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
+        }
+      ]
     },
     "instrPlainCompare": {
+      "name": "meta.instrPlainCompare.wasm",
       "patterns": []
     },
     "instrPlainConvert": {
+      "name": "meta.instrPlainConvert.wasm",
       "patterns": []
     },
     "instrPlainConst": {
+      "name": "meta.instrPlainConst.wasm",
       "patterns": [
         {
-          "include": "#instrType"
+          "match": "(?:i(?:32|64)|f(?:32|64))"
         },
         {
           "name": "punctuation.accessor.wasm",
@@ -761,64 +894,59 @@
       ]
     },
     "instrPlainGlobalGet": {
+      "name": "meta.instrPlainGlobalGet.wasm",
       "patterns": []
     },
     "instrPlainGlobalSet": {
+      "name": "meta.instrPlainGlobalSet.wasm",
       "patterns": []
     },
     "instrPlainLoad": {
+      "name": "meta.instrPlainLoad.wasm",
       "patterns": []
     },
     "instrPlainLocalGet": {
+      "name": "meta.instrPlainLocalGet.wasm",
       "patterns": []
     },
     "instrPlainLocalSet": {
+      "name": "meta.instrPlainLocalSet.wasm",
       "patterns": []
     },
     "instrPlainLocalTee": {
+      "name": "meta.instrPlainLocalTee.wasm",
       "patterns": []
     },
     "instrPlainMemorySize": {
+      "name": "meta.instrPlainMemorySize.wasm",
       "patterns": []
     },
     "instrPlainMemoryGrow": {
+      "name": "meta.instrPlainMemoryGrow.wasm",
       "patterns": []
     },
     "instrPlainNop": {
-      "name": "keyword.control.wasm",
+      "name": "meta.instrPlainNop.wasm keyword.control.wasm",
       "match": "\\bnop\\b"
     },
     "instrPlainReturn": {
+      "name": "meta.instrPlainReturn.wasm",
       "patterns": []
     },
     "instrPlainStore": {
+      "name": "meta.instrPlainStore.wasm",
       "patterns": []
     },
     "instrPlainTest": {
+      "name": "meta.instrPlainTest.wasm",
       "patterns": []
     },
     "instrPlainUnary": {
+      "name": "meta.instrPlainUnary.wasm",
       "patterns": []
     },
-    "instrType": {
-      "patterns": [
-        {
-          "include": "#instrTypeInt"
-        },
-        {
-          "include": "#instrTypeFloat"
-        }
-      ]
-    },
-    "instrTypeInt": {
-      "name": "storage.type.int.wasm",
-      "match": "i(?:32|64)"
-    },
-    "instrTypeFloat": {
-      "name": "storage.type.float.wasm",
-      "match": "f(?:32|64)"
-    },
     "limits": {
+      "name": "meta.limits.wasm",
       "patterns": [
         {
           "name": "constant.numeric.integer",
@@ -844,12 +972,15 @@
       "contentName": "comment.line.double-semicolon.wasm"
     },
     "literal": {
+      "name": "meta.literalNAN.wasm",
       "patterns": []
     },
     "literalNAN": {
+      "name": "meta.literalNAN.wasm",
       "patterns": []
     },
     "memoryFieldsData": {
+      "name": "meta.memoryFieldsData.wasm",
       "begin": "\\bdata\\b",
       "beginCaptures": {
         "0": {
@@ -864,6 +995,7 @@
       ]
     },
     "memoryFieldsType": {
+      "name": "meta.memoryFieldsType.wasm",
       "patterns": [
         {
           "include": "#inlineImport"
@@ -874,6 +1006,7 @@
       ]
     },
     "memoryType": {
+      "name": "meta.memoryType.wasm",
       "patterns": [
         {
           "include": "#limits"
@@ -882,12 +1015,22 @@
     },
     "module": {
       "name": "meta.module.wasm",
+      "begin": "\\bmodule\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.module.wasm"
+        }
+      },
+      "end": "(?=\\))",
       "patterns": [
         {
-          "begin": "\\bmodule\\b",
+          "include": "#extra"
+        },
+        {
+          "begin": "[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
           "beginCaptures": {
             "0": {
-              "name": "storage.type.module.wasm"
+              "name": "entity.name.type.module.wasm"
             }
           },
           "end": "(?=\\))",
@@ -896,30 +1039,17 @@
               "include": "#extra"
             },
             {
-              "begin": "[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+",
-              "beginCaptures": {
-                "0": {
-                  "name": "entity.name.type.module.wasm"
-                }
-              },
-              "end": "(?=\\))",
-              "patterns": [
-                {
-                  "include": "#extra"
-                },
-                {
-                  "include": "#moduleField"
-                }
-              ]
-            },
-            {
               "include": "#moduleField"
             }
           ]
+        },
+        {
+          "include": "#moduleField"
         }
       ]
     },
     "moduleField": {
+      "name": "meta.moduleField.wasm",
       "patterns": [
         {
           "include": "#extra"
@@ -957,7 +1087,7 @@
       ]
     },
     "moduleFieldData": {
-      "name": "meta.data.wasm",
+      "name": "meta.moduleFieldData.wasm",
       "begin": "\\bdata\\b",
       "beginCaptures": {
         "0": {
@@ -982,7 +1112,7 @@
       ]
     },
     "moduleFieldElem": {
-      "name": "meta.elem.wasm",
+      "name": "meta.moduleFieldElem.wasm",
       "begin": "\\belem\\b",
       "beginCaptures": {
         "0": {
@@ -1003,7 +1133,7 @@
       ]
     },
     "moduleFieldExport": {
-      "name": "meta.export.wasm",
+      "name": "meta.moduleFieldExport.wasm",
       "begin": "\\bexport\\b",
       "beginCaptures": {
         "0": {
@@ -1047,7 +1177,7 @@
       ]
     },
     "moduleFieldFunc": {
-      "name": "meta.func.wasm",
+      "name": "meta.moduleFieldFunc.wasm",
       "begin": "\\bfunc\\b",
       "beginCaptures": {
         "0": {
@@ -1106,7 +1236,7 @@
       ]
     },
     "moduleFieldGlobal": {
-      "name": "meta.global.wasm",
+      "name": "meta.moduleFieldGlobal.wasm",
       "begin": "\\bglobal\\b",
       "beginCaptures": {
         "0": {
@@ -1156,7 +1286,7 @@
       ]
     },
     "moduleFieldImport": {
-      "name": "meta.import.wasm",
+      "name": "meta.moduleFieldImport.wasm",
       "begin": "\\bimport\\b",
       "beginCaptures": {
         "0": {
@@ -1177,7 +1307,7 @@
       ]
     },
     "moduleFieldMemory": {
-      "name": "meta.memory.wasm",
+      "name": "meta.moduleFieldMemory.wasm",
       "begin": "\\bmemory\\b",
       "beginCaptures": {
         "0": {
@@ -1221,7 +1351,7 @@
       ]
     },
     "moduleFieldStart": {
-      "name": "meta.start.wasm",
+      "name": "meta.moduleFieldStart.wasm",
       "begin": "\\bstart\\b",
       "beginCaptures": {
         "0": {
@@ -1245,7 +1375,7 @@
       ]
     },
     "moduleFieldTable": {
-      "name": "meta.table.wasm",
+      "name": "meta.moduleFieldTable.wasm",
       "begin": "\\btable\\b",
       "beginCaptures": {
         "0": {
@@ -1295,7 +1425,7 @@
       ]
     },
     "moduleFieldType": {
-      "name": "meta.type.wasm",
+      "name": "meta.moduleFieldType.wasm",
       "begin": "\\btype\\b",
       "beginCaptures": {
         "0": {
@@ -1317,29 +1447,15 @@
       ]
     },
     "name": {
-      "name": "string.quoted.double.wasm",
-      "begin": "\"",
-      "beginCaptures": {
-        "0": {
-          "name": "punctuation.definition.string.begin.wasm"
-        }
-      },
-      "end": "(\")|((?:[^\\\\\\n])$)",
-      "endCaptures": {
-        "1": {
-          "name": "punctuation.definition.string.end.wasm"
-        },
-        "2": {
-          "name": "invalid.illegal.newline.wasm"
-        }
-      },
+      "name": "meta.name.wasm",
       "patterns": [
         {
-          "include": "#stringCharacterEscape"
+          "include": "#string"
         }
       ]
     },
     "offset": {
+      "name": "meta.offset.wasm",
       "begin": "\\(",
       "beginCaptures": {
         "0": {
@@ -1352,9 +1468,32 @@
           "name": "meta.brace.round.wasm"
         }
       },
-      "patterns": []
+      "patterns": [
+        {
+          "include": "#offsetConstExpr"
+        },
+        {
+          "include": "#offsetExpr"
+        }
+      ]
+    },
+    "offsetConstExpr": {
+      "name": "meta.offsetConstExpr.wasm",
+      "begin": "\\boffset\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "storage.type.type.wasm"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#instr"
+        }
+      ]
     },
     "offsetExpr": {
+      "name": "meta.offsetExpr.wasm",
       "patterns": [
         {
           "include": "#expr"
@@ -1362,7 +1501,7 @@
       ]
     },
     "string": {
-      "name": "string.quoted.double.wasm",
+      "name": "meta.string.wasm string.quoted.double.wasm",
       "begin": "\"",
       "beginCaptures": {
         "0": {
@@ -1385,11 +1524,11 @@
       ]
     },
     "stringCharacterEscape": {
-      "name": "constant.character.escape.wasm",
+      "name": "meta.stringCharacterEscape.wasm constant.character.escape.wasm",
       "match": "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)"
     },
     "tableFieldsElem": {
-      "name": "meta.table-fields.elem.wasm",
+      "name": "meta.tableFieldsElem.wasm",
       "begin": "\\belem\\b",
       "beginCaptures": {
         "0": {
@@ -1404,6 +1543,7 @@
       ]
     },
     "tableFieldsType": {
+      "name": "meta.tableFieldsType.wasm",
       "patterns": [
         {
           "include": "#inlineImport"
@@ -1414,6 +1554,7 @@
       ]
     },
     "tableType": {
+      "name": "meta.tableType.wasm",
       "patterns": [
         {
           "include": "#limits"
@@ -1424,6 +1565,7 @@
       ]
     },
     "typeField": {
+      "name": "meta.typeField.wasm",
       "begin": "\\(",
       "beginCaptures": {
         "0": {
@@ -1474,7 +1616,7 @@
       ]
     },
     "typeUse": {
-      "name": "meta.type-use.wasm",
+      "name": "meta.typeUse.wasm",
       "begin": "\\btype\\b",
       "beginCaptures": {
         "0": {
@@ -1490,7 +1632,7 @@
       ]
     },
     "valueType": {
-      "name": "storage.type.value.wasm",
+      "name": "meta.valueType.wasm storage.valueType.wasm",
       "match": "[fi](?:32|64)"
     }
   }
