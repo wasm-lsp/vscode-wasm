@@ -77,9 +77,6 @@ export class Wat implements basis.Render {
         instrPlainStore: this.instrPlainStore(),
         instrPlainTest: this.instrPlainTest(),
         instrPlainUnary: this.instrPlainUnary(),
-        instrType: this.instrType(),
-        instrTypeInt: this.instrTypeInt(),
-        instrTypeFloat: this.instrTypeFloat(),
         limits: this.limits(),
         lineComment: this.lineComment(),
         literal: this.literalNAN(),
@@ -815,7 +812,9 @@ export class Wat implements basis.Render {
     return {
       name: "meta.instrPlainConst.wasm",
       patterns: [
-        include(this.instrType),
+        {
+          match: Token.instrType,
+        },
         {
           name: "punctuation.accessor.wasm",
           match: "\\.",
@@ -931,27 +930,6 @@ export class Wat implements basis.Render {
     return {
       name: "meta.instrPlainUnary.wasm",
       patterns: [],
-    };
-  }
-
-  instrType(): schema.Rule {
-    return {
-      name: "meta.instrType.wasm",
-      patterns: [include(this.instrTypeInt), include(this.instrTypeFloat)],
-    };
-  }
-
-  instrTypeInt(): schema.Rule {
-    return {
-      name: "meta.instrTypeInt.wasm storage.type.int.wasm",
-      match: seq("i", group(alt("32", "64"))),
-    };
-  }
-
-  instrTypeFloat(): schema.Rule {
-    return {
-      name: "meta.instrTypeFloat.wasm storage.type.float.wasm",
-      match: seq("f", group(alt("32", "64"))),
     };
   }
 
