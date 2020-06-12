@@ -115,6 +115,15 @@ export const words = (arg: string): string => `\\b${arg}\\b`;
 
 export const lookAhead = (arg: string): string => `(?=${arg})`;
 
+export function lastOps(...rest: string[]): string {
+  const operatorTokens: string[] = ["\\."];
+  const result: string[] = [];
+  for (const token of rest) {
+    result.push(`[^${seq(...operatorTokens)}]${token}`, `^${token}`);
+  }
+  return group(seq(lookBehind(group(alt(...result))), negativeLookAhead(set(...operatorTokens))));
+}
+
 export function lastWords(...rest: string[]): string {
   const result: string[] = [];
   for (const token of rest) result.push(`[^${Token.id}]${token}`, `^${token}`);
