@@ -101,6 +101,7 @@ export const Token = {
   CONST: "const",
   DATA: "data",
   ELEM: "elem",
+  END: "end",
   EXPORT: "export",
   FULL_STOP: "\\.",
   FUNC: "func",
