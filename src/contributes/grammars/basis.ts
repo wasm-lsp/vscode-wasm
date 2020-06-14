@@ -81,6 +81,10 @@ export const lastWords = (...rest: string[]): string => {
 
 const instrTypeInt: string = seq("i", group(alt("32", "64")));
 
+const instrTypeInt32: string = seq("i", "32");
+
+const instrTypeInt64: string = seq("i", "64");
+
 const instrTypeFloat: string = seq("f", group(alt("32", "64")));
 
 const instrType: string = group(alt(instrTypeInt, instrTypeFloat));
@@ -137,6 +141,8 @@ export const Token = {
   instrType,
   instrTypeFloat,
   instrTypeInt,
+  instrTypeInt32,
+  instrTypeInt64,
   uN,
   valueType,
 };
