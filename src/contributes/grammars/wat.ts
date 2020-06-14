@@ -36,7 +36,10 @@ export class Wat implements basis.Render {
         annotation: this.annotation(),
         annotationParens: this.annotationParens(),
         annotationPart: this.annotationPart(),
+        blockBlock: this.blockBlock(),
         blockComment: this.blockComment(),
+        blockIf: this.blockIf(),
+        blockLoop: this.blockLoop(),
         comment: this.comment(),
         elemType: this.elemType(),
         exportDesc: this.exportDesc(),
@@ -215,6 +218,27 @@ export class Wat implements basis.Render {
           ],
         },
       ],
+    };
+  }
+
+  blockBlock(): schema.Rule {
+    return {
+      name: "meta.blockBlock.wasm",
+      patterns: [],
+    };
+  }
+
+  blockIf(): schema.Rule {
+    return {
+      name: "meta.blockIf.wasm",
+      patterns: [],
+    };
+  }
+
+  blockLoop(): schema.Rule {
+    return {
+      name: "meta.blockLoop.wasm",
+      patterns: [],
     };
   }
 
@@ -717,7 +741,7 @@ export class Wat implements basis.Render {
   instrBlock(): schema.Rule {
     return {
       name: "meta.instrBlock.wasm",
-      patterns: [],
+      patterns: [include(this.blockBlock), include(this.blockLoop), include(this.blockIf)],
     };
   }
 
