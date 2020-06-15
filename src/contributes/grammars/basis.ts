@@ -17,8 +17,16 @@ export const Class = {
   xdigit: "[:xdigit:]",
 };
 
+const sign = "[+-]";
+const hexnum = "[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*";
+const num = "[0-9]+(?:_?[0-9]+)*";
+const float = `${num}(?:\\.(?:${num})?)?(?:[Ee](?:${sign})?${num})?`;
+const hexfloat = `0x${hexnum}(?:\\.(?:${hexnum})?)?(?:[Pp](?:${sign})?${num})?`;
+const fNmag = `${float}|${hexfloat}|\b(?:inf|nan|nan:0x${hexnum}\b)`;
+const fN = `(?:${sign})?${fNmag}`;
+const uN = `(?!0x)${num}|0x${hexnum}`;
+const sN = `${sign}${uN}`;
 const id = "[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+";
-const uN = "[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*";
 const identifier = `\\$${id}`;
 const index = `(?:${uN})|(?:${identifier})`;
 const valueType = "[fi](?:32|64)";
@@ -135,6 +143,10 @@ export const Token = {
   TABLE: "table",
   TYPE: "type",
   escape: "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)",
+  float,
+  fN,
+  hexfloat,
+  hexnum,
   id,
   identifier,
   index,
@@ -143,6 +155,9 @@ export const Token = {
   instrTypeInt,
   instrTypeInt32,
   instrTypeInt64,
+  num,
+  sign,
+  sN,
   uN,
   valueType,
 };
