@@ -124,6 +124,10 @@
         }
       ]
     },
+    "blockBlock": {
+      "name": "meta.blockBlock.wasm",
+      "patterns": []
+    },
     "blockComment": {
       "name": "meta.blockComment.wasm comment.block.wasm",
       "begin": "(\\(;)",
@@ -138,6 +142,14 @@
           "name": "punctuation.definition.comment.wasm"
         }
       }
+    },
+    "blockIf": {
+      "name": "meta.blockIf.wasm",
+      "patterns": []
+    },
+    "blockLoop": {
+      "name": "meta.blockLoop.wasm",
+      "patterns": []
     },
     "comment": {
       "name": "meta.comment.wasm",
@@ -182,7 +194,7 @@
       "end": "(?=\\))",
       "patterns": [
         {
-          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
+          "match": "(?:(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
         }
       ]
     },
@@ -197,7 +209,7 @@
       "end": "(?=\\))",
       "patterns": [
         {
-          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
+          "match": "(?:(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
         }
       ]
     },
@@ -212,7 +224,7 @@
       "end": "(?=\\))",
       "patterns": [
         {
-          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
+          "match": "(?:(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
         }
       ]
     },
@@ -227,7 +239,7 @@
       "end": "(?=\\))",
       "patterns": [
         {
-          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
+          "match": "(?:(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
         }
       ]
     },
@@ -732,7 +744,17 @@
     },
     "instrBlock": {
       "name": "meta.instrBlock.wasm",
-      "patterns": []
+      "patterns": [
+        {
+          "include": "#blockBlock"
+        },
+        {
+          "include": "#blockLoop"
+        },
+        {
+          "include": "#blockIf"
+        }
+      ]
     },
     "instrCall": {
       "name": "meta.instrCall.wasm",
@@ -862,7 +884,7 @@
       "patterns": [
         {
           "name": "variable.other.wasm",
-          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
+          "match": "(?:(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
         }
       ]
     },
@@ -876,22 +898,30 @@
     },
     "instrPlainConst": {
       "name": "meta.instrPlainConst.wasm",
-      "patterns": [
-        {
-          "match": "(?:i(?:32|64)|f(?:32|64))"
-        },
-        {
-          "name": "punctuation.accessor.wasm",
-          "match": "\\."
-        },
-        {
-          "name": "keyword.control.const.wasm",
-          "match": "\\bconst\\b"
-        },
-        {
-          "include": "#literal"
+      "begin": "\\b(?:i(?:32|64)|f(?:32|64))\\b(?<![\\.])\\.(?![\\.])\\bconst\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.wasm"
         }
-      ]
+      },
+      "end": "([+-]?\\b(?:inf|nan)\\b)|([+-]?\\b(?:0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*(?:\\.(?:[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)?)?(?:[Pp](?:[+-])?[0-9]+(?:_?[0-9]+)*)?|nan:0x0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*(?:\\.(?:[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)?)?(?:[Pp](?:[+-])?[0-9]+(?:_?[0-9]+)*)?)\\b)|([+-]?[0-9]+(?:_?[0-9]+)*(?:\\.(?:[0-9]+(?:_?[0-9]+)*)?)?(?:[Ee](?:[+-])?[0-9]+(?:_?[0-9]+)*)?)|([+-]?0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|([+-]?[0-9]+(?:_?[0-9]+)*)",
+      "endCaptures": {
+        "1": {
+          "name": "constant.numeric.float.wasm"
+        },
+        "2": {
+          "name": "constant.numeric.float.hexadecimal.wasm"
+        },
+        "3": {
+          "name": "constant.numeric.float.decimal.wasm"
+        },
+        "4": {
+          "name": "constant.numeric.integer.hexadecimal.wasm"
+        },
+        "5": {
+          "name": "constant.numeric.integer.decimal.wasm"
+        }
+      }
     },
     "instrPlainGlobalGet": {
       "name": "meta.instrPlainGlobalGet.wasm",
@@ -950,7 +980,7 @@
       "patterns": [
         {
           "name": "constant.numeric.integer",
-          "match": "[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*"
+          "match": "(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*"
         }
       ]
     },
@@ -1101,7 +1131,7 @@
         },
         {
           "name": "variable.other.constant entity.name.data.wasm",
-          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
+          "match": "(?:(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
         },
         {
           "include": "#offset"
@@ -1128,7 +1158,7 @@
           "include": "#offset"
         },
         {
-          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
+          "match": "(?:(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
         }
       ]
     },
@@ -1627,7 +1657,7 @@
       "patterns": [
         {
           "name": "entity.name.type.alias.wasm",
-          "match": "(?:[0-9][0-9_]*|0x[0-9A-Fa-f][0-9A-Fa-f_]*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
+          "match": "(?:(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
         }
       ]
     },
