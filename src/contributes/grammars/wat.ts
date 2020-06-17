@@ -95,6 +95,7 @@ export class Wat implements basis.Render {
         instrPlainStore: this.instrPlainStore(),
         instrPlainTest: this.instrPlainTest(),
         instrPlainUnary: this.instrPlainUnary(),
+        instrPlainUnreachable: this.instrPlainUnreachable(),
         limits: this.limits(),
         lineComment: this.lineComment(),
         literal: this.literalNAN(),
@@ -770,6 +771,7 @@ export class Wat implements basis.Render {
     return {
       name: "meta.instrPlain.wasm",
       patterns: [
+        include(this.instrPlainUnreachable),
         include(this.instrPlainNop),
         include(this.instrPlainBr),
         include(this.instrPlainBrIf),
@@ -1027,6 +1029,13 @@ export class Wat implements basis.Render {
           ),
         },
       ],
+    };
+  }
+
+  instrPlainUnreachable(): schema.Rule {
+    return {
+      name: "meta.instrPlainUnreachable.wasm keyword.control.wasm",
+      match: words(Token.UNREACHABLE),
     };
   }
 
