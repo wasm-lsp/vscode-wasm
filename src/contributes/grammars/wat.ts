@@ -1001,7 +1001,32 @@ export class Wat implements basis.Render {
   instrPlainUnary(): schema.Rule {
     return {
       name: "meta.instrPlainUnary.wasm",
-      patterns: [],
+      patterns: [
+        {
+          name: "keyword.control.wasm",
+          match: seq(words(Token.instrTypeInt), ops(Token.FULL_STOP), words(group(alt("clz", "ctz", "popcnt")))),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(
+            words(Token.instrTypeInt),
+            ops(Token.FULL_STOP),
+            words(group(seq("extend", group(alt("8", "16")), "_s"))),
+          ),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(words(Token.instrTypeInt64), ops(Token.FULL_STOP), words("extend32_s")),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(
+            words(Token.instrTypeFloat),
+            ops(Token.FULL_STOP),
+            words(group(alt("neg", "abs", "sqrt", "ceil", "floor", "trunc", "nearest"))),
+          ),
+        },
+      ],
     };
   }
 
