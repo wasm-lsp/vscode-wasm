@@ -142,6 +142,7 @@ export const Token = {
   START: "start",
   TABLE: "table",
   TYPE: "type",
+  UNREACHABLE: "unreachable",
   escape: "\\\\([0-9A-Fa-f]{2}|u\\{[0-9A-Fa-f]+\\}|[\\\\'\\\\\"ntr]|$)",
   float,
   fN,
