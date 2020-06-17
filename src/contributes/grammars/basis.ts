@@ -112,6 +112,7 @@ export const Token = {
   CALL_INDIRECT: "call_indirect",
   CONST: "const",
   DATA: "data",
+  DROP: "drop",
   ELEM: "elem",
   END: "end",
   EXPORT: "export",
