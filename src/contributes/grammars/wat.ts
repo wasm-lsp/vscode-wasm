@@ -993,8 +993,8 @@ export class Wat implements basis.Render {
 
   instrPlainTest(): schema.Rule {
     return {
-      name: "meta.instrPlainTest.wasm",
-      patterns: [],
+      name: "meta.instrPlainTest.wasm keyword.control.wasm",
+      match: seq(words(Token.instrType), ops(Token.FULL_STOP), words("eqz")),
     };
   }
 
