@@ -95,6 +95,10 @@ const instrTypeInt64: string = seq("i", "64");
 
 const instrTypeFloat: string = seq("f", group(alt("32", "64")));
 
+const instrTypeFloat32: string = seq("f", "32");
+
+const instrTypeFloat64: string = seq("f", "64");
+
 const instrType: string = group(alt(instrTypeInt, instrTypeFloat));
 
 export const Token = {
@@ -154,6 +158,8 @@ export const Token = {
   index,
   instrType,
   instrTypeFloat,
+  instrTypeFloat32,
+  instrTypeFloat64,
   instrTypeInt,
   instrTypeInt32,
   instrTypeInt64,
