@@ -774,7 +774,13 @@
       "name": "meta.instrPlain.wasm",
       "patterns": [
         {
+          "include": "#instrPlainUnreachable"
+        },
+        {
           "include": "#instrPlainNop"
+        },
+        {
+          "include": "#instrPlainDrop"
         },
         {
           "include": "#instrPlainBr"
@@ -893,7 +899,48 @@
     },
     "instrPlainConvert": {
       "name": "meta.instrPlainConvert.wasm",
-      "patterns": []
+      "patterns": [
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bi32\\b(?<![\\.])\\.(?![\\.])\\bwrap_i64\\b"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bi64\\b(?<![\\.])\\.(?![\\.])\\bextend_i32_[su]\\b"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bf32\\b(?<![\\.])\\.(?![\\.])\\bdemote_f64\\b"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bf64\\b(?<![\\.])\\.(?![\\.])\\bpromote_f32\\b"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bi(?:32|64)\\b(?<![\\.])\\.(?![\\.])\\btrunc_sat?_f(?:32|64)_[su]\\b"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bf(?:32|64)\\b(?<![\\.])\\.(?![\\.])\\bconvert_i(?:32|64)_[su]\\b"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bi32\\b(?<![\\.])\\.(?![\\.])\\breinterpret_f32\\b"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bi64\\b(?<![\\.])\\.(?![\\.])\\breinterpret_f64\\b"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bf32\\b(?<![\\.])\\.(?![\\.])\\breinterpret_i32\\b"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bf64\\b(?<![\\.])\\.(?![\\.])\\breinterpret_i64\\b"
+        }
+      ]
     },
     "instrPlainConst": {
       "name": "meta.instrPlainConst.wasm",
@@ -903,16 +950,16 @@
           "name": "keyword.control.wasm"
         }
       },
-      "end": "([+-]?\\b(?:inf|nan)\\b)|([+-]?\\b(?:0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*(?:\\.(?:[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)?)?(?:[Pp](?:[+-])?[0-9]+(?:_?[0-9]+)*)?|nan:0x0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*(?:\\.(?:[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)?)?(?:[Pp](?:[+-])?[0-9]+(?:_?[0-9]+)*)?)\\b)|([+-]?[0-9]+(?:_?[0-9]+)*(?:\\.(?:[0-9]+(?:_?[0-9]+)*)?)?(?:[Ee](?:[+-])?[0-9]+(?:_?[0-9]+)*)?)|([+-]?0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|([+-]?[0-9]+(?:_?[0-9]+)*)",
+      "end": "([+-]?\\b(?:0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*(?:\\.(?:[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)?)?(?:[Pp](?:[+-])?[0-9]+(?:_?[0-9]+)*)?|nan:0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*(?:\\.(?:[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)?)?(?:[Pp](?:[+-])?[0-9]+(?:_?[0-9]+)*)?)\\b)|([+-]?[0-9]+(?:_?[0-9]+)*(?:\\.(?:[0-9]+(?:_?[0-9]+)*)?)?(?:[Ee](?:[+-])?[0-9]+(?:_?[0-9]+)*)?)|([+-]?\\b(?:inf|nan)\\b)|([+-]?0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|([+-]?[0-9]+(?:_?[0-9]+)*)",
       "endCaptures": {
         "1": {
-          "name": "constant.numeric.float.wasm"
-        },
-        "2": {
           "name": "constant.numeric.float.hexadecimal.wasm"
         },
-        "3": {
+        "2": {
           "name": "constant.numeric.float.decimal.wasm"
+        },
+        "3": {
+          "name": "constant.numeric.float.wasm"
         },
         "4": {
           "name": "constant.numeric.integer.hexadecimal.wasm"
@@ -921,6 +968,10 @@
           "name": "constant.numeric.integer.decimal.wasm"
         }
       }
+    },
+    "instrPlainDrop": {
+      "name": "meta.instrPlainDrop.wasm keyword.control.wasm",
+      "match": "\\bdrop\\b"
     },
     "instrPlainGlobalGet": {
       "name": "meta.instrPlainGlobalGet.wasm",
@@ -967,12 +1018,33 @@
       "patterns": []
     },
     "instrPlainTest": {
-      "name": "meta.instrPlainTest.wasm",
-      "patterns": []
+      "name": "meta.instrPlainTest.wasm keyword.control.wasm",
+      "match": "\\b(?:i(?:32|64)|f(?:32|64))\\b(?<![\\.])\\.(?![\\.])\\beqz\\b"
     },
     "instrPlainUnary": {
       "name": "meta.instrPlainUnary.wasm",
-      "patterns": []
+      "patterns": [
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bi(?:32|64)\\b(?<![\\.])\\.(?![\\.])\\b(?:clz|ctz|popcnt)\\b"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bi(?:32|64)\\b(?<![\\.])\\.(?![\\.])\\b(?:extend(?:8|16)_s)\\b"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bi64\\b(?<![\\.])\\.(?![\\.])\\bextend32_s\\b"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\bf(?:32|64)\\b(?<![\\.])\\.(?![\\.])\\b(?:neg|abs|sqrt|ceil|floor|trunc|nearest)\\b"
+        }
+      ]
+    },
+    "instrPlainUnreachable": {
+      "name": "meta.instrPlainUnreachable.wasm keyword.control.wasm",
+      "match": "\\bunreachable\\b"
     },
     "limits": {
       "name": "meta.limits.wasm",
