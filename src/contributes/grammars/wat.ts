@@ -82,6 +82,7 @@ export class Wat implements basis.Render {
         instrPlainCompare: this.instrPlainCompare(),
         instrPlainConvert: this.instrPlainConvert(),
         instrPlainConst: this.instrPlainConst(),
+        instrPlainDrop: this.instrPlainDrop(),
         instrPlainGlobalGet: this.instrPlainGlobalGet(),
         instrPlainGlobalSet: this.instrPlainGlobalSet(),
         instrPlainLoad: this.instrPlainLoad(),
@@ -773,6 +774,7 @@ export class Wat implements basis.Render {
       patterns: [
         include(this.instrPlainUnreachable),
         include(this.instrPlainNop),
+        include(this.instrPlainDrop),
         include(this.instrPlainBr),
         include(this.instrPlainBrIf),
         include(this.instrPlainBrTable),
@@ -906,6 +908,13 @@ export class Wat implements basis.Render {
     return {
       name: "meta.instrPlainConvert.wasm",
       patterns: [],
+    };
+  }
+
+  instrPlainDrop(): schema.Rule {
+    return {
+      name: "meta.instrPlainDrop.wasm keyword.control.wasm",
+      match: words(Token.DROP),
     };
   }
 
