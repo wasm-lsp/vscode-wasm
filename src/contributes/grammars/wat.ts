@@ -907,7 +907,56 @@ export class Wat implements basis.Render {
   instrPlainConvert(): schema.Rule {
     return {
       name: "meta.instrPlainConvert.wasm",
-      patterns: [],
+      patterns: [
+        {
+          name: "keyword.control.wasm",
+          match: seq(words(Token.instrTypeInt32), ops(Token.FULL_STOP), words("wrap_i64")),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(words(Token.instrTypeInt64), ops(Token.FULL_STOP), words(seq("extend_i32_", set("su")))),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(words(Token.instrTypeFloat32), ops(Token.FULL_STOP), words("demote_f64")),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(words(Token.instrTypeFloat64), ops(Token.FULL_STOP), words("promote_f32")),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(
+            words(Token.instrTypeInt),
+            ops(Token.FULL_STOP),
+            words(seq("trunc", opt("_sat"), "_f", group(alt("32", "64")), "_", set("su"))),
+          ),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(
+            words(Token.instrTypeFloat),
+            ops(Token.FULL_STOP),
+            words(seq("convert_i", group(alt("32", "64")), "_", set("su"))),
+          ),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(words(Token.instrTypeInt32), ops(Token.FULL_STOP), words("reinterpret_f32")),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(words(Token.instrTypeInt64), ops(Token.FULL_STOP), words("reinterpret_f64")),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(words(Token.instrTypeFloat32), ops(Token.FULL_STOP), words("reinterpret_i32")),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(words(Token.instrTypeFloat64), ops(Token.FULL_STOP), words("reinterpret_i64")),
+        },
+      ],
     };
   }
 
