@@ -99,8 +99,6 @@ export class Wat implements basis.Render {
         instrPlainUnreachable: this.instrPlainUnreachable(),
         limits: this.limits(),
         lineComment: this.lineComment(),
-        literal: this.literalNAN(),
-        literalNAN: this.literalNAN(),
         memoryFieldsData: this.memoryFieldsData(),
         memoryFieldsType: this.memoryFieldsType(),
         memoryType: this.memoryType(),
@@ -1210,20 +1208,6 @@ export class Wat implements basis.Render {
       },
       end: lookAhead("$"),
       contentName: "comment.line.double-semicolon.wasm",
-    };
-  }
-
-  literal(): schema.Rule {
-    return {
-      name: "meta.literal.wasm",
-      patterns: [],
-    };
-  }
-
-  literalNAN(): schema.Rule {
-    return {
-      name: "meta.literalNAN.wasm",
-      patterns: [],
     };
   }
 
