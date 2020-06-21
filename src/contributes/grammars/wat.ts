@@ -890,7 +890,17 @@ export class Wat implements basis.Render {
   instrPlainBrTable(): schema.Rule {
     return {
       name: "meta.instrPlainBrTable.wasm",
-      patterns: [],
+      begin: words(Token.BR_TABLE),
+      beginCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
+      end: Token.instrEnd,
+      patterns: [
+        {
+          name: "variable.other.constant",
+          match: Token.index,
+        },
+      ],
     };
   }
 

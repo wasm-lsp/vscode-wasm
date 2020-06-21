@@ -126,6 +126,7 @@ export const Token = {
   BLOCK: "block",
   BR: "br",
   BR_IF: "br_if",
+  BR_TABLE: "br_table",
   CALL: "call",
   CALL_INDIRECT: "call_indirect",
   CONST: "const",
