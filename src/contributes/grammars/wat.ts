@@ -861,15 +861,29 @@ export class Wat implements basis.Render {
 
   instrPlainBr(): schema.Rule {
     return {
-      name: "meta.instrPlainBr.wasm keyword.control.wasm",
-      match: words(Token.BR),
+      name: "meta.instrPlainBr.wasm",
+      begin: words(Token.BR),
+      beginCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
+      end: Token.index,
+      endCaptures: {
+        0: { name: "variable.other.constant" },
+      },
     };
   }
 
   instrPlainBrIf(): schema.Rule {
     return {
-      name: "meta.instrPlainBrIf.wasm keyword.control.wasm",
-      match: words(Token.BR_IF),
+      name: "meta.instrPlainBrIf.wasm",
+      begin: words(Token.BR_IF),
+      beginCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
+      end: Token.index,
+      endCaptures: {
+        0: { name: "variable.other.constant" },
+      },
     };
   }
 
