@@ -224,23 +224,47 @@ export class Wat implements basis.Render {
   }
 
   blockBlock(): schema.Rule {
+    // TODO: parse trailing optional identifier
     return {
       name: "meta.blockBlock.wasm",
-      patterns: [],
+      begin: words(Token.BLOCK),
+      beginCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
+      end: words(Token.END),
+      endCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
     };
   }
 
   blockIf(): schema.Rule {
+    // TODO: parse trailing optional identifier
     return {
       name: "meta.blockIf.wasm",
-      patterns: [],
+      begin: words(Token.IF),
+      beginCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
+      end: words(Token.END),
+      endCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
     };
   }
 
   blockLoop(): schema.Rule {
+    // TODO: parse trailing optional identifier
     return {
       name: "meta.blockLoop.wasm",
-      patterns: [],
+      begin: words(Token.LOOP),
+      beginCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
+      end: words(Token.END),
+      endCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
     };
   }
 
