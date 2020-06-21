@@ -863,13 +863,10 @@ export class Wat implements basis.Render {
       beginCaptures: {
         0: { name: "keyword.control.wasm" },
       },
-      end: lookAhead(Token.RIGHT_PARENTHESIS),
-      patterns: [
-        {
-          name: "variable.other.wasm",
-          match: Token.index,
-        },
-      ],
+      end: Token.index,
+      endCaptures: {
+        0: { name: "variable.other.constant" },
+      },
     };
   }
 
