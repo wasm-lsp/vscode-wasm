@@ -125,7 +125,18 @@
     },
     "blockBlock": {
       "name": "meta.blockBlock.wasm",
-      "patterns": []
+      "begin": "\\bblock\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.wasm"
+        }
+      },
+      "end": "\\bend\\b",
+      "endCaptures": {
+        "0": {
+          "name": "keyword.control.wasm"
+        }
+      }
     },
     "blockComment": {
       "name": "meta.blockComment.wasm comment.block.wasm",
@@ -144,11 +155,33 @@
     },
     "blockIf": {
       "name": "meta.blockIf.wasm",
-      "patterns": []
+      "begin": "\\bif\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.wasm"
+        }
+      },
+      "end": "\\bend\\b",
+      "endCaptures": {
+        "0": {
+          "name": "keyword.control.wasm"
+        }
+      }
     },
     "blockLoop": {
       "name": "meta.blockLoop.wasm",
-      "patterns": []
+      "begin": "\\bloop\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.wasm"
+        }
+      },
+      "end": "\\bend\\b",
+      "endCaptures": {
+        "0": {
+          "name": "keyword.control.wasm"
+        }
+      }
     },
     "comment": {
       "name": "meta.comment.wasm",
@@ -199,7 +232,7 @@
     },
     "exportDescGlobal": {
       "name": "meta.exportDescGlobal.wasm",
-      "begin": "\\bglobal\\b",
+      "begin": "\\bglobal(?!\\.)\\b",
       "beginCaptures": {
         "0": {
           "name": "keyword.control.global.wasm"
@@ -214,7 +247,7 @@
     },
     "exportDescMemory": {
       "name": "meta.exportDescMemory.wasm",
-      "begin": "\\bmemory\\b",
+      "begin": "\\bmemory(?!\\.)\\b",
       "beginCaptures": {
         "0": {
           "name": "keyword.control.memory.wasm"
@@ -395,7 +428,7 @@
     },
     "funcLocals": {
       "name": "meta.funcLocals.wasm",
-      "begin": "\\blocal\\b",
+      "begin": "\\blocal(?!\\.)\\b",
       "beginCaptures": {
         "0": {
           "name": "keyword.control.local.wasm"
@@ -576,7 +609,7 @@
     },
     "importDescGlobalType": {
       "name": "meta.importDescGlobalType.wasm",
-      "begin": "\\bglobal\\b",
+      "begin": "\\bglobal(?!\\.)\\b",
       "beginCaptures": {
         "0": {
           "name": "keyword.control.global.wasm"
@@ -595,7 +628,7 @@
     },
     "importDescMemoryType": {
       "name": "meta.importDescMemoryType.wasm",
-      "begin": "\\bmemory\\b",
+      "begin": "\\bmemory(?!\\.)\\b",
       "beginCaptures": {
         "0": {
           "name": "keyword.control.memory.wasm"
@@ -885,13 +918,12 @@
           "name": "keyword.control.wasm"
         }
       },
-      "end": "(?=\\))",
-      "patterns": [
-        {
-          "name": "variable.other.wasm",
-          "match": "(?:(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)"
+      "end": "(?:(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)",
+      "endCaptures": {
+        "0": {
+          "name": "variable.other.constant"
         }
-      ]
+      }
     },
     "instrPlainCompare": {
       "name": "meta.instrPlainCompare.wasm",
@@ -975,11 +1007,33 @@
     },
     "instrPlainGlobalGet": {
       "name": "meta.instrPlainGlobalGet.wasm",
-      "patterns": []
+      "begin": "\\bglobal\\.get\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.wasm"
+        }
+      },
+      "end": "(?:(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)",
+      "endCaptures": {
+        "0": {
+          "name": "variable.other.constant"
+        }
+      }
     },
     "instrPlainGlobalSet": {
       "name": "meta.instrPlainGlobalSet.wasm",
-      "patterns": []
+      "begin": "\\bglobal\\.set\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.wasm"
+        }
+      },
+      "end": "(?:(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)",
+      "endCaptures": {
+        "0": {
+          "name": "variable.other.constant"
+        }
+      }
     },
     "instrPlainLoad": {
       "name": "meta.instrPlainLoad.wasm",
@@ -987,23 +1041,56 @@
     },
     "instrPlainLocalGet": {
       "name": "meta.instrPlainLocalGet.wasm",
-      "patterns": []
+      "begin": "\\blocal\\.get\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.wasm"
+        }
+      },
+      "end": "(?:(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)",
+      "endCaptures": {
+        "0": {
+          "name": "variable.other.constant"
+        }
+      }
     },
     "instrPlainLocalSet": {
       "name": "meta.instrPlainLocalSet.wasm",
-      "patterns": []
+      "begin": "\\blocal\\.set\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.wasm"
+        }
+      },
+      "end": "(?:(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)",
+      "endCaptures": {
+        "0": {
+          "name": "variable.other.constant"
+        }
+      }
     },
     "instrPlainLocalTee": {
       "name": "meta.instrPlainLocalTee.wasm",
-      "patterns": []
+      "begin": "\\blocal\\.tee\\b",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.wasm"
+        }
+      },
+      "end": "(?:(?!0x)[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|(?:\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+)",
+      "endCaptures": {
+        "0": {
+          "name": "variable.other.constant"
+        }
+      }
     },
     "instrPlainMemorySize": {
-      "name": "meta.instrPlainMemorySize.wasm",
-      "patterns": []
+      "name": "meta.instrPlainMemorySize.wasm keyword.control.wasm",
+      "match": "\\bmemory\\.size\\b"
     },
     "instrPlainMemoryGrow": {
-      "name": "meta.instrPlainMemoryGrow.wasm",
-      "patterns": []
+      "name": "meta.instrPlainMemoryGrow.wasm keyword.control.wasm",
+      "match": "\\bmemory\\.grow\\b"
     },
     "instrPlainNop": {
       "name": "meta.instrPlainNop.wasm keyword.control.wasm",
@@ -1338,7 +1425,7 @@
     },
     "moduleFieldGlobal": {
       "name": "meta.moduleFieldGlobal.wasm",
-      "begin": "\\bglobal\\b",
+      "begin": "\\bglobal(?!\\.)\\b",
       "beginCaptures": {
         "0": {
           "name": "storage.type.global.wasm"
@@ -1409,7 +1496,7 @@
     },
     "moduleFieldMemory": {
       "name": "meta.moduleFieldMemory.wasm",
-      "begin": "\\bmemory\\b",
+      "begin": "\\bmemory(?!\\.)\\b",
       "beginCaptures": {
         "0": {
           "name": "storage.type.memory.wasm"
