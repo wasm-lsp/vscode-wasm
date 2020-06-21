@@ -388,6 +388,7 @@ export class Wat implements basis.Render {
       },
       end: lookAhead(Token.RIGHT_PARENTHESIS),
       patterns: [
+        include(this.extra),
         {
           name: "variable.other.wasm",
           match: Token.identifier,
@@ -402,6 +403,7 @@ export class Wat implements basis.Render {
             0: { name: "meta.brace.round.wasm" },
           },
           patterns: [
+            include(this.extra),
             include(this.typeUse),
             include(this.funcTypeParams),
             include(this.funcTypeResults),
