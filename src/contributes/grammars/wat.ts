@@ -981,13 +981,6 @@ export class Wat implements basis.Render {
     };
   }
 
-  instrPlainGlobalTee(): schema.Rule {
-    return {
-      name: "meta.instrPlainGlobalTee.wasm",
-      patterns: [],
-    };
-  }
-
   instrPlainLoad(): schema.Rule {
     return {
       name: "meta.instrPlainLoad.wasm",
