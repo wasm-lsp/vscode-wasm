@@ -970,14 +970,28 @@ export class Wat implements basis.Render {
   instrPlainGlobalGet(): schema.Rule {
     return {
       name: "meta.instrPlainGlobalGet.wasm",
-      patterns: [],
+      begin: words(Token.GLOBAL_GET),
+      beginCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
+      end: Token.index,
+      endCaptures: {
+        0: { name: "variable.other.constant" },
+      },
     };
   }
 
   instrPlainGlobalSet(): schema.Rule {
     return {
       name: "meta.instrPlainGlobalSet.wasm",
-      patterns: [],
+      begin: words(Token.GLOBAL_SET),
+      beginCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
+      end: Token.index,
+      endCaptures: {
+        0: { name: "variable.other.constant" },
+      },
     };
   }
 
