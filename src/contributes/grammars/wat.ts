@@ -389,7 +389,7 @@ export class Wat implements basis.Render {
       end: lookAhead(Token.RIGHT_PARENTHESIS),
       patterns: [
         {
-          name: "variable.block.global.wasm",
+          name: "variable.other.wasm",
           match: Token.identifier,
         },
         {
