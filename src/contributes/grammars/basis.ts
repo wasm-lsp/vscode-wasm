@@ -164,6 +164,7 @@ export const Token = {
   QUOTE: "quote",
   REGISTER: "register",
   RESULT: "result",
+  RETURN: "return",
   RIGHT_PARENTHESIS: "\\)",
   SCRIPT: "script",
   START: "start",

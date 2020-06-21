@@ -1129,8 +1129,8 @@ export class Wat implements basis.Render {
 
   instrPlainReturn(): schema.Rule {
     return {
-      name: "meta.instrPlainReturn.wasm",
-      patterns: [],
+      name: "meta.instrPlainReturn.wasm keyword.control.wasm",
+      match: words(Token.RETURN),
     };
   }
 
