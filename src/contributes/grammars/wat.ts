@@ -1005,21 +1005,42 @@ export class Wat implements basis.Render {
   instrPlainLocalGet(): schema.Rule {
     return {
       name: "meta.instrPlainLocalGet.wasm",
-      patterns: [],
+      begin: words(Token.LOCAL_GET),
+      beginCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
+      end: Token.index,
+      endCaptures: {
+        0: { name: "variable.other.constant" },
+      },
     };
   }
 
   instrPlainLocalSet(): schema.Rule {
     return {
       name: "meta.instrPlainLocalSet.wasm",
-      patterns: [],
+      begin: words(Token.LOCAL_SET),
+      beginCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
+      end: Token.index,
+      endCaptures: {
+        0: { name: "variable.other.constant" },
+      },
     };
   }
 
   instrPlainLocalTee(): schema.Rule {
     return {
       name: "meta.instrPlainLocalTee.wasm",
-      patterns: [],
+      begin: words(Token.LOCAL_TEE),
+      beginCaptures: {
+        0: { name: "keyword.control.wasm" },
+      },
+      end: Token.index,
+      endCaptures: {
+        0: { name: "variable.other.constant" },
+      },
     };
   }
 
