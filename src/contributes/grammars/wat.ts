@@ -897,7 +897,24 @@ export class Wat implements basis.Render {
   instrPlainCompare(): schema.Rule {
     return {
       name: "meta.instrPlainCompare.wasm",
-      patterns: [],
+      patterns: [
+        {
+          name: "keyword.control.wasm",
+          match: seq(words(Token.instrType), ops(Token.FULL_STOP), words(group(alt("eq", "ne")))),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(
+            words(Token.instrTypeInt),
+            ops(Token.FULL_STOP),
+            words(seq(group(alt("lt", "le", "gt", "ge")), "_", set("su"))),
+          ),
+        },
+        {
+          name: "keyword.control.wasm",
+          match: seq(words(Token.instrTypeFloat), ops(Token.FULL_STOP), words(group(alt("lt", "le", "gt", "ge")))),
+        },
+      ],
     };
   }
 
