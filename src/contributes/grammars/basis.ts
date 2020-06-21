@@ -138,6 +138,8 @@ export const Token = {
   LOCAL_TEE: "local\\.tee",
   LOOP: "loop",
   MEMORY: "memory(?!\\.)",
+  MEMORY_GROW: "memory\\.grow",
+  MEMORY_SIZE: "memory\\.size",
   MODULE: "module",
   MUT: "mut",
   NOP: "nop",

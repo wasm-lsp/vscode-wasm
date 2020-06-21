@@ -1046,15 +1046,15 @@ export class Wat implements basis.Render {
 
   instrPlainMemoryGrow(): schema.Rule {
     return {
-      name: "meta.instrPlainMemoryGrow.wasm",
-      patterns: [],
+      name: "meta.instrPlainMemoryGrow.wasm keyword.control.wasm",
+      match: words(Token.MEMORY_GROW),
     };
   }
 
   instrPlainMemorySize(): schema.Rule {
     return {
-      name: "meta.instrPlainMemorySize.wasm",
-      patterns: [],
+      name: "meta.instrPlainMemorySize.wasm keyword.control.wasm",
+      match: words(Token.MEMORY_SIZE),
     };
   }
 
