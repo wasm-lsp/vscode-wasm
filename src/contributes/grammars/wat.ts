@@ -233,6 +233,17 @@ export class Wat implements basis.Render {
       endCaptures: {
         0: { name: "keyword.control.wasm" },
       },
+      patterns: [
+        include(this.extra),
+        {
+          name: "variable.other.wasm",
+          match: Token.identifier,
+        },
+        include(this.typeUse),
+        include(this.funcTypeParams),
+        include(this.funcTypeResults),
+        include(this.instrList),
+      ],
     };
   }
 
@@ -249,6 +260,17 @@ export class Wat implements basis.Render {
       endCaptures: {
         0: { name: "keyword.control.wasm" },
       },
+      patterns: [
+        include(this.extra),
+        {
+          name: "variable.other.wasm",
+          match: Token.identifier,
+        },
+        include(this.typeUse),
+        include(this.funcTypeParams),
+        include(this.funcTypeResults),
+        include(this.instrList),
+      ],
     };
   }
 
@@ -264,6 +286,17 @@ export class Wat implements basis.Render {
       endCaptures: {
         0: { name: "keyword.control.wasm" },
       },
+      patterns: [
+        include(this.extra),
+        {
+          name: "variable.other.wasm",
+          match: Token.identifier,
+        },
+        include(this.typeUse),
+        include(this.funcTypeParams),
+        include(this.funcTypeResults),
+        include(this.instrList),
+      ],
     };
   }
 
