@@ -113,6 +113,8 @@ const instrTypeFloat64: string = seq("f", "64");
 
 const instrType: string = group(alt(instrTypeInt, instrTypeFloat));
 
+const instrEnd: string = negativeLookAhead(alt(set(Class.space), "$", index));
+
 export const Token = {
   ASSERT_EXHAUSTION: "assert_exhaustion",
   ASSERT_INVALID: "assert_invalid",
@@ -175,6 +177,7 @@ export const Token = {
   id,
   identifier,
   index,
+  instrEnd,
   instrType,
   instrTypeFloat,
   instrTypeFloat32,
