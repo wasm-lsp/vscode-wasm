@@ -238,6 +238,7 @@ export class Wat implements basis.Render {
 
   blockIf(): schema.Rule {
     // TODO: parse trailing optional identifier
+    // TODO: parse branches
     return {
       name: "meta.blockIf.wasm",
       begin: words(Token.IF),
