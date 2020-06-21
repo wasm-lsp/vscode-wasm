@@ -125,6 +125,8 @@ export const Token = {
   FUNCREF: "funcref",
   GET: "get",
   GLOBAL: "global(?!\\.)",
+  GLOBAL_GET: "global\\.get",
+  GLOBAL_SET: "global\\.set",
   IF: "if",
   IMPORT: "import",
   INPUT: "input",
