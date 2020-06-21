@@ -18,17 +18,29 @@ export const Class = {
 };
 
 const sign = "[+-]";
+
 const hexnum = "[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*";
+
 const num = "[0-9]+(?:_?[0-9]+)*";
+
 const float = `${num}(?:\\.(?:${num})?)?(?:[Ee](?:${sign})?${num})?`;
+
 const hexfloat = `0x${hexnum}(?:\\.(?:${hexnum})?)?(?:[Pp](?:${sign})?${num})?`;
+
 const fNmag = `${float}|${hexfloat}|\b(?:inf|nan|nan:0x${hexnum}\b)`;
+
 const fN = `(?:${sign})?${fNmag}`;
+
 const uN = `(?!0x)${num}|0x${hexnum}`;
+
 const sN = `${sign}${uN}`;
+
 const id = "[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+";
+
 const identifier = `\\$${id}`;
+
 const index = `(?:${uN})|(?:${identifier})`;
+
 const valueType = "[fi](?:32|64)";
 
 export function ref<T extends unknown[]>(f: (...args: T) => schema.Rule): string {
@@ -88,11 +100,15 @@ export const lastWords = (...rest: string[]): string => {
 };
 
 const instrTypeInt: string = seq("i", group(alt("32", "64")));
+
 const instrTypeInt32: string = seq("i", "32");
+
 const instrTypeInt64: string = seq("i", "64");
 
 const instrTypeFloat: string = seq("f", group(alt("32", "64")));
+
 const instrTypeFloat32: string = seq("f", "32");
+
 const instrTypeFloat64: string = seq("f", "64");
 
 const instrType: string = group(alt(instrTypeInt, instrTypeFloat));
