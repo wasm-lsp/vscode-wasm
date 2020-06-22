@@ -1529,7 +1529,12 @@ export class Wat implements basis.Render {
           name: "variable.other.table.wasm",
           match: Token.identifier,
         },
-        include(this.elemType),
+        {
+          // NOTE: these are refactored out of `tableFieldsElem` and
+          // `tableFieldsType` since we can't effectively lookahead (beyond
+          // parens) in the TextMate grammar.
+          patterns: [include(this.limits), include(this.elemType)],
+        },
         {
           begin: Token.LEFT_PARENTHESIS,
           beginCaptures: {
