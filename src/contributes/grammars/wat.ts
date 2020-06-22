@@ -1223,13 +1223,8 @@ export class Wat implements basis.Render {
 
   limits(): schema.Rule {
     return {
-      name: "meta.limits.wasm",
-      patterns: [
-        {
-          name: "constant.numeric.integer",
-          match: Token.uN,
-        },
-      ],
+      name: "meta.limits.wasm constant.numeric.integer",
+      match: Token.uN,
     };
   }
 
