@@ -43,6 +43,14 @@
         }
       ]
     },
+    "alignValue": {
+      "match": "[[:space:]]+(\\balign=(?:[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)\\b)",
+      "captures": {
+        "1": {
+          "name": "storage.modifier.wasm"
+        }
+      }
+    },
     "annotation": {
       "name": "meta.annotation.wasm",
       "begin": "\\((?=@)",
@@ -1154,7 +1162,59 @@
     },
     "instrPlainLoad": {
       "name": "meta.instrPlainLoad.wasm",
-      "patterns": []
+      "patterns": [
+        {
+          "begin": "\\bi64\\b(?<![\\.])\\.(?![\\.])\\bload32_[su]\\b",
+          "beginCaptures": {
+            "0": {
+              "name": "keyword.control.wasm"
+            }
+          },
+          "end": "(?!\\G)|(?![[:space:]])",
+          "patterns": [
+            {
+              "include": "#offsetValue"
+            },
+            {
+              "include": "#alignValue"
+            }
+          ]
+        },
+        {
+          "begin": "\\bi(?:32|64)\\b(?<![\\.])\\.(?![\\.])\\bload(?:8|16)_[su]\\b",
+          "beginCaptures": {
+            "0": {
+              "name": "keyword.control.wasm"
+            }
+          },
+          "end": "(?!\\G)|(?![[:space:]])",
+          "patterns": [
+            {
+              "include": "#offsetValue"
+            },
+            {
+              "include": "#alignValue"
+            }
+          ]
+        },
+        {
+          "begin": "\\b(?:i(?:32|64)|f(?:32|64))\\b(?<![\\.])\\.(?![\\.])\\bload\\b",
+          "beginCaptures": {
+            "0": {
+              "name": "keyword.control.wasm"
+            }
+          },
+          "end": "(?!\\G)|(?![[:space:]])",
+          "patterns": [
+            {
+              "include": "#offsetValue"
+            },
+            {
+              "include": "#alignValue"
+            }
+          ]
+        }
+      ]
     },
     "instrPlainLocalGet": {
       "name": "meta.instrPlainLocalGet.wasm",
@@ -1219,7 +1279,59 @@
     },
     "instrPlainStore": {
       "name": "meta.instrPlainStore.wasm",
-      "patterns": []
+      "patterns": [
+        {
+          "begin": "\\bi64\\b(?<![\\.])\\.(?![\\.])\\bstore32\\b",
+          "beginCaptures": {
+            "0": {
+              "name": "keyword.control.wasm"
+            }
+          },
+          "end": "(?!\\G)|(?![[:space:]])",
+          "patterns": [
+            {
+              "include": "#offsetValue"
+            },
+            {
+              "include": "#alignValue"
+            }
+          ]
+        },
+        {
+          "begin": "\\bi(?:32|64)\\b(?<![\\.])\\.(?![\\.])\\bstore(?:8|16)\\b",
+          "beginCaptures": {
+            "0": {
+              "name": "keyword.control.wasm"
+            }
+          },
+          "end": "(?!\\G)|(?![[:space:]])",
+          "patterns": [
+            {
+              "include": "#offsetValue"
+            },
+            {
+              "include": "#alignValue"
+            }
+          ]
+        },
+        {
+          "begin": "\\b(?:i(?:32|64)|f(?:32|64))\\b(?<![\\.])\\.(?![\\.])\\bstore\\b",
+          "beginCaptures": {
+            "0": {
+              "name": "keyword.control.wasm"
+            }
+          },
+          "end": "(?!\\G)|(?![[:space:]])",
+          "patterns": [
+            {
+              "include": "#offsetValue"
+            },
+            {
+              "include": "#alignValue"
+            }
+          ]
+        }
+      ]
     },
     "instrPlainTest": {
       "name": "meta.instrPlainTest.wasm keyword.control.wasm",
@@ -1800,6 +1912,20 @@
         }
       ]
     },
+    "offsetValue": {
+      "begin": "[[:space:]]+(\\boffset=(?:[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)\\b)",
+      "end": "(?!\\G)|(?![[:space:]])",
+      "beginCaptures": {
+        "1": {
+          "name": "storage.modifier.wasm"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#alignValue"
+        }
+      ]
+    },
     "string": {
       "name": "meta.string.wasm string.quoted.double.wasm",
       "begin": "\"",
@@ -1850,6 +1976,9 @@
       "name": "meta.tableFieldsType.wasm",
       "patterns": [
         {
+          "include": "#inlineImport"
+        },
+        {
           "include": "#tableType"
         }
       ]
@@ -1859,6 +1988,9 @@
       "patterns": [
         {
           "include": "#limits"
+        },
+        {
+          "include": "#elemType"
         }
       ]
     },
