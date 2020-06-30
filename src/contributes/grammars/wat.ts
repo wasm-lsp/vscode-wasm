@@ -14,6 +14,7 @@ const {
   lookAhead,
   lookBehind,
   manyOne,
+  negativeLookAhead,
   ops,
   opt,
   seq,
@@ -1181,9 +1182,36 @@ export class Wat implements basis.Render {
   }
 
   instrPlainStore(): schema.Rule {
+    const patterns = [include(this.offsetValue), include(this.alignValue)];
+    const end = alt(negativeLookAhead("\\G"), negativeLookAhead(set(Class.space)));
     return {
       name: "meta.instrPlainStore.wasm",
-      patterns: [],
+      patterns: [
+        {
+          begin: seq(words(Token.instrTypeInt64), ops(Token.FULL_STOP), words(seq("store", "32"))),
+          beginCaptures: {
+            0: { name: "keyword.control.wasm" },
+          },
+          end,
+          patterns,
+        },
+        {
+          begin: seq(words(Token.instrTypeInt), ops(Token.FULL_STOP), words(seq("store", group(alt("8", "16"))))),
+          beginCaptures: {
+            0: { name: "keyword.control.wasm" },
+          },
+          end,
+          patterns,
+        },
+        {
+          begin: seq(words(Token.instrType), ops(Token.FULL_STOP), words("store")),
+          beginCaptures: {
+            0: { name: "keyword.control.wasm" },
+          },
+          end,
+          patterns,
+        },
+      ],
     };
   }
 
