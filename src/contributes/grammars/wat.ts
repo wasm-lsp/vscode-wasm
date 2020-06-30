@@ -1105,9 +1105,40 @@ export class Wat implements basis.Render {
   }
 
   instrPlainLoad(): schema.Rule {
+    const patterns = [include(this.offsetValue), include(this.alignValue)];
+    const end = alt(negativeLookAhead("\\G"), negativeLookAhead(set(Class.space)));
     return {
       name: "meta.instrPlainLoad.wasm",
-      patterns: [],
+      patterns: [
+        {
+          begin: seq(words(Token.instrTypeInt64), ops(Token.FULL_STOP), words(seq("load", "32", "_", set("su")))),
+          beginCaptures: {
+            0: { name: "keyword.control.wasm" },
+          },
+          end,
+          patterns,
+        },
+        {
+          begin: seq(
+            words(Token.instrTypeInt),
+            ops(Token.FULL_STOP),
+            words(seq("load", group(alt("8", "16")), "_", set("su"))),
+          ),
+          beginCaptures: {
+            0: { name: "keyword.control.wasm" },
+          },
+          end,
+          patterns,
+        },
+        {
+          begin: seq(words(Token.instrType), ops(Token.FULL_STOP), words("load")),
+          beginCaptures: {
+            0: { name: "keyword.control.wasm" },
+          },
+          end,
+          patterns,
+        },
+      ],
     };
   }
 
