@@ -4,6 +4,7 @@ import * as basis from "./basis";
 import * as schema from "./schema";
 
 const {
+  Class,
   Token,
   alt,
   capture,
@@ -33,6 +34,7 @@ export class Wat implements basis.Render {
       patterns: [include(this.PARSE)],
       repository: {
         PARSE: this.PARSE(),
+        alignValue: this.alignValue(),
         annotation: this.annotation(),
         annotationParens: this.annotationParens(),
         annotationPart: this.annotationPart(),
@@ -147,6 +149,15 @@ export class Wat implements basis.Render {
           patterns: [include(this.extra), include(this.module), include(this.moduleField)],
         },
       ],
+    };
+  }
+
+  alignValue(): schema.Rule {
+    return {
+      match: seq(manyOne(set(Class.space)), capture(words(seq("align=", group(alt(Token.num, `0x${Token.hexnum}`)))))),
+      captures: {
+        1: { name: "storage.modifier.wasm" },
+      },
     };
   }
 
