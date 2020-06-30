@@ -120,6 +120,7 @@ export class Wat implements basis.Render {
         offset: this.offset(),
         offsetConstExpr: this.offsetConstExpr(),
         offsetExpr: this.offsetExpr(),
+        offsetValue: this.offsetValue(),
         string: this.string(),
         stringCharacterEscape: this.stringCharacterEscape(),
         tableFieldsElem: this.tableFieldsElem(),
@@ -1616,6 +1617,17 @@ export class Wat implements basis.Render {
     return {
       name: "meta.offsetExpr.wasm",
       patterns: [include(this.expr)],
+    };
+  }
+
+  offsetValue(): schema.Rule {
+    return {
+      begin: seq(manyOne(set(Class.space)), capture(words(seq("offset=", group(alt(Token.num, `0x${Token.hexnum}`)))))),
+      end: alt(negativeLookAhead("\\G"), negativeLookAhead(set(Class.space))),
+      beginCaptures: {
+        1: { name: "storage.modifier.wasm" },
+      },
+      patterns: [include(this.alignValue)],
     };
   }
 
