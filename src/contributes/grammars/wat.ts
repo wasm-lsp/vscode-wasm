@@ -1,5 +1,13 @@
 /* eslint @typescript-eslint/unbound-method: "off" */
 
+// TODO:
+// * highlight rest of call_indirect (e.g., "param", "result", "type", etc.)
+// * highlight "param"
+// * fix highlighting for func fields (see conversions.wast)
+// * fix highlighting for export fields (memory, table, etc.)
+// * highlight "select"
+// * fix highlighting for import (see imports.wast)
+
 import * as basis from "./basis";
 import * as schema from "./schema";
 
