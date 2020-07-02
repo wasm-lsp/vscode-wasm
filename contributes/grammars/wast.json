@@ -453,6 +453,10 @@
         {
           "name": "keyword.control.wasm",
           "match": "\\bif\\b"
+        },
+        {
+          "name": "keyword.control.wasm",
+          "match": "\\belse|then\\b"
         }
       ]
     },
@@ -1728,6 +1732,9 @@
           "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
+          "include": "#memoryFieldsType"
+        },
+        {
           "begin": "\\(",
           "beginCaptures": {
             "0": {
@@ -1746,9 +1753,6 @@
             },
             {
               "include": "#memoryFieldsData"
-            },
-            {
-              "include": "#memoryFieldsType"
             }
           ]
         }
