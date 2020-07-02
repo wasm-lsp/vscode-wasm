@@ -482,6 +482,11 @@ export class Wat implements basis.Render {
           name: "keyword.control.wasm",
           match: words(Token.IF),
         },
+        // TODO: proper parsing of branches
+        {
+          name: "keyword.control.wasm",
+          match: words(alt(Token.ELSE, Token.THEN)),
+        },
       ],
     };
   }
