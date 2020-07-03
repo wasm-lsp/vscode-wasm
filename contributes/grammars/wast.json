@@ -681,10 +681,16 @@
           "match": "\\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+"
         },
         {
-          "include": "#funcType"
-        },
-        {
-          "include": "#typeUse"
+          "begin": "\\(",
+          "end": "\\)",
+          "patterns": [
+            {
+              "include": "#funcType"
+            },
+            {
+              "include": "#typeUse"
+            }
+          ]
         }
       ]
     },
@@ -897,6 +903,9 @@
           "include": "#instrPlainDrop"
         },
         {
+          "include": "#instrPlainSelect"
+        },
+        {
           "include": "#instrPlainBr"
         },
         {
@@ -1078,7 +1087,7 @@
         },
         {
           "name": "keyword.control.wasm",
-          "match": "\\bi(?:32|64)\\b(?<![\\.])\\.(?![\\.])\\btrunc_sat?_f(?:32|64)_[su]\\b"
+          "match": "\\bi(?:32|64)\\b(?<![\\.])\\.(?![\\.])\\btrunc(?:_sat)?_f(?:32|64)_[su]\\b"
         },
         {
           "name": "keyword.control.wasm",
@@ -1110,7 +1119,7 @@
           "name": "keyword.control.wasm"
         }
       },
-      "end": "([+-]?\\b(?:0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*(?:\\.(?:[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)?)?(?:[Pp](?:[+-])?[0-9]+(?:_?[0-9]+)*)?|nan:0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*(?:\\.(?:[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)?)?(?:[Pp](?:[+-])?[0-9]+(?:_?[0-9]+)*)?)\\b)|([+-]?[0-9]+(?:_?[0-9]+)*(?:\\.(?:[0-9]+(?:_?[0-9]+)*)?)?(?:[Ee](?:[+-])?[0-9]+(?:_?[0-9]+)*)?)|([+-]?\\b(?:inf|nan)\\b)|([+-]?0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|([+-]?[0-9]+(?:_?[0-9]+)*)",
+      "end": "((?:[+-])?\\b(?:0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*(?:\\.(?:[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)?)?(?:[Pp](?:[+-])?[0-9]+(?:_?[0-9]+)*)?|nan:0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*(?:\\.(?:[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)?)?(?:[Pp](?:[+-])?[0-9]+(?:_?[0-9]+)*)?)\\b)|((?:[+-])?[0-9]+(?:_?[0-9]+)*(?:\\.(?:[0-9]+(?:_?[0-9]+)*)?)?(?:[Ee](?:[+-])?[0-9]+(?:_?[0-9]+)*)?)|((?:[+-])?\\b(?:inf|nan)\\b)|((?:[+-])?0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)|((?:[+-])?[0-9]+(?:_?[0-9]+)*)",
       "endCaptures": {
         "1": {
           "name": "constant.numeric.float.hexadecimal.wasm"
@@ -1280,6 +1289,10 @@
       "name": "meta.instrPlainReturn.wasm keyword.control.wasm",
       "match": "\\breturn\\b"
     },
+    "instrPlainSelect": {
+      "name": "meta.instrPlainSelect.wasm keyword.control.wasm",
+      "match": "\\bselect\\b"
+    },
     "instrPlainStore": {
       "name": "meta.instrPlainStore.wasm",
       "patterns": [
@@ -1371,7 +1384,7 @@
     },
     "lineComment": {
       "name": "meta.comment.line.wasm",
-      "begin": "(^[ \\t]+)?((;;))",
+      "begin": "(?:(^[ \\t]+))?((;;))",
       "beginCaptures": {
         "1": {
           "name": "punctuation.whitespace.comment.leading.wasm"
