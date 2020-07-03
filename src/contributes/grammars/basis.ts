@@ -168,6 +168,7 @@ export const Token = {
   RETURN: "return",
   RIGHT_PARENTHESIS: "\\)",
   SCRIPT: "script",
+  SELECT: "select",
   START: "start",
   TABLE: "table",
   THEN: "then",

@@ -5,7 +5,6 @@
 // * highlight "param"
 // * fix highlighting for func fields (see conversions.wast)
 // * fix highlighting for export fields (memory, table, etc.)
-// * highlight "select"
 
 import * as basis from "./basis";
 import * as schema from "./schema";
@@ -103,6 +102,7 @@ export class Wat implements basis.Render {
         instrPlainMemoryGrow: this.instrPlainMemoryGrow(),
         instrPlainNop: this.instrPlainNop(),
         instrPlainReturn: this.instrPlainReturn(),
+        instrPlainSelect: this.instrPlainSelect(),
         instrPlainStore: this.instrPlainStore(),
         instrPlainTest: this.instrPlainTest(),
         instrPlainUnary: this.instrPlainUnary(),
@@ -861,6 +861,7 @@ export class Wat implements basis.Render {
         include(this.instrPlainUnreachable),
         include(this.instrPlainNop),
         include(this.instrPlainDrop),
+        include(this.instrPlainSelect),
         include(this.instrPlainBr),
         include(this.instrPlainBrIf),
         include(this.instrPlainBrTable),
@@ -1224,6 +1225,13 @@ export class Wat implements basis.Render {
     return {
       name: "meta.instrPlainReturn.wasm keyword.control.wasm",
       match: words(Token.RETURN),
+    };
+  }
+
+  instrPlainSelect(): schema.Rule {
+    return {
+      name: "meta.instrPlainSelect.wasm keyword.control.wasm",
+      match: words(Token.SELECT),
     };
   }
 
