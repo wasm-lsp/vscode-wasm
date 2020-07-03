@@ -71,7 +71,7 @@ export const negativeLookAhead = (arg: string): string => `(?!${arg})`;
 
 export const negativeLookBehind = (arg: string): string => `(?<!${arg})`;
 
-export const opt = (arg: string): string => `${arg}?`;
+export const opt = (arg: string): string => `(?:${arg})?`;
 
 export const seq = (...rest: string[]): string => rest.join("");
 
