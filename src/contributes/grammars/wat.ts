@@ -5,6 +5,7 @@
 // * highlight "param"
 // * fix highlighting for func fields (see conversions.wast)
 // * fix highlighting for export fields (memory, table, etc.)
+// * fix highlighting for global fields
 
 import * as basis from "./basis";
 import * as schema from "./schema";
