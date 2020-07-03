@@ -6,7 +6,6 @@
 // * fix highlighting for func fields (see conversions.wast)
 // * fix highlighting for export fields (memory, table, etc.)
 // * highlight "select"
-// * fix highlighting for import (see imports.wast)
 
 import * as basis from "./basis";
 import * as schema from "./schema";
@@ -671,8 +670,11 @@ export class Wat implements basis.Render {
           name: "entity.name.function.wasm",
           match: Token.identifier,
         },
-        include(this.funcType),
-        include(this.typeUse),
+        {
+          begin: Token.LEFT_PARENTHESIS,
+          end: Token.RIGHT_PARENTHESIS,
+          patterns: [include(this.funcType), include(this.typeUse)],
+        },
       ],
     };
   }
