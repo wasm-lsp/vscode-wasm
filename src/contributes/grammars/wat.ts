@@ -332,6 +332,7 @@ export class Wat implements basis.Render {
       endCaptures: {
         1: { name: "punctuation.definition.comment.wasm" },
       },
+      patterns: [include(this.blockComment)],
     };
   }
 

@@ -181,7 +181,12 @@
         "1": {
           "name": "punctuation.definition.comment.wasm"
         }
-      }
+      },
+      "patterns": [
+        {
+          "include": "#blockComment"
+        }
+      ]
     },
     "blockIf": {
       "name": "meta.blockIf.wasm",
