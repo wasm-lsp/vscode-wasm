@@ -1,5 +1,7 @@
 name: main
+
 on: [push, pull_request]
+
 jobs:
   audit:
     runs-on: ubuntu-latest
