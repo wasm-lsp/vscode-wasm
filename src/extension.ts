@@ -5,7 +5,7 @@ import * as vscode from "vscode";
 let languageClient: lspClient.LanguageClient;
 
 export function activate(context: vscode.ExtensionContext): Promise<void> {
-  return client.launch(context).then(result => {
+  return client.launch(context).then((result) => {
     languageClient = result;
   });
 }
