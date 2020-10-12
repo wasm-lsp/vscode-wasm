@@ -1,9 +1,7 @@
 {
   "name": "WebAssembly Module",
   "scopeName": "source.wasm.wat",
-  "fileTypes": [
-    ".wat"
-  ],
+  "fileTypes": [".wat"],
   "patterns": [
     {
       "include": "#PARSE"
