@@ -23,7 +23,7 @@
   "scripts": {
     "build": "tsc -p . && node script/syntax.js",
     "format": "prettier --write '**/*.{js,json,ts,tsx,yml,yaml}'",
-    "lint": "eslint 'src/**/*.{js,ts,tsx}'",
+    "lint": "eslint 'src/**/*.{js,ts,tsx}' && prettier --check '**/*.{json,yml,yaml}'",
     "watch": "tsc -watch -p ."
   },
   "devDependencies": {
