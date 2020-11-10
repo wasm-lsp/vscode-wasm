@@ -23,15 +23,15 @@
   "scripts": {
     "build": "tsc -p . && node script/syntax.js",
     "format": "prettier --write '**/*.{js,json,ts,tsx,yml,yaml}'",
-    "lint": "eslint 'src/**/*.{js,ts,tsx}' && prettier --check '**/*.{json,yml,yaml}'",
+    "lint": "eslint 'src/**/*.{js,ts,tsx}' && prettier --check '**/*.{js,json,ts,tsx,yml,yaml}'",
     "watch": "tsc -watch -p ."
   },
   "devDependencies": {
-    "@types/node": "^14.14.6",
-    "@types/vscode": "^1.50.0",
-    "@typescript-eslint/eslint-plugin": "^4.6.1",
-    "@typescript-eslint/parser": "^4.6.1",
-    "eslint": "^7.12.1",
+    "@types/node": "^14.14.7",
+    "@types/vscode": "^1.51.0",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
+    "eslint": "^7.13.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
     "prettier": "^2.1.2",
