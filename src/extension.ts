@@ -1,5 +1,5 @@
 import * as client from "./client";
-import * as lspClient from "vscode-languageclient";
+import * as lspClient from "vscode-languageclient/node";
 import * as vscode from "vscode";
 
 let languageClient: lspClient.LanguageClient;
