@@ -15,7 +15,7 @@
   "displayName": "vscode-wasm",
   "publisher": "darinmorrison",
   "engines": {
-    "vscode": "^1.43.0"
+    "vscode": "^1.51.1"
   },
   "categories": [
     "Programming Languages"
