@@ -39,7 +39,7 @@
     "vscode-test": "^1.4.1"
   },
   "dependencies": {
-    "vscode-languageclient": "^7.0.0-next.12"
+    "vscode-languageclient": "^7.0.0-next.14"
   },
   "enableProposedApi": true,
   "main": "./out/extension",
