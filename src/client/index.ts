@@ -9,6 +9,7 @@ export async function launch(context: vscode.ExtensionContext): Promise<lspClien
     command: "wasm-language-server",
     options: {
       env: {
+        RUST_BACKTRACE: "full",
         RUST_LOG: "info",
         ...process.env,
       },
