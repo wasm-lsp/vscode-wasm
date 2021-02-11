@@ -3,10 +3,10 @@ import * as vscode from "vscode";
 
 export async function launch(context: vscode.ExtensionContext): Promise<lspClient.LanguageClient> {
   const run: lspClient.Executable = {
-    command: "wasm-language-server",
+    command: "wasm-lsp",
   };
   const debug: lspClient.Executable = {
-    command: "wasm-language-server",
+    command: "wasm-lsp",
     options: {
       env: {
         RUST_BACKTRACE: "full",
@@ -17,7 +17,7 @@ export async function launch(context: vscode.ExtensionContext): Promise<lspClien
   };
   const serverOptions: lspClient.ServerOptions = { debug, run };
   const clientOptions: lspClient.LanguageClientOptions = {
-    diagnosticCollectionName: "wasm-language-server",
+    diagnosticCollectionName: "wasm-lsp",
     documentSelector: [
       { language: "wasm.wat", scheme: "file" },
       { language: "wasm.wat", scheme: "untitled" },
@@ -36,7 +36,7 @@ export async function launch(context: vscode.ExtensionContext): Promise<lspClien
     },
   };
   const languageClient = new lspClient.LanguageClient(
-    "wasm-language-server",
+    "wasm-lsp",
     "WebAssembly Language Server",
     serverOptions,
     clientOptions,
