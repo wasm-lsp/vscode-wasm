@@ -5,6 +5,7 @@ export async function launch(context: vscode.ExtensionContext): Promise<lspClien
   const run: lspClient.Executable = {
     command: "wasm-lsp",
   };
+
   const debug: lspClient.Executable = {
     command: "wasm-lsp",
     options: {
@@ -15,6 +16,7 @@ export async function launch(context: vscode.ExtensionContext): Promise<lspClien
       },
     },
   };
+
   const serverOptions: lspClient.ServerOptions = { debug, run };
   const clientOptions: lspClient.LanguageClientOptions = {
     diagnosticCollectionName: "wasm-lsp",
@@ -35,15 +37,18 @@ export async function launch(context: vscode.ExtensionContext): Promise<lspClien
       ],
     },
   };
+
   const languageClient = new lspClient.LanguageClient(
     "wasm-lsp",
     "WebAssembly Language Server",
     serverOptions,
     clientOptions,
   );
+
   languageClient.registerProposedFeatures();
-  const session = languageClient.start();
-  context.subscriptions.push(session);
+  context.subscriptions.push(languageClient.start());
+
   await languageClient.onReady();
+
   return languageClient;
 }
