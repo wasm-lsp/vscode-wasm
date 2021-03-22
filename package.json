@@ -4,16 +4,16 @@
   "version": "0.0.1",
   "license": "Apache-2.0 WITH LLVM-exception",
   "author": {
-    "name": "Darin Morrison",
-    "email": "darinmorrison@users.noreply.github.com",
-    "url": "https://github.com/darinmorrison"
+    "name": "silvanshade",
+    "email": "silvanshade@users.noreply.github.com",
+    "url": "https://github.com/silvanshade"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/freebroccolo/vscode-reasonml.git"
   },
   "displayName": "vscode-wasm",
-  "publisher": "darinmorrison",
+  "publisher": "silvanshade",
   "engines": {
     "vscode": "^1.51.1"
   },
