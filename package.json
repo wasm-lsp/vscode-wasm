@@ -41,7 +41,6 @@
     "typescript": "^4.1.5",
     "vscode-test": "^1.5.0"
   },
-  "enableProposedApi": true,
   "main": "./out/extension",
   "activationEvents": [
     "onLanguage:wasm.wat",
