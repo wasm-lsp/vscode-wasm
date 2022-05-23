@@ -1,7 +1,7 @@
 import * as lspClient from "vscode-languageclient/node";
 import * as vscode from "vscode";
 
-export async function launch(context: vscode.ExtensionContext): Promise<lspClient.LanguageClient> {
+export async function launch(): Promise<lspClient.LanguageClient> {
   const run: lspClient.Executable = {
     command: "wasm-lsp",
   };
@@ -46,9 +46,6 @@ export async function launch(context: vscode.ExtensionContext): Promise<lspClien
   );
 
   languageClient.registerProposedFeatures();
-  context.subscriptions.push(languageClient.start());
-
-  await languageClient.onReady();
-
+  await languageClient.start();
   return languageClient;
 }
